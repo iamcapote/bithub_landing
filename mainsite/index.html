@@ -20,6 +20,26 @@
   <body class="landing-page welcome_test2">
     <div class="bitcore-landing">
 
+      <!-- NAV HEADER -->
+      <nav class="bitcore-nav">
+        <div class="bitcore-logo">BITCORE</div>
+        
+        <!-- CSS Checkbox Hack -->
+        <input type="checkbox" id="bitcore-nav-check" class="bitcore-nav-check" aria-hidden="true">
+        
+        <label for="bitcore-nav-check" class="bitcore-menu-toggle" aria-label="Toggle menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </label>
+
+        <div class="bitcore-menu-items">
+          <a href="/products.html" class="bitcore-menu-link">Products</a>
+          <a href="/docs.html" class="bitcore-menu-link">Docs</a>
+          <a href="/about.html" class="bitcore-menu-link">About</a>
+        </div>
+      </nav>
+
 <!-------------------------------------------------
  HERO SECTION (approved)
 --------------------------------------------------->
@@ -74,7 +94,7 @@
   </div>
 
   <div class="bitcore-hero-visual">
-    <!-- MAIN ORB -->
+    <!-- MAIN ORB: GYROSCOPE -->
     <svg class="bitcore-orb" viewBox="0 0 300 300" aria-hidden="true">
       <defs>
         <linearGradient id="bitcore-rainbow-main" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -85,73 +105,25 @@
           <stop offset="80%"  stop-color="#00d6ff"/>
           <stop offset="100%" stop-color="#b44cff"/>
         </linearGradient>
-
-        <linearGradient id="bitcore-grid-main" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="rgba(255,255,255,0.7)"/>
-          <stop offset="100%" stop-color="rgba(160,160,160,0.1)"/>
-        </linearGradient>
       </defs>
 
-      <!-- halo -->
-      <circle cx="150" cy="150" r="120"
-        fill="none"
-        stroke="rgba(0,0,0,0.14)"
-        stroke-width="1.4"
-        class="bitcore-orb-halo"></circle>
-
-      <!-- ring A -->
-      <g class="bitcore-orb-layer bitcore-orb-layer-a">
-        <ellipse cx="150" cy="150" rx="115" ry="42"
-            fill="none"
-            stroke="url(#bitcore-rainbow-main)"
-            stroke-width="2.2"></ellipse>
+      <!-- Core Glow -->
+      <circle cx="150" cy="150" r="40" fill="url(#bitcore-rainbow-main)" opacity="0.15" class="orb-core-glow" />
+      
+      <!-- Rings -->
+      <g class="orb-ring-group">
+         <circle cx="150" cy="150" r="80" class="orb-ring orb-ring-1" />
+         <circle cx="150" cy="150" r="100" class="orb-ring orb-ring-2" />
+         <circle cx="150" cy="150" r="120" class="orb-ring orb-ring-3" />
       </g>
-
-      <!-- ring B -->
-      <g class="bitcore-orb-layer bitcore-orb-layer-b">
-        <ellipse cx="150" cy="150" rx="42" ry="115"
-            fill="none"
-            stroke="url(#bitcore-rainbow-main)"
-            stroke-width="2.2"></ellipse>
+      
+      <!-- Solid Core -->
+      <circle cx="150" cy="150" r="12" fill="#111" class="orb-core" />
+      
+      <!-- Orbiting Electron -->
+      <g class="orb-electron">
+        <circle cx="150" cy="150" r="4" fill="#333" />
       </g>
-
-      <!-- twist -->
-      <g class="bitcore-orb-layer bitcore-orb-layer-c">
-        <path d="
-          M 150 60
-          C 220 60, 265 140, 210 185
-          C 170 220, 130 240, 85 210
-          C 40 175, 75 90, 150 60
-        "
-        fill="none"
-        stroke="url(#bitcore-rainbow-main)"
-        stroke-width="2.6"></path>
-      </g>
-
-      <!-- grid -->
-      <g class="bitcore-orb-grid">
-        <circle cx="150" cy="150" r="70"
-            fill="none"
-            stroke="url(#bitcore-grid-main)"
-            stroke-width="0.7"></circle>
-        <circle cx="150" cy="150" r="95"
-            fill="none"
-            stroke="url(#bitcore-grid-main)"
-            stroke-width="0.7"></circle>
-        <line x1="55" y1="150" x2="245" y2="150"
-            stroke="url(#bitcore-grid-main)"
-            stroke-width="0.6"></line>
-        <line x1="150" y1="55" x2="150" y2="245"
-            stroke="url(#bitcore-grid-main)"
-            stroke-width="0.6"></line>
-      </g>
-
-      <!-- core -->
-      <circle cx="150" cy="150" r="8" fill="#111"></circle>
-      <circle cx="150" cy="150" r="15"
-        fill="none"
-        stroke="url(#bitcore-rainbow-main)"
-        stroke-width="1.4"></circle>
     </svg>
 
     <div class="bitcore-visual-label">
@@ -177,15 +149,27 @@
           <stop offset="100%" stop-color="#b44cff"/>
         </linearGradient>
       </defs>
-      <path
-        d="M0 40
-           C 40 10, 80 10, 120 40
-           S 200 70, 240 40
-           S 280 10, 320 40"
-        fill="none"
-        stroke="url(#bitcore-problem-grad)"
-        stroke-width="2"
-        class="bitcore-problem-path" />
+      <!-- Network Graph -->
+      <line x1="40" y1="40" x2="100" y2="20" stroke="#ccc" stroke-width="1" />
+      <line x1="40" y1="40" x2="100" y2="60" stroke="#ccc" stroke-width="1" />
+      <line x1="100" y1="20" x2="160" y2="40" stroke="#ccc" stroke-width="1" />
+      <line x1="100" y1="60" x2="160" y2="40" stroke="#ccc" stroke-width="1" />
+      <line x1="160" y1="40" x2="220" y2="20" stroke="#ccc" stroke-width="1" />
+      <line x1="160" y1="40" x2="220" y2="60" stroke="#ccc" stroke-width="1" />
+      <line x1="220" y1="20" x2="280" y2="40" stroke="#ccc" stroke-width="1" />
+      <line x1="220" y1="60" x2="280" y2="40" stroke="#ccc" stroke-width="1" />
+
+      <!-- Active Flow -->
+      <path d="M40 40 L100 20 L160 40 L220 60 L280 40" fill="none" stroke="url(#bitcore-problem-grad)" stroke-width="2" class="problem-link" />
+
+      <!-- Nodes -->
+      <circle cx="40" cy="40" r="5" fill="#111" class="problem-node" style="animation-delay:0s" />
+      <circle cx="100" cy="20" r="5" fill="#111" class="problem-node" style="animation-delay:0.5s" />
+      <circle cx="100" cy="60" r="5" fill="#111" class="problem-node" style="animation-delay:0.5s" />
+      <circle cx="160" cy="40" r="5" fill="#111" class="problem-node" style="animation-delay:1s" />
+      <circle cx="220" cy="20" r="5" fill="#111" class="problem-node" style="animation-delay:1.5s" />
+      <circle cx="220" cy="60" r="5" fill="#111" class="problem-node" style="animation-delay:1.5s" />
+      <circle cx="280" cy="40" r="5" fill="#111" class="problem-node" style="animation-delay:2s" />
     </svg>
   </div>
 
@@ -219,14 +203,12 @@
             <stop offset="100%" stop-color="#00d6ff"/>
           </linearGradient>
         </defs>
-        <path d="M6 24 C 10 10, 18 10, 24 24
-                 S 38 38, 42 24" fill="none"
-              stroke="url(#bitcore-icon-grad1)"
-              stroke-width="1.8" />
-        <circle cx="24" cy="24" r="16"
-                fill="none"
-                stroke="rgba(0,0,0,0.26)"
-                stroke-width="0.8" />
+        <!-- Gear Icon -->
+        <g class="icon-gear">
+          <circle cx="24" cy="24" r="14" fill="none" stroke="url(#bitcore-icon-grad1)" stroke-width="2" stroke-dasharray="4 4" />
+          <circle cx="24" cy="24" r="6" fill="none" stroke="#111" stroke-width="2" />
+          <path d="M24 2 L24 10 M24 38 L24 46 M2 24 L10 24 M38 24 L46 24" stroke="#ccc" stroke-width="2" />
+        </g>
       </svg>
       <h4>Multi-dimensional reasoning</h4>
     </div>
@@ -246,13 +228,13 @@
             <stop offset="100%" stop-color="#3cff7f"/>
           </linearGradient>
         </defs>
-        <path d="M10 16 L24 8 L38 16 L38 32 L24 40 L10 32 Z"
-              fill="none"
-              stroke="url(#bitcore-icon-grad2)"
-              stroke-width="1.6" />
-        <line x1="10" y1="24" x2="38" y2="24"
-              stroke="rgba(0,0,0,0.2)"
-              stroke-width="0.8" />
+        <!-- Pulse Icon -->
+        <g class="icon-pulse">
+          <rect x="12" y="12" width="24" height="24" rx="4" fill="none" stroke="url(#bitcore-icon-grad2)" stroke-width="2" />
+          <circle cx="24" cy="24" r="4" fill="#111" />
+          <line x1="6" y1="24" x2="12" y2="24" stroke="#ccc" stroke-width="2" />
+          <line x1="36" y1="24" x2="42" y2="24" stroke="#ccc" stroke-width="2" />
+        </g>
       </svg>
       <h4>Human + agent collaboration</h4>
     </div>
@@ -272,14 +254,11 @@
             <stop offset="100%" stop-color="#b44cff"/>
           </linearGradient>
         </defs>
-        <ellipse cx="24" cy="24" rx="16" ry="8"
-                 fill="none"
-                 stroke="rgba(0,0,0,0.25)"
-                 stroke-width="0.8" />
-        <ellipse cx="24" cy="24" rx="8" ry="16"
-                 fill="none"
-                 stroke="url(#bitcore-icon-grad3)"
-                 stroke-width="1.6" />
+        <!-- Structure Icon -->
+        <g class="icon-gear" style="animation-direction: reverse;">
+          <rect x="14" y="14" width="20" height="20" fill="none" stroke="url(#bitcore-icon-grad3)" stroke-width="2" transform="rotate(45 24 24)" />
+          <rect x="14" y="14" width="20" height="20" fill="none" stroke="#ccc" stroke-width="1" />
+        </g>
       </svg>
       <h4>Self-organizing constructs</h4>
     </div>
@@ -300,14 +279,12 @@
             <stop offset="100%" stop-color="#b44cff"/>
           </linearGradient>
         </defs>
-        <circle cx="24" cy="24" r="18"
-                fill="none"
-                stroke="rgba(0,0,0,0.2)"
-                stroke-width="0.8" />
-        <circle cx="24" cy="24" r="10"
-                fill="none"
-                stroke="url(#bitcore-icon-grad4)"
-                stroke-width="1.6" />
+        <!-- Stable Icon -->
+        <g class="icon-pulse" style="animation-duration: 5s;">
+          <circle cx="24" cy="24" r="18" fill="none" stroke="#ccc" stroke-width="1" />
+          <circle cx="24" cy="24" r="12" fill="none" stroke="url(#bitcore-icon-grad4)" stroke-width="2" />
+          <circle cx="24" cy="24" r="4" fill="#111" />
+        </g>
       </svg>
       <h4>Stable, predictable surfaces</h4>
     </div>
@@ -336,26 +313,11 @@
           <stop offset="100%" stop-color="#3cff7f"/>
         </linearGradient>
       </defs>
-      <g class="bitcore-mini-layer bitcore-mini-a">
-        <circle cx="70" cy="70" r="52"
-                fill="none"
-                stroke="rgba(0,0,0,0.18)"
-                stroke-width="0.9"></circle>
-        <path d="
-          M 30 55
-          C 52 32, 88 32, 110 55
-          C 92 86, 48 86, 30 55
-        "
-        fill="none"
-        stroke="url(#bitcore-rainbow-wiki)"
-        stroke-width="1.6"></path>
-      </g>
-      <g class="bitcore-mini-layer bitcore-mini-b">
-        <circle cx="70" cy="70" r="20"
-                fill="none"
-                stroke="url(#bitcore-rainbow-wiki)"
-                stroke-width="1.4"></circle>
-      </g>
+      <!-- Wiki Construct: Book/Page Metaphor -->
+      <rect x="40" y="30" width="60" height="80" rx="4" fill="none" stroke="url(#bitcore-rainbow-wiki)" stroke-width="2" class="construct-ring" />
+      <line x1="50" y1="50" x2="90" y2="50" stroke="#ccc" stroke-width="2" />
+      <line x1="50" y1="70" x2="90" y2="70" stroke="#ccc" stroke-width="2" />
+      <line x1="50" y1="90" x2="70" y2="90" stroke="#ccc" stroke-width="2" />
     </svg>
 
     <p class="bitcore-construct-text">
@@ -375,23 +337,12 @@
           <stop offset="100%" stop-color="#b44cff"/>
         </linearGradient>
       </defs>
-      <g class="bitcore-mini-layer bitcore-mini-a">
-        <ellipse cx="70" cy="70" rx="46" ry="22"
-                 fill="none"
-                 stroke="rgba(0,0,0,0.2)"
-                 stroke-width="0.9"></ellipse>
-      </g>
-      <g class="bitcore-mini-layer bitcore-mini-c">
-        <path d="
-          M 30 80
-          L 70 40
-          L 110 80
-          L 70 100 Z
-        "
-        fill="none"
-        stroke="url(#bitcore-rainbow-hub)"
-        stroke-width="1.6"></path>
-      </g>
+      <!-- Hub Construct: Network/Chat -->
+      <circle cx="70" cy="70" r="30" fill="none" stroke="url(#bitcore-rainbow-hub)" stroke-width="2" class="construct-core" />
+      <circle cx="70" cy="30" r="6" fill="#ccc" />
+      <circle cx="30" cy="90" r="6" fill="#ccc" />
+      <circle cx="110" cy="90" r="6" fill="#ccc" />
+      <line x1="70" y1="36" x2="70" y2="40" stroke="#ccc" />
     </svg>
 
     <p class="bitcore-construct-text">
@@ -412,24 +363,13 @@
           <stop offset="100%" stop-color="#b44cff"/>
         </linearGradient>
       </defs>
-      <g class="bitcore-mini-layer bitcore-mini-a">
-        <circle cx="70" cy="70" r="50"
-                fill="none"
-                stroke="rgba(0,0,0,0.2)"
-                stroke-width="0.9"></circle>
-      </g>
-      <g class="bitcore-mini-layer bitcore-mini-b">
-        <ellipse cx="70" cy="70" rx="50" ry="18"
-                 fill="none"
-                 stroke="url(#bitcore-rainbow-core)"
-                 stroke-width="1.4"></ellipse>
-      </g>
-      <g class="bitcore-mini-layer bitcore-mini-c">
-        <ellipse cx="70" cy="70" rx="18" ry="50"
-                 fill="none"
-                 stroke="url(#bitcore-rainbow-core)"
-                 stroke-width="1.4"></ellipse>
-      </g>
+      <!-- Core Construct: Brain/Chip -->
+      <rect x="45" y="45" width="50" height="50" fill="none" stroke="url(#bitcore-rainbow-core)" stroke-width="2" class="construct-ring" />
+      <circle cx="70" cy="70" r="10" fill="#111" class="construct-core" />
+      <line x1="70" y1="45" x2="70" y2="20" stroke="#ccc" />
+      <line x1="70" y1="95" x2="70" y2="120" stroke="#ccc" />
+      <line x1="45" y1="70" x2="20" y2="70" stroke="#ccc" />
+      <line x1="95" y1="70" x2="120" y2="70" stroke="#ccc" />
     </svg>
 
     <p class="bitcore-construct-text">
@@ -525,15 +465,11 @@
               <stop offset="100%" stop-color="#3cff7f"/>
             </linearGradient>
           </defs>
-          <ellipse cx="24" cy="24" rx="18" ry="8"
-                   fill="none"
-                   stroke="url(#bitcore-use-grad1)"
-                   stroke-width="1.6" />
-          <ellipse cx="24" cy="24" rx="18" ry="8"
-                   fill="none"
-                   stroke="rgba(0,0,0,0.18)"
-                   stroke-width="0.8"
-                   transform="rotate(45 24 24)" />
+          <!-- Radar Scan -->
+          <circle cx="24" cy="24" r="18" fill="none" stroke="#ccc" stroke-width="1" opacity="0.5" />
+          <circle cx="24" cy="24" r="10" fill="none" stroke="#ccc" stroke-width="1" opacity="0.5" />
+          <line x1="24" y1="24" x2="42" y2="24" stroke="url(#bitcore-use-grad1)" stroke-width="2" class="icon-gear" style="animation-duration: 4s;" />
+          <circle cx="24" cy="24" r="3" fill="#111" />
         </svg>
         <h4>Research at the edge</h4>
       </div>
@@ -553,10 +489,12 @@
               <stop offset="100%" stop-color="#b44cff"/>
             </linearGradient>
           </defs>
-          <path d="M8 36 L16 14 L26 34 L34 10 L40 36"
-                fill="none"
-                stroke="url(#bitcore-use-grad2)"
-                stroke-width="1.6" />
+          <!-- Logic Flow -->
+          <rect x="10" y="18" width="12" height="12" rx="2" fill="none" stroke="#ccc" stroke-width="2" />
+          <rect x="26" y="18" width="12" height="12" rx="2" fill="none" stroke="url(#bitcore-use-grad2)" stroke-width="2" class="icon-pulse" />
+          <path d="M22 24 L26 24" stroke="#111" stroke-width="2" />
+          <circle cx="16" cy="24" r="2" fill="#ccc" />
+          <circle cx="32" cy="24" r="2" fill="#111" />
         </svg>
         <h4>Agentic applications</h4>
       </div>
@@ -576,15 +514,16 @@
               <stop offset="100%" stop-color="#3cff7f"/>
             </linearGradient>
           </defs>
-          <circle cx="24" cy="24" r="18"
-                  fill="none"
-                  stroke="rgba(0,0,0,0.2)"
-                  stroke-width="0.8" />
-          <path d="M12 26 C16 20, 20 20, 24 24
-                   S 32 28, 36 22"
-                fill="none"
-                stroke="url(#bitcore-use-grad3)"
-                stroke-width="1.4" />
+          <!-- Hive Mesh -->
+          <circle cx="24" cy="24" r="4" fill="#111" />
+          <g class="icon-gear" style="animation-duration: 12s;">
+             <circle cx="24" cy="10" r="3" fill="none" stroke="url(#bitcore-use-grad3)" stroke-width="2" />
+             <circle cx="36" cy="31" r="3" fill="none" stroke="url(#bitcore-use-grad3)" stroke-width="2" />
+             <circle cx="12" cy="31" r="3" fill="none" stroke="url(#bitcore-use-grad3)" stroke-width="2" />
+             <line x1="24" y1="24" x2="24" y2="13" stroke="#ccc" stroke-width="1" />
+             <line x1="24" y1="24" x2="36" y2="28" stroke="#ccc" stroke-width="1" />
+             <line x1="24" y1="24" x2="12" y2="28" stroke="#ccc" stroke-width="1" />
+          </g>
         </svg>
         <h4>Community-scale reasoning</h4>
       </div>
@@ -608,24 +547,13 @@
     <article class="bitcore-arch-card">
       <div class="bitcore-arch-head">
         <svg class="bitcore-icon" viewBox="0 0 48 48" aria-hidden="true">
-          <rect x="10" y="14" width="8" height="8"
-                fill="none"
-                stroke="rgba(0,0,0,0.26)"
-                stroke-width="1" />
-          <rect x="30" y="10" width="8" height="8"
-                fill="none"
-                stroke="rgba(0,0,0,0.26)"
-                stroke-width="1" />
-          <rect x="24" y="30" width="8" height="8"
-                fill="none"
-                stroke="rgba(0,0,0,0.26)"
-                stroke-width="1" />
-          <line x1="14" y1="18" x2="34" y2="14"
-                stroke="#ff3264"
-                stroke-width="1.3" />
-          <line x1="34" y1="14" x2="28" y2="34"
-                stroke="#00d6ff"
-                stroke-width="1.3" />
+          <!-- Node: Single Unit -->
+          <rect x="16" y="16" width="16" height="16" rx="2" fill="none" stroke="#111" stroke-width="2" />
+          <circle cx="24" cy="24" r="3" fill="#ff3264" class="icon-pulse" />
+          <line x1="16" y1="24" x2="10" y2="24" stroke="#ccc" stroke-width="2" />
+          <line x1="32" y1="24" x2="38" y2="24" stroke="#ccc" stroke-width="2" />
+          <line x1="24" y1="16" x2="24" y2="10" stroke="#ccc" stroke-width="2" />
+          <line x1="24" y1="32" x2="24" y2="38" stroke="#ccc" stroke-width="2" />
         </svg>
         <h4>Nodes</h4>
       </div>
@@ -638,17 +566,10 @@
     <article class="bitcore-arch-card">
       <div class="bitcore-arch-head">
         <svg class="bitcore-icon" viewBox="0 0 48 48" aria-hidden="true">
-          <circle cx="24" cy="18" r="10"
-                  fill="none"
-                  stroke="#00d6ff"
-                  stroke-width="1.4" />
-          <circle cx="24" cy="30" r="6"
-                  fill="none"
-                  stroke="#b44cff"
-                  stroke-width="1.2" />
-          <line x1="24" y1="24" x2="24" y2="30"
-                stroke="rgba(0,0,0,0.4)"
-                stroke-width="1" />
+          <!-- Core: Processor -->
+          <circle cx="24" cy="24" r="16" fill="none" stroke="#ccc" stroke-width="1" stroke-dasharray="4 4" class="icon-gear" />
+          <circle cx="24" cy="24" r="10" fill="none" stroke="#00d6ff" stroke-width="2" />
+          <circle cx="24" cy="24" r="4" fill="#111" />
         </svg>
         <h4>Cores</h4>
       </div>
@@ -668,24 +589,13 @@
               <stop offset="100%" stop-color="#00d6ff"/>
             </linearGradient>
           </defs>
-          <circle cx="16" cy="18" r="4"
-                  fill="none"
-                  stroke="url(#bitcore-swarm-grad)"
-                  stroke-width="1.4" />
-          <circle cx="32" cy="18" r="4"
-                  fill="none"
-                  stroke="url(#bitcore-swarm-grad)"
-                  stroke-width="1.4" />
-          <circle cx="24" cy="30" r="4"
-                  fill="none"
-                  stroke="url(#bitcore-swarm-grad)"
-                  stroke-width="1.4" />
-          <line x1="16" y1="18" x2="24" y2="30"
-                stroke="rgba(0,0,0,0.4)"
-                stroke-width="1" />
-          <line x1="32" y1="18" x2="24" y2="30"
-                stroke="rgba(0,0,0,0.4)"
-                stroke-width="1" />
+          <!-- Swarm: Orbit -->
+          <circle cx="24" cy="24" r="4" fill="#111" />
+          <g class="icon-gear" style="animation-duration: 6s;">
+             <circle cx="24" cy="8" r="3" fill="url(#bitcore-swarm-grad)" />
+             <circle cx="38" cy="32" r="3" fill="url(#bitcore-swarm-grad)" />
+             <circle cx="10" cy="32" r="3" fill="url(#bitcore-swarm-grad)" />
+          </g>
         </svg>
         <h4>Swarms</h4>
       </div>
@@ -712,15 +622,10 @@
           <stop offset="100%" stop-color="#b44cff"/>
         </linearGradient>
       </defs>
-      <circle cx="130" cy="40" r="22"
-              fill="none"
-              stroke="rgba(0,0,0,0.16)"
-              stroke-width="0.9"></circle>
-      <circle cx="130" cy="40" r="32"
-              fill="none"
-              stroke="url(#bitcore-proof-grad)"
-              stroke-width="1.2"
-              class="bitcore-proof-ring"></circle>
+      <!-- Pulse Rings -->
+      <circle cx="130" cy="40" r="10" fill="none" stroke="#ccc" stroke-width="1" />
+      <circle cx="130" cy="40" r="20" fill="none" stroke="url(#bitcore-proof-grad)" stroke-width="2" class="proof-pulse" />
+      <circle cx="130" cy="40" r="30" fill="none" stroke="#ccc" stroke-width="1" opacity="0.5" />
     </svg>
   </div>
 
@@ -805,10 +710,134 @@
  ALL CSS
 --------------------------------------------------->
 <style>
+:root {
+  --bg-page: #f4f4f4;
+  --bg-card: #fafafa;
+  --text-main: #111;
+  --text-sub: #444;
+  --border-color: #e6e6e6;
+  --accent-grad: linear-gradient(90deg, #ff3264, #ffb338, #ffe93a, #3cff7f, #00d6ff, #b44cff);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  background: var(--bg-page);
+}
+
 .bitcore-landing {
-  background:#f4f4f4;
-  color:#111;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;
+  background: var(--bg-page);
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAV */
+.bitcore-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+.bitcore-logo {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  color: #111;
+}
+
+/* Checkbox Hack - Hide Input */
+.bitcore-nav-check {
+  display: none;
+}
+
+.bitcore-menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px;
+  z-index: 102;
+}
+
+.bitcore-menu-toggle .bar {
+  width: 24px;
+  height: 2px;
+  background-color: #111;
+  transition: all 0.3s ease;
+}
+
+.bitcore-menu-items {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 300px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  padding: 80px 40px;
+  gap: 24px;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -10px 0 40px rgba(0,0,0,0.05);
+  z-index: 101;
+}
+
+/* Active State via Checkbox */
+.bitcore-nav-check:checked ~ .bitcore-menu-items {
+  transform: translateX(0);
+}
+
+.bitcore-menu-link {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.bitcore-nav-check:checked ~ .bitcore-menu-items .bitcore-menu-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for links */
+.bitcore-nav-check:checked ~ .bitcore-menu-items .bitcore-menu-link:nth-child(1) { transition-delay: 0.1s; }
+.bitcore-nav-check:checked ~ .bitcore-menu-items .bitcore-menu-link:nth-child(2) { transition-delay: 0.2s; }
+.bitcore-nav-check:checked ~ .bitcore-menu-items .bitcore-menu-link:nth-child(3) { transition-delay: 0.3s; }
+
+/* Hamburger animation when active */
+.bitcore-nav-check:checked ~ .bitcore-menu-toggle .bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.bitcore-nav-check:checked ~ .bitcore-menu-toggle .bar:nth-child(2) {
+  opacity: 0;
+}
+.bitcore-nav-check:checked ~ .bitcore-menu-toggle .bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 880px) {
+  .bitcore-nav {
+    padding: 20px 22px;
+  }
 }
 
 /* HERO */
@@ -818,6 +847,7 @@
   padding:80px 40px 72px;
   max-width:1120px;
   margin:0 auto;
+  align-items: center;
 }
 
 .bitcore-hero-text {
@@ -831,6 +861,25 @@
   display:flex;
   flex-direction:column;
   align-items:center;
+  position:relative;
+  perspective: 1000px; /* Adds depth to 3D transforms */
+}
+
+/* Soft glow behind orb */
+.bitcore-hero-visual::after {
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  background:radial-gradient(circle,
+    rgba(0,0,0,0.05) 0%,
+    transparent 70%);
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  z-index:-1;
+  pointer-events:none;
 }
 
 /* Hero typography */
@@ -840,36 +889,39 @@
   text-transform:uppercase;
   color:#666;
   margin-bottom:18px;
+  font-weight: 600;
 }
 
 .bitcore-hero-title {
   margin:0;
-  font-size:40px;
+  font-size:42px;
   line-height:1.15;
   letter-spacing:-0.03em;
   font-weight:800;
+  color: #000;
 }
 
 .bitcore-hero-sub {
   margin:20px 0 26px;
-  font-size:15px;
+  font-size:16px;
   line-height:1.6;
   color:#333;
+  max-width: 540px;
 }
 
 /* Buttons */
 .bitcore-hero-actions {
   display:flex;
   flex-wrap:wrap;
-  gap:10px;
-  margin-bottom:22px;
+  gap:12px;
+  margin-bottom:28px;
 }
 
 .bitcore-btn {
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:9px 18px;
+  padding:10px 20px;
   font-size:13px;
   text-decoration:none;
   border:1px solid #111;
@@ -877,33 +929,42 @@
   letter-spacing:0.09em;
   font-weight:600;
   cursor:pointer;
+  transition: all 0.2s ease;
 }
 
 .bitcore-btn-primary {
   background:#111;
-  color:#f5f5f5;
+  color:#fff;
 }
 
-.bitcore-btn-primary:hover { background:#000; }
+.bitcore-btn-primary:hover {
+  background:#333;
+  transform: translateY(-1px);
+}
 
 .bitcore-btn-ghost {
   background:transparent;
   color:#111;
-  border-color:#999;
+  border-color:#ccc;
 }
 
-.bitcore-btn-ghost:hover { border-color:#111; }
+.bitcore-btn-ghost:hover {
+  border-color:#111;
+  transform: translateY(-1px);
+}
 
 /* Hero meta */
 .bitcore-meta-row {
   display:flex;
   flex-wrap:wrap;
-  gap:24px;
-  margin-bottom:18px;
+  gap:32px;
+  margin-bottom:24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0,0,0,0.05);
 }
 
 .bitcore-meta {
-  min-width:200px;
+  min-width:180px;
 }
 
 .bitcore-meta-label {
@@ -911,121 +972,135 @@
   font-size:11px;
   text-transform:uppercase;
   letter-spacing:0.12em;
-  color:#777;
+  color:#888;
   margin-bottom:4px;
+  font-weight: 600;
 }
 
 .bitcore-meta-value {
   display:block;
   font-size:13px;
-  color:#222;
+  color:#111;
   margin-bottom:2px;
+  font-weight: 500;
 }
 
 .bitcore-meta-benefit {
   display:block;
   font-size:11px;
-  color:#555;
+  color:#666;
 }
 
 /* Hero spectrum line */
 .bitcore-spectrum-line {
   height:2px;
+  width:100%;
   max-width:260px;
-  background:linear-gradient(90deg,
-    #ff3264,
-    #ffb338,
-    #ffe93a,
-    #3cff7f,
-    #00d6ff,
-    #b44cff
-  );
+  background: var(--accent-grad);
   background-size:200% 100%;
-  animation:bitcore-spectrum-shift 18s ease-in-out infinite;
-  opacity:0.6;
+  animation:bitcore-spectrum-shift 8s linear infinite;
+  opacity:0.8;
+  border-radius: 1px;
 }
 
 @keyframes bitcore-spectrum-shift {
   0%   { background-position:0% 0%; }
-  50%  { background-position:100% 0%; }
-  100% { background-position:0% 0%; }
+  100% { background-position:200% 0%; }
 }
 
 /* Hero social proof */
 .bitcore-social-proof {
-  margin-top:14px;
+  margin-top:16px;
   font-size:12px;
-  color:#444;
+  color:#555;
 }
 
 .bitcore-proof-stat {
-  font-weight:600;
+  font-weight:700;
   text-transform:uppercase;
-  letter-spacing:0.12em;
+  letter-spacing:0.1em;
   margin-right:8px;
+  color: #111;
 }
 
-/* Hero orb */
+/* 
+   LEGENDARY ORB ANIMATIONS 
+   Fixed centering: transform-origin is absolute 150px 150px
+*/
 .bitcore-orb {
-  width:min(360px, 52vw);
-  height:auto;
-  filter:drop-shadow(0 0 16px rgba(0,0,0,0.18));
+  width: min(380px, 55vw);
+  height: auto;
+  overflow: visible;
 }
 
-.bitcore-orb-layer,
-.bitcore-orb-grid,
-.bitcore-orb-halo {
-  transform-origin:150px 150px;
-  transform-box:fill-box;
-  will-change:transform;
-  backface-visibility:hidden;
+.orb-ring {
+  fill: none;
+  stroke-width: 2;
+  transform-origin: 150px 150px;
+  will-change: transform;
 }
 
-.bitcore-orb-layer-a { animation:bitcore-spin-a 52s linear infinite; }
-.bitcore-orb-layer-b { animation:bitcore-spin-b 80s linear infinite; }
-.bitcore-orb-layer-c { animation:bitcore-spin-c 64s ease-in-out infinite alternate; }
-
-.bitcore-orb-halo {
-  animation:bitcore-halo-pulse 18s ease-in-out infinite;
+.orb-ring-1 {
+  stroke: #111;
+  opacity: 0.1;
+  stroke-dasharray: 4 4;
+  animation: orb-spin-1 20s linear infinite;
 }
 
-.bitcore-orb-grid {
-  animation:bitcore-grid-breathe 26s ease-in-out infinite alternate;
+.orb-ring-2 {
+  stroke: url(#bitcore-rainbow-main);
+  stroke-width: 3;
+  animation: orb-spin-2 15s linear infinite;
 }
 
-@keyframes bitcore-spin-a {
-  from { transform:rotate(0deg); }
-  to   { transform:rotate(360deg); }
+.orb-ring-3 {
+  stroke: #333;
+  opacity: 0.2;
+  animation: orb-spin-3 25s linear infinite;
 }
 
-@keyframes bitcore-spin-b {
-  from { transform:rotate(0deg); }
-  to   { transform:rotate(-360deg); }
+.orb-core {
+  transform-origin: 150px 150px;
+  animation: orb-pulse 4s ease-in-out infinite;
 }
 
-@keyframes bitcore-spin-c {
-  from { transform:rotate(-14deg) scale(0.98); }
-  to   { transform:rotate(14deg)  scale(1.04); }
+.orb-electron {
+  transform-origin: 150px 150px;
+  animation: orb-electron-orbit 3s linear infinite;
 }
 
-@keyframes bitcore-halo-pulse {
-  0%   { stroke:rgba(0,0,0,0.10); }
-  50%  { stroke:rgba(0,0,0,0.22); }
-  100% { stroke:rgba(0,0,0,0.10); }
+@keyframes orb-spin-1 {
+  0% { transform: rotate3d(1, 1, 1, 0deg); }
+  100% { transform: rotate3d(1, 1, 1, 360deg); }
 }
 
-@keyframes bitcore-grid-breathe {
-  0%   { opacity:0.22; transform:scale(1); }
-  100% { opacity:0.32; transform:scale(1.03); }
+@keyframes orb-spin-2 {
+  0% { transform: rotate3d(1, -1, 0, 0deg); }
+  100% { transform: rotate3d(1, -1, 0, 360deg); }
+}
+
+@keyframes orb-spin-3 {
+  0% { transform: rotate3d(0, 1, 0, 0deg); }
+  100% { transform: rotate3d(0, 1, 0, 360deg); }
+}
+
+@keyframes orb-pulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes orb-electron-orbit {
+  0% { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
 }
 
 .bitcore-visual-label {
-  margin-top:16px;
-  font-size:11px;
+  margin-top:20px;
+  font-size:10px;
   line-height:1.5;
   text-transform:uppercase;
-  letter-spacing:0.12em;
-  color:#666;
+  letter-spacing:0.15em;
+  color:#888;
   text-align:center;
   max-width:320px;
 }
@@ -1033,49 +1108,60 @@
 /* PROBLEM → SOLUTION */
 .bitcore-problem-solution {
   max-width:820px;
-  margin:40px auto 60px;
+  margin:60px auto 80px;
   padding:0 22px;
   text-align:center;
 }
 
 .bitcore-problem-visual {
-  margin-bottom:10px;
+  margin-bottom:16px;
+  display: flex;
+  justify-content: center;
 }
 
 .bitcore-problem-svg {
-  width:220px;
+  width:240px;
   max-width:100%;
-  opacity:0.7;
 }
 
-.bitcore-problem-path {
-  transform-origin:50% 50%;
-  animation:bitcore-problem-wave 24s ease-in-out infinite alternate;
+.problem-node {
+  transform-origin: center;
+  animation: problem-node-pulse 3s ease-in-out infinite alternate;
+}
+.problem-link {
+  stroke-dasharray: 4;
+  animation: problem-link-flow 1s linear infinite;
 }
 
-@keyframes bitcore-problem-wave {
-  0%   { transform:translateY(0); }
-  100% { transform:translateY(-4px); }
+@keyframes problem-node-pulse {
+  0% { r: 4; }
+  100% { r: 6; }
+}
+@keyframes problem-link-flow {
+  to { stroke-dashoffset: -8; }
 }
 
 .bitcore-problem-solution h2 {
-  font-size:26px;
+  font-size:28px;
   letter-spacing:-0.02em;
   margin-bottom:16px;
+  color: #111;
 }
 
 .bitcore-problem-solution h3 {
   font-size:20px;
   margin-top:32px;
   margin-bottom:12px;
+  color: #222;
+  font-weight: 700;
 }
 
 .bitcore-problem-solution p {
-  color:#444;
+  color:#555;
   font-size:15px;
-  line-height:1.65;
+  line-height:1.7;
   max-width:620px;
-  margin:0 auto 6px;
+  margin:0 auto 8px;
 }
 
 /* BENEFITS */
@@ -1085,40 +1171,53 @@
   padding:0 22px;
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:22px;
+  gap:24px;
 }
 
 .bitcore-benefit-card {
-  background:#fafafa;
-  border:1px solid #e6e6e6;
-  padding:22px 24px 20px;
+  background: var(--bg-card);
+  border:1px solid var(--border-color);
+  padding:24px 28px;
+  border-radius: 4px;
 }
 
 .bitcore-benefit-head {
   display:flex;
   align-items:center;
-  gap:10px;
-  margin-bottom:8px;
+  gap:12px;
+  margin-bottom:12px;
 }
 
 .bitcore-benefit-card h4 {
   margin:0;
   font-size:16px;
   font-weight:700;
+  color: #111;
 }
 
 .bitcore-benefit-card p {
   margin:0;
   font-size:14px;
-  color:#444;
+  color:#555;
   line-height:1.6;
 }
 
-/* Generic icon */
+/* Icons - Precision Rotation */
 .bitcore-icon {
-  width:32px;
-  height:32px;
+  width:36px;
+  height:36px;
 }
+.icon-gear {
+  transform-origin: 24px 24px;
+  animation: icon-spin 8s linear infinite;
+}
+.icon-pulse {
+  transform-origin: 24px 24px;
+  animation: icon-pulse 3s ease-in-out infinite;
+}
+
+@keyframes icon-spin { to { transform: rotate(360deg); } }
+@keyframes icon-pulse { 0%, 100% { transform: scale(0.9); } 50% { transform: scale(1.1); } }
 
 /* CONSTRUCT STRIP */
 .bitcore-construct-strip {
@@ -1127,16 +1226,18 @@
   padding:0 40px 0;
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:20px;
+  gap:24px;
 }
 
 .bitcore-construct-card {
-  background:#f8f8f8;
+  background: #f8f8f8;
   border:1px solid #e1e1e1;
-  padding:18px 18px 22px;
+  padding:20px;
   display:flex;
   flex-direction:column;
-  align-items:flex-start;
+  align-items:center;
+  text-align: center;
+  border-radius: 4px;
 }
 
 .bitcore-construct-title {
@@ -1144,54 +1245,44 @@
   font-weight:700;
   letter-spacing:0.12em;
   text-transform:uppercase;
-  margin-bottom:2px;
+  margin-bottom:4px;
+  color: #333;
 }
 
 .bitcore-construct-sub {
   font-size:12px;
-  color:#555;
-  margin-bottom:10px;
+  color:#666;
+  margin-bottom:16px;
 }
 
 .bitcore-construct-orb {
   width:100%;
-  max-width:140px;
-  margin:4px 0 10px;
+  max-width:130px;
+  margin:0 0 16px;
 }
 
-.bitcore-mini-layer {
-  transform-origin:70px 70px;
-  transform-box:fill-box;
-  will-change:transform;
+.construct-ring {
+  transform-origin: 70px 70px;
+  animation: construct-spin 10s linear infinite;
+}
+.construct-core {
+  transform-origin: 70px 70px;
+  animation: construct-pulse 4s ease-in-out infinite;
 }
 
-.bitcore-mini-a { animation:bitcore-mini-spin-a 40s linear infinite; }
-.bitcore-mini-b { animation:bitcore-mini-spin-b 56s linear infinite; }
-.bitcore-mini-c { animation:bitcore-mini-spin-c 48s ease-in-out infinite alternate; }
-
-@keyframes bitcore-mini-spin-a {
-  from { transform:rotate(0deg); }
-  to   { transform:rotate(360deg); }
-}
-@keyframes bitcore-mini-spin-b {
-  from { transform:rotate(0deg); }
-  to   { transform:rotate(-360deg); }
-}
-@keyframes bitcore-mini-spin-c {
-  from { transform:rotate(-12deg); }
-  to   { transform:rotate(12deg); }
-}
+@keyframes construct-spin { to { transform: rotate(360deg); } }
+@keyframes construct-pulse { 0%, 100% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1); opacity: 1; } }
 
 .bitcore-construct-text {
   font-size:12px;
   line-height:1.6;
-  color:#444;
+  color:#555;
 }
 
 /* HOW IT WORKS */
 .bitcore-how {
   max-width:1120px;
-  margin:40px auto 80px;
+  margin:60px auto 80px;
   padding:0 22px;
   text-align:center;
   position:relative;
@@ -1203,42 +1294,46 @@
   left:50%;
   transform:translateX(-50%);
   pointer-events:none;
-  opacity:0.8;
+  opacity:0.6;
 }
 
 .bitcore-how-svg {
-  width:260px;
+  width:280px;
   max-width:100%;
 }
 
 .bitcore-how-grid {
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:22px;
-  margin-top:40px;
+  gap:24px;
+  margin-top:48px;
 }
 
 .bitcore-how h2 {
-  font-size:26px;
-  margin-bottom:8px;
+  font-size:28px;
+  margin-bottom:12px;
+  color: #111;
 }
 
 .bitcore-how-card {
-  background:#fafafa;
-  border:1px solid #e6e6e6;
-  padding:22px 24px;
+  background: var(--bg-card);
+  border:1px solid var(--border-color);
+  padding:24px;
   text-align:left;
+  border-radius: 4px;
 }
 
 .bitcore-how-card h4 {
   margin-top:0;
   margin-bottom:10px;
-  font-size:16px;
+  font-size:15px;
+  font-weight: 700;
+  color: #222;
 }
 
 .bitcore-how-card p {
   margin:0;
-  color:#444;
+  color:#555;
   font-size:14px;
   line-height:1.6;
 }
@@ -1252,39 +1347,43 @@
 }
 
 .bitcore-usecases h2 {
-  font-size:26px;
-  margin-bottom:30px;
+  font-size:28px;
+  margin-bottom:32px;
+  color: #111;
 }
 
 .bitcore-use-grid {
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:22px;
+  gap:24px;
 }
 
 .bitcore-use-card {
-  background:#fafafa;
-  border:1px solid #e6e6e6;
-  padding:22px 24px;
+  background: var(--bg-card);
+  border:1px solid var(--border-color);
+  padding:24px;
   text-align:left;
+  border-radius: 4px;
 }
 
 .bitcore-use-head {
   display:flex;
   align-items:center;
-  gap:10px;
-  margin-bottom:8px;
+  gap:12px;
+  margin-bottom:12px;
 }
 
 .bitcore-use-card h4 {
   margin:0;
-  font-size:16px;
+  font-size:15px;
+  font-weight: 700;
+  color: #222;
 }
 
 .bitcore-use-card p {
   margin:0;
   font-size:14px;
-  color:#444;
+  color:#555;
   line-height:1.6;
 }
 
@@ -1297,38 +1396,42 @@
 }
 
 .bitcore-architecture h2 {
-  font-size:26px;
-  margin-bottom:30px;
+  font-size:28px;
+  margin-bottom:32px;
+  color: #111;
 }
 
 .bitcore-arch-grid {
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:22px;
+  gap:24px;
 }
 
 .bitcore-arch-card {
-  background:#fafafa;
-  border:1px solid #e6e6e6;
-  padding:22px 24px;
+  background: var(--bg-card);
+  border:1px solid var(--border-color);
+  padding:24px;
   text-align:left;
+  border-radius: 4px;
 }
 
 .bitcore-arch-head {
   display:flex;
   align-items:center;
-  gap:10px;
-  margin-bottom:8px;
+  gap:12px;
+  margin-bottom:12px;
 }
 
 .bitcore-arch-card h4 {
   margin:0;
-  font-size:16px;
+  font-size:15px;
+  font-weight: 700;
+  color: #222;
 }
 
 .bitcore-arch-card p {
   margin:0;
-  color:#444;
+  color:#555;
   line-height:1.6;
   font-size:14px;
 }
@@ -1336,42 +1439,41 @@
 /* SOCIAL PROOF */
 .bitcore-proof-band {
   max-width:820px;
-  margin:40px auto 80px;
+  margin:60px auto 80px;
   padding:0 22px;
   text-align:center;
   position:relative;
 }
 
 .bitcore-proof-bg {
-  margin-bottom:12px;
+  margin-bottom:16px;
 }
 
 .bitcore-proof-svg {
-  width:160px;
+  width:180px;
   max-width:100%;
 }
 
-.bitcore-proof-ring {
-  transform-origin:130px 40px;
-  transform-box:fill-box;
-  animation:bitcore-proof-pulse 20s ease-in-out infinite alternate;
+.proof-pulse {
+  transform-origin: 130px 40px;
+  animation: proof-pulse 3s ease-in-out infinite;
 }
 
-@keyframes bitcore-proof-pulse {
-  0%   { transform:scale(1); opacity:0.7; }
-  100% { transform:scale(1.06); opacity:1; }
+@keyframes proof-pulse {
+  0%, 100% { transform: scale(0.95); opacity: 0.6; }
+  50% { transform: scale(1.05); opacity: 1; }
 }
 
 .bitcore-proof-head {
   font-size:20px;
-  margin-bottom:22px;
+  margin-bottom:24px;
   color:#333;
 }
 
 .bitcore-proof-stats {
   display:flex;
   justify-content:center;
-  gap:40px;
+  gap:48px;
 }
 
 .bitcore-proof-item {
@@ -1382,6 +1484,7 @@
   font-weight:700;
   font-size:16px;
   margin-bottom:6px;
+  color: #111;
 }
 
 .bitcore-proof-label {
@@ -1398,121 +1501,90 @@
 }
 
 .bitcore-final-cta h2 {
-  font-size:26px;
-  margin-bottom:10px;
+  font-size:28px;
+  margin-bottom:12px;
+  color: #111;
 }
 
 .bitcore-final-cta p {
-  font-size:14px;
-  color:#444;
+  font-size:15px;
+  color:#555;
 }
 
 .bitcore-final-actions {
-  margin-top:20px;
+  margin-top:24px;
   display:flex;
   justify-content:center;
-  gap:14px;
+  gap:16px;
 }
 
-/* =======================================================
-   BITCORE COSMIC FOOTER — Horizon Prism + Soft Geometry
-   ======================================================= */
-
+/* FOOTER - Clean, Responsive, Light */
 .bitcore-footer-horizon {
-  position:relative;
-  background:#f5f5f5 !important;
-  padding:70px 20px 40px;
-  overflow:hidden;
-  color:#222;
-  font-family:system-ui,-apple-system,"Inter",sans-serif;
-  border-top:1px solid rgba(0,0,0,0.05);
+  background: #fff !important;
+  border-top: 1px solid #eaeaea;
+  padding: 60px 20px 40px;
+  color: #222;
+  font-family: system-ui, -apple-system, "Inter", sans-serif;
 }
 
 .bitcore-footer-horizon-prism {
-  width:100%;
-  height:3px;
-  background:linear-gradient(90deg,
-    rgba(255,255,255,0.9),
-    rgba(255,80,140,0.8),
-    rgba(255,200,80,0.8),
-    rgba(130,255,160,0.8),
-    rgba(80,200,255,0.8),
-    rgba(180,80,255,0.8),
-    rgba(255,255,255,0.9)
-  );
-  filter:blur(2px);
-  opacity:0.9;
-  margin-bottom:40px;
-}
-
-.bitcore-footer-bg {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:220px;
-  opacity:0.45;
-  pointer-events:none;
+  display: none;
 }
 
 .bitcore-footer-content {
-  position:relative;
-  z-index:20;
-  max-width:1120px;
-  margin:0 auto 30px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:40px;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  text-align: left;
+}
+
+.bitcore-footer-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .bitcore-footer-block h6 {
-  font-size:12px;
-  letter-spacing:0.15em;
-  font-weight:700;
-  margin-bottom:10px;
-  color:#333;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #888;
 }
 
 .bitcore-footer-block a {
-  display:block;
-  color:#444;
-  font-size:14px;
-  margin:6px 0;
-  text-decoration:none;
-  transition:0.2s ease;
+  color: #333;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .bitcore-footer-block a:hover {
-  color:#000;
-  text-shadow:0 0 6px rgba(150,80,255,0.25);
+  color: #000;
+  text-decoration: underline;
 }
 
 .bitcore-footer-endnote {
-  position:relative;
-  z-index:20;
-  text-align:center;
-  color:#666;
-  font-size:12px;
-  margin-top:20px;
+  max-width: 1120px;
+  margin: 40px auto 0;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+  text-align: center;
+  color: #999;
+  font-size: 12px;
 }
-
-@media(max-width:880px){
-  .bitcore-footer-content {
-    grid-template-columns:1fr;
-    text-align:center;
-  }
-}
-
 
 /* ACCESSIBILITY: REDUCED MOTION */
 @media (prefers-reduced-motion: reduce) {
-  .bitcore-orb-layer,
-  .bitcore-orb-grid,
-  .bitcore-orb-halo,
-  .bitcore-mini-layer,
-  .bitcore-spectrum-line,
-  .bitcore-problem-path,
-  .bitcore-proof-ring {
+  .orb-ring, .orb-core, .orb-electron,
+  .problem-node, .problem-link,
+  .icon-gear, .icon-pulse,
+  .construct-ring, .construct-core,
+  .proof-pulse, .bitcore-spectrum-line {
     animation:none !important;
     transform:none !important;
   }
@@ -1525,9 +1597,9 @@
     padding:64px 22px 56px;
     gap:40px;
   }
-  .bitcore-hero-title { font-size:30px; }
-  .bitcore-hero-visual { align-items:flex-start; }
-  .bitcore-visual-label { text-align:left; }
+  .bitcore-hero-title { font-size:32px; }
+  .bitcore-hero-visual { align-items:center; }
+  .bitcore-visual-label { text-align:center; }
 
   .bitcore-benefits,
   .bitcore-how-grid,
@@ -1543,13 +1615,20 @@
 
   .bitcore-proof-stats {
     flex-direction:column;
-    gap:16px;
+    gap:24px;
   }
 
-  .bitcore-footer-row {
-    grid-template-columns:1fr;
+  .bitcore-footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+  }
+  
+  .bitcore-footer-block {
+    align-items: center;
   }
 }
+</style>
 </style>
 
     <script src="/plugins/discourse-landing-pages/javascripts/common.js" defer="defer" type="application/javascript"></script>
