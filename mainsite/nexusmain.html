@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Core Nexus Hub · Alpha–Beta Alliance</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --bg: #02030b;
+  --panel: #050815;
+  --panel-soft: #070a18;
+  --border: #24293a;
+  --text-main: #f9fafb;
+  --text-soft: #a5b1c7;
+  --core-grad: linear-gradient(125deg,#3bf5ff,#6b8bff,#d46bff,#ff3f7a,#ffb347,#4dffb5);
+  --core-grad-soft: linear-gradient(125deg,
+    rgba(59,245,255,.24),
+    rgba(107,139,255,.16),
+    rgba(212,107,255,.18),
+    rgba(255,63,122,.22),
+    rgba(255,179,71,.18),
+    rgba(77,255,181,.20));
+}
+
+/* BASIC LAYOUT */
+html, body {
+  margin: 0;
+  padding: 0;
+  background:
+    radial-gradient(circle at 10% -10%, #151936 0, transparent 55%),
+    radial-gradient(circle at 90% 120%, #120f2b 0, transparent 55%),
+    var(--bg);
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* OUTER SHELL */
+.cnx-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* subtle scanlines */
+.cnx-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.02) 0px,
+      rgba(255,255,255,0.02) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+  opacity: .35;
+  mix-blend-mode: soft-light;
+  z-index: 0;
+}
+
+/* MAIN PANEL */
+.cnx-panel {
+  position: relative;
+  background: radial-gradient(circle at 20% 0%, #0b0f22 0, #050815 52%);
+  border-radius: 18px;
+  border: 1px solid #31374c;
+  padding: 18px 16px 26px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.7),
+    0 26px 80px rgba(0,0,0,0.9);
+  z-index: 1;
+}
+
+/* glowing frame */
+.cnx-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--core-grad-soft);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* HEADER BAR */
+.cnx-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(110,120,150,0.25);
+}
+
+.cnx-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* small mech-core style logo */
+.cnx-logo {
+  width: 34px;
+  height: 34px;
+  position: relative;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #2bf3ff 0, #050815 55%);
+  box-shadow:
+    0 0 20px rgba(60,240,255,0.55),
+    0 0 40px rgba(162,118,255,0.45);
+  overflow: hidden;
+}
+.cnx-logo::before,
+.cnx-logo::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+}
+.cnx-logo::before {
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+  animation: cnx-logo-pulse 4.5s ease-in-out infinite;
+}
+.cnx-logo::after {
+  border: 2px solid transparent;
+  border-image: var(--core-grad) 1;
+  opacity: 0.9;
+  mix-blend-mode: screen;
+  animation: cnx-logo-spin 7s linear infinite;
+}
+
+@keyframes cnx-logo-pulse {
+  0%,100% { transform: scale(0.9); opacity: 0.8; }
+  50% { transform: scale(1.03); opacity: 1; }
+}
+@keyframes cnx-logo-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.cnx-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.cnx-brand-main {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .24em;
+}
+.cnx-brand-sub {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--text-soft);
+}
+
+.cnx-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.cnx-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.cnx-tag {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(120,134,170,0.7);
+  background: rgba(5,8,21,0.9);
+  color: var(--text-soft);
+}
+.cnx-tag--online {
+  border-color: transparent;
+  background-image: var(--core-grad-soft);
+  color: #e7f9ff;
+  position: relative;
+}
+.cnx-tag-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #4cffc0;
+  box-shadow: 0 0 10px rgba(76,255,192,0.9);
+  margin-right: 6px;
+  animation: cnx-dot 1.4s ease-in-out infinite;
+}
+@keyframes cnx-dot {
+  0%,100% { transform: scale(1); opacity: .8; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+.cnx-code {
+  font-size: 9px;
+  color: var(--text-soft);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+}
+
+/* HERO SECTION */
+.cnx-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+/* ORB VISUAL */
+.cnx-hero-visual {
+  flex: 1 1 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cnx-orb-wrap {
+  position: relative;
+  width: min(320px, 70vw);
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #0c0f25 0, #02030b 62%);
+  box-shadow:
+    0 0 40px rgba(26,188,255,0.55),
+    0 0 120px rgba(140,82,255,0.6);
+  overflow: hidden;
+}
+
+/* soft background nebula */
+.cnx-orb-nebula {
+  position: absolute;
+  inset: -20%;
+  background:
+    conic-gradient(from 0deg,
+      rgba(59,245,255,0.0),
+      rgba(59,245,255,0.32),
+      rgba(189,94,255,0.45),
+      rgba(255,81,149,0.45),
+      rgba(59,245,255,0.0));
+  filter: blur(18px);
+  opacity: 0.75;
+  animation: cnx-nebula-spin 26s linear infinite;
+}
+@keyframes cnx-nebula-spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* main rings */
+.cnx-orb-ring {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  border: 1px solid rgba(210,230,255,0.6);
+  box-shadow:
+    0 0 32px rgba(255,255,255,0.45),
+    0 0 64px rgba(120,210,255,0.75);
+  mix-blend-mode: screen;
+  animation: cnx-orb-ring 14s ease-in-out infinite;
+}
+.cnx-orb-ring.secondary {
+  inset: 28%;
+  border-style: dashed;
+  border-color: rgba(110,210,255,0.8);
+  animation-duration: 20s;
+}
+.cnx-orb-ring.outer {
+  inset: 6%;
+  border-width: 2px;
+  border-color: rgba(255,178,91,0.72);
+  box-shadow:
+    0 0 40px rgba(255,178,91,0.55),
+    0 0 80px rgba(255,255,255,0.25);
+  animation-duration: 32s;
+}
+
+@keyframes cnx-orb-ring {
+  0%,100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+  50% { transform: scale(1.05) rotate(8deg); opacity: 1; }
+}
+
+/* petals / mandala */
+.cnx-orb-petals {
+  position: absolute;
+  inset: 24%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,0.4), transparent 55%),
+    radial-gradient(circle at 0% 50%, rgba(140,210,255,0.5), transparent 60%),
+    radial-gradient(circle at 100% 50%, rgba(227,118,255,0.55), transparent 60%),
+    radial-gradient(circle at 50% 100%, rgba(255,98,158,0.6), transparent 55%);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  animation: cnx-petals 18s ease-in-out infinite;
+}
+@keyframes cnx-petals {
+  0% { transform: rotate(0deg) scale(0.95); }
+  50% { transform: rotate(12deg) scale(1.03); }
+  100% { transform: rotate(24deg) scale(0.95); }
+}
+
+/* orbiting nodes */
+.cnx-orb-node {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0, #51e0ff 40%, #000 70%);
+  box-shadow:
+    0 0 16px rgba(81,224,255,0.9),
+    0 0 28px rgba(81,224,255,0.75);
+  top: 50%;
+  left: 50%;
+  transform-origin: -52px 0;
+  animation: cnx-node-orbit 9s linear infinite;
+}
+.cnx-orb-node:nth-child(5) { /* second node */
+  transform-origin: 52px 0;
+  animation-duration: 13s;
+  animation-direction: reverse;
+}
+.cnx-orb-node:nth-child(6) { /* third node */
+  transform-origin: 0 -60px;
+  animation-duration: 17s;
+}
+
+@keyframes cnx-node-orbit {
+  0%   { transform: rotate(0deg) translate(0,0); }
+  100% { transform: rotate(360deg) translate(0,0); }
+}
+
+/* inner core */
+.cnx-orb-core {
+  position: absolute;
+  inset: 35%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, #ffffff 0, #e5f5ff 18%, #8de2ff 40%, #060821 70%);
+  box-shadow:
+    0 0 32px rgba(255,255,255,0.95),
+    0 0 84px rgba(120,220,255,0.85);
+  animation: cnx-core-breathe 3.6s ease-in-out infinite;
+}
+@keyframes cnx-core-breathe {
+  0%,100% { transform: scale(0.95); }
+  50% { transform: scale(1.04); }
+}
+
+/* HERO COPY */
+.cnx-hero-copy {
+  flex: 1 1 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cnx-hero-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--text-soft);
+}
+
+.cnx-hero-title {
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.cnx-gradient-text {
+  background-image: var(--core-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cnx-hero-sub {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-soft);
+  max-width: 420px;
+}
+
+.cnx-hero-sub strong {
+  color: #e5f0ff;
+}
+
+/* CTA buttons */
+.cnx-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.cnx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  border: 1px solid rgba(148,163,210,0.7);
+  background: transparent;
+  color: var(--text-main);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+.cnx-btn-primary {
+  border-color: transparent;
+  background-image: var(--core-grad);
+  color: #050814;
+  box-shadow:
+    0 0 16px rgba(255,255,255,0.24),
+    0 0 40px rgba(88,211,255,0.65);
+}
+.cnx-btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    rgba(255,255,255,0.6),
+    transparent 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transform: translateX(-120%);
+  animation: cnx-btn-sheen 4.5s ease-in-out infinite;
+}
+@keyframes cnx-btn-sheen {
+  10% { opacity: 0; }
+  22% { opacity: 0.9; transform: translateX(40%); }
+  30% { opacity: 0; transform: translateX(120%); }
+  100% { opacity: 0; transform: translateX(120%); }
+}
+
+.cnx-btn-ghost {
+  background: rgba(6,10,24,0.8);
+}
+
+/* mini meta row */
+.cnx-mini-meta {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--text-soft);
+}
+.cnx-mini-pill {
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,210,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+/* GRID LOGO PANEL (kept simple but animated) */
+.cnx-grid-logo {
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(67,78,115,0.9);
+  background: radial-gradient(circle at 0 0,#11152a 0,transparent 55%);
+}
+
+.cnx-grid-matrix {
+  display: grid;
+  grid-template-columns: repeat(3,10px);
+  grid-template-rows: repeat(3,10px);
+  gap: 3px;
+}
+.cnx-grid-cell {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: radial-gradient(circle at 30% 30%, #1e293b 0, #020617 60%);
+  box-shadow: 0 0 0 rgba(59,130,246,0.0);
+}
+.cnx-grid-cell[data-hot="1"] {
+  background: radial-gradient(circle at 30% 30%, #ffffff 0, #60a5fa 45%, #020617 100%);
+  box-shadow:
+    0 0 8px rgba(96,165,250,0.9),
+    0 0 14px rgba(96,165,250,0.7);
+  animation: cnx-grid-pulse 3s ease-in-out infinite;
+}
+.cnx-grid-cell:nth-child(2)[data-hot="1"] { animation-delay: .3s; }
+.cnx-grid-cell:nth-child(5)[data-hot="1"] { animation-delay: .6s; }
+.cnx-grid-cell:nth-child(8)[data-hot="1"] { animation-delay: .9s; }
+
+@keyframes cnx-grid-pulse {
+  0%,100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+.cnx-grid-text {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--text-soft);
+}
+
+/* FEATURE STRIP */
+.cnx-features {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 14px;
+}
+
+.cnx-card {
+  background: radial-gradient(circle at 0 0,#15182a 0,#050815 60%);
+  border-radius: 12px;
+  border: 1px solid rgba(56,65,106,0.9);
+  padding: 12px 11px 14px;
+}
+.cnx-card-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  margin-bottom: 6px;
+}
+.cnx-card-body {
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+/* BADGE ROW */
+.cnx-badges {
+  margin-top: 26px;
+  text-align: center;
+}
+.cnx-badges-label {
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-bottom: 10px;
+}
+.cnx-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.cnx-badge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(87,104,160,0.9);
+  background: rgba(9,11,30,0.9);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+}
+
+/* FINAL LINE */
+.cnx-micro {
+  margin-top: 22px;
+  font-size: 10px;
+  text-align: center;
+  color: var(--text-soft);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* RESPONSIVE */
+@media (max-width: 880px) {
+  .cnx-panel { padding: 16px 14px 22px; }
+
+  .cnx-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cnx-header-right {
+    align-items: flex-start;
+  }
+
+  .cnx-hero {
+    flex-direction: column;
+  }
+  .cnx-hero-copy {
+    order: 2;
+  }
+  .cnx-hero-visual {
+    order: 1;
+  }
+  .cnx-hero-title {
+    font-size: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="cnx-shell">
+  <div class="cnx-panel">
+
+    <!-- HEADER -->
+    <header class="cnx-header">
+      <div class="cnx-header-left">
+        <div class="cnx-logo"></div>
+        <div class="cnx-brand-text">
+          <div class="cnx-brand-main">Core Nexus Hub × BITCORE</div>
+          <div class="cnx-brand-sub">Mechcore universe · Alpha–Beta alliance</div>
+        </div>
+      </div>
+
+      <div class="cnx-header-right">
+        <div class="cnx-tag-row">
+          <div class="cnx-tag cnx-tag--online">
+            <span class="cnx-tag-dot"></span>
+            Program status: Live wave
+          </div>
+          <div class="cnx-tag">For Mechcore holders & CNH members</div>
+        </div>
+        <div class="cnx-code">ID: CNH-ALPHA-01</div>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="cnx-hero">
+
+      <!-- ORB VISUAL -->
+      <div class="cnx-hero-visual">
+        <div class="cnx-orb-wrap" aria-hidden="true">
+          <div class="cnx-orb-nebula"></div>
+          <div class="cnx-orb-ring outer"></div>
+          <div class="cnx-orb-ring"></div>
+          <div class="cnx-orb-ring secondary"></div>
+          <div class="cnx-orb-petals"></div>
+          <div class="cnx-orb-core"></div>
+          <!-- orbiting nodes -->
+          <div class="cnx-orb-node"></div>
+          <div class="cnx-orb-node"></div>
+          <div class="cnx-orb-node"></div>
+        </div>
+      </div>
+
+      <!-- COPY -->
+      <div class="cnx-hero-copy">
+        <div class="cnx-hero-label">Alliance Invitation · Core Nexus Hub</div>
+
+        <h1 class="cnx-hero-title">
+          <span class="cnx-gradient-text">Claim your Core Tester slot</span><br>
+          and link Mechcore to BITCORE.
+        </h1>
+
+        <p class="cnx-hero-sub">
+          Direct invitation to <strong>Core Nexus Hub</strong> and
+          <strong>Mechcore holders</strong>.  
+          Help us tune the BITCORE stack for the Universe Machine era and be
+          visibly marked as early-wave operators.
+        </p>
+
+        <div class="cnx-cta-row">
+          <a href="/signup" class="cnx-btn cnx-btn-primary">
+            Claim Alpha–Beta access
+          </a>
+          <a href="/t/bitcore-core-nexus-alpha" class="cnx-btn cnx-btn-ghost">
+            View program thread
+          </a>
+        </div>
+
+        <div class="cnx-mini-meta">
+          <div class="cnx-mini-pill">Phase: Alpha → Beta bridge</div>
+          <div class="cnx-mini-pill">Slots: limited · curated</div>
+        </div>
+
+        <!-- GRID LOGO MODULE (kept from previous style, slightly enhanced) -->
+        <div class="cnx-grid-logo">
+          <div class="cnx-grid-matrix">
+            <div class="cnx-grid-cell" data-hot="1"></div>
+            <div class="cnx-grid-cell" data-hot="1"></div>
+            <div class="cnx-grid-cell"></div>
+            <div class="cnx-grid-cell"></div>
+            <div class="cnx-grid-cell" data-hot="1"></div>
+            <div class="cnx-grid-cell"></div>
+            <div class="cnx-grid-cell"></div>
+            <div class="cnx-grid-cell" data-hot="1"></div>
+            <div class="cnx-grid-cell"></div>
+          </div>
+          <div class="cnx-grid-text">
+            Core signal lock · CNH ↔ BITCORE
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE STRIP -->
+    <section class="cnx-features">
+      <article class="cnx-card">
+        <div class="cnx-card-title">Alpha / Beta access</div>
+        <div class="cnx-card-body">
+          Get routed into closed tests for BITCORE features tied to Mechcore-style
+          identity, lore and data flows.
+        </div>
+      </article>
+
+      <article class="cnx-card">
+        <div class="cnx-card-title">Cosmic badge set</div>
+        <div class="cnx-card-body">
+          Receive permanent <strong>Alpha</strong> and <strong>Beta</strong> tester
+          badges on BIThub, plus a Core Nexus alliance tag.
+        </div>
+      </article>
+
+      <article class="cnx-card">
+        <div class="cnx-card-title">Shape the bridge</div>
+        <div class="cnx-card-body">
+          Your feedback tunes how BITCORE speaks to the Core Nexus mythos:
+          UI flows, rituals, and Mechcore-aware constructs.
+        </div>
+      </article>
+
+      <article class="cnx-card">
+        <div class="cnx-card-title">Cross-ecosystem recognition</div>
+        <div class="cnx-card-body">
+          Mechcore + BITCORE identity bridge.  
+          Holders and community members gain elevated visibility during early integrations.
+        </div>
+      </article>
+    </section>
+
+    <!-- BADGES -->
+    <section class="cnx-badges">
+      <div class="cnx-badges-label">Badges queued for Core Nexus testers</div>
+      <div class="cnx-badge-row">
+        <div class="cnx-badge">Alpha tester · core nexus</div>
+        <div class="cnx-badge">Beta tester · bitcore</div>
+        <div class="cnx-badge">Mechcore verified operator</div>
+        <div class="cnx-badge">Early alliance member</div>
+      </div>
+    </section>
+
+    <div class="cnx-micro">
+      Incoming: first wave selection from Core Nexus Hub threads<br>
+      <span style="opacity: 0.6; font-size: 9px;">© BITCORE Ecosystem · Recursive Intelligence OS</span>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
