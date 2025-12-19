@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BIThub | Podcast Series</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <link rel="icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/398146ac56f7574960047adebe96ea2fc7fedd8a_2_32x32.jpeg">
+  <link rel="apple-touch-icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/7907e6a15038616eed1feb93808e455b0382a47e_2_180x180.jpeg">
+  <style>
+    /* ══════════════════════════════════════════
+       BIThub Brand System — Dark HUD Aesthetic
+    ══════════════════════════════════════════ */
+    :root {
+      --bg: #050505;
+      --bg-grid: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,240,255,0.03) 39px, rgba(0,240,255,0.03) 40px),
+                 repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,240,255,0.03) 39px, rgba(0,240,255,0.03) 40px);
+      --panel: #0a0a0a;
+      --panel-hover: #0f0f0f;
+      --ink: #e0e0e0;
+      --muted: #888;
+      --line: #1f1f1f;
+      --accent: #00f0ff;
+      --accent-dim: rgba(0,240,255,0.15);
+      --accent-glow: 0 0 12px rgba(0,240,255,0.4);
+      --secondary: #7000ff;
+      --tertiary: #ff3264;
+      --warn-bg: rgba(255,200,0,0.08);
+      --warn-border: #ffb338;
+      --warn-text: #ffe93a;
+      --success: #3cff7f;
+      --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { 
+      margin: 0; padding: 0; width: 100%; min-height: 100%; 
+      background: var(--bg); 
+      background-image: var(--bg-grid);
+      color: var(--ink); 
+      font-family: var(--font-sans); 
+      line-height: 1.5; 
+      -webkit-font-smoothing: antialiased; 
+    }
+    body { display: flex; flex-direction: column; }
+
+    /* Scanline overlay effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      z-index: 9999;
+    }
+
+    .page { 
+      width: 100%; 
+      max-width: 1320px; 
+      display: grid; 
+      grid-template-columns: 280px 1fr; 
+      gap: 24px; 
+      padding: 24px; 
+      margin: 0 auto; 
+    }
+
+    /* ══════════════════════════════════════════
+       SIDEBAR — HUD Panel
+    ══════════════════════════════════════════ */
+    .sidebar { 
+      background: var(--panel); 
+      border: 1px solid var(--line); 
+      border-top: 3px solid var(--accent);
+      padding: 20px; 
+      display: grid; 
+      gap: 20px; 
+      align-self: start; 
+      position: sticky; 
+      top: 24px; 
+      max-height: calc(100vh - 48px); 
+      overflow-y: auto;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: var(--bg); }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--accent); }
+    
+    .site-nav { 
+      padding-bottom: 16px; 
+      border-bottom: 1px solid var(--line); 
+    }
+    .site-links { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 8px; 
+      margin-top: 10px;
+    }
+    .site-links a { 
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 8px 12px;
+      background: transparent;
+      border: 1px solid var(--line);
+      transition: all 0.2s ease;
+    }
+    .site-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+    .site-links a.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      box-shadow: var(--accent-glow);
+    }
+    
+    .logo { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      letter-spacing: 0.1em; 
+      font-size: 14px; 
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex; 
+      align-items: center; 
+      gap: 10px;
+      text-shadow: 0 0 8px rgba(0,240,255,0.5);
+    }
+    .logo::before { 
+      content: "●"; 
+      color: var(--success); 
+      font-size: 10px;
+      animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    
+    .sidebar a { color: var(--accent); text-decoration: none; transition: all 0.2s ease; }
+    .sidebar a:hover { color: #fff; text-shadow: 0 0 6px var(--accent); }
+    
+    .sidebar .cta { 
+      padding: 16px; 
+      border: 1px solid var(--line); 
+      border-left: 2px solid var(--accent);
+      background: rgba(0,240,255,0.03);
+      display: grid; 
+      gap: 10px; 
+      font-size: 13px; 
+    }
+    .sidebar .cta strong { 
+      font-family: var(--font-mono);
+      font-size: 12px; 
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .nav-group {
+      display: grid;
+      gap: 8px;
+    }
+    .nav-title { 
+      font-family: var(--font-mono);
+      font-weight: 600; 
+      text-transform: uppercase; 
+      letter-spacing: 0.15em; 
+      font-size: 10px; 
+      color: var(--muted); 
+      padding-bottom: 6px; 
+      border-bottom: 1px solid var(--line); 
+      margin-bottom: 4px; 
+    }
+    .nav-link {
+      display: block;
+      padding: 10px 14px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-left: 2px solid transparent;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .nav-link:hover {
+      background: var(--accent-dim);
+      border-left-color: var(--accent);
+      color: #fff;
+    }
+    .nav-link.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-left: 2px solid var(--accent);
+      box-shadow: var(--accent-glow);
+    }
+    .nav-link small {
+      display: block;
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 10px;
+      margin-top: 3px;
+    }
+
+    /* ══════════════════════════════════════════
+       MAIN CONTENT
+    ══════════════════════════════════════════ */
+    .main { display: grid; gap: 24px; align-content: start; }
+    
+    .card { 
+      background: var(--panel); 
+      border: 1px solid var(--line); 
+      border-top: 3px solid var(--accent);
+      padding: 24px; 
+    }
+    
+    .hero { display: grid; gap: 14px; }
+    .hero .kicker { 
+      font-family: var(--font-mono);
+      font-size: 10px; 
+      letter-spacing: 0.2em; 
+      text-transform: uppercase; 
+      color: var(--accent); 
+      font-weight: 600; 
+    }
+    .hero .kicker::before { content: "▸ "; }
+    .hero h1 { 
+      margin: 0; 
+      font-family: var(--font-mono);
+      font-size: clamp(22px, 4vw, 32px); 
+      font-weight: 700; 
+      letter-spacing: 0.02em; 
+      line-height: 1.2; 
+      color: #fff;
+      text-shadow: 0 0 20px rgba(0,240,255,0.2);
+    }
+    .hero p { margin: 0; color: var(--muted); line-height: 1.65; font-size: 14px; max-width: 600px; }
+
+    /* ══════════════════════════════════════════
+       PODCAST SERIES SECTIONS
+    ══════════════════════════════════════════ */
+    .series-section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 0;
+    }
+
+    .series-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .series-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .series-info h2 {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+    .series-info p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .series-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 4px 10px;
+      border: 1px solid var(--accent);
+      margin-left: auto;
+    }
+
+    .episodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--line);
+    }
+
+    .episode-card {
+      background: var(--panel);
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+      transition: all 0.2s ease;
+    }
+    .episode-card:hover {
+      background: var(--panel-hover);
+    }
+
+    .episode-number {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--secondary);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .episode-number::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+    }
+
+    .episode-title {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin: 0;
+    }
+
+    .episode-player {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #000;
+      border: 1px solid var(--line);
+    }
+    .episode-player iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .episode-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .episode-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Series color variants */
+    .series-foundations .series-header { border-top: 3px solid var(--success); }
+    .series-foundations .series-icon { 
+      background: rgba(60,255,127,0.15); 
+      border-color: var(--success); 
+    }
+    .series-foundations .series-tag { 
+      color: var(--success); 
+      background: rgba(60,255,127,0.15);
+      border-color: var(--success);
+    }
+
+    .series-deepdives .series-header { border-top: 3px solid var(--secondary); }
+    .series-deepdives .series-icon { 
+      background: rgba(112,0,255,0.15); 
+      border-color: var(--secondary); 
+    }
+    .series-deepdives .series-tag { 
+      color: var(--secondary); 
+      background: rgba(112,0,255,0.15);
+      border-color: var(--secondary);
+    }
+
+    /* ══════════════════════════════════════════
+       MOBILE MENU TOGGLE (CSS-only)
+    ══════════════════════════════════════════ */
+    .menu-toggle { display: none; }
+    .menu-btn { display: none; }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .page { 
+        grid-template-columns: 1fr; 
+        padding: 12px; 
+        gap: 16px; 
+      }
+      
+      .menu-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        z-index: 1000;
+        background: var(--panel);
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 14px 18px;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4), var(--accent-glow);
+        transition: all 0.2s ease;
+      }
+      .menu-btn:hover {
+        background: var(--accent);
+        color: #000;
+      }
+      .menu-btn::before {
+        content: "☰";
+        font-size: 14px;
+      }
+      
+      .sidebar { 
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999;
+        max-height: 100vh;
+        overflow-y: auto;
+        border-top: none;
+        border: none;
+        padding: 20px;
+        padding-bottom: 80px;
+        transform: translateY(100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      .menu-toggle:checked ~ .sidebar {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      .menu-toggle:checked ~ .menu-btn::before {
+        content: "✕";
+      }
+      .menu-toggle:checked ~ .menu-btn {
+        background: var(--accent);
+        color: #000;
+      }
+
+      .episodes-grid {
+        grid-template-columns: 1fr;
+      }
+      .series-header {
+        flex-wrap: wrap;
+      }
+      .series-tag {
+        margin-left: 0;
+        margin-top: 8px;
+      }
+      .hero h1 { font-size: 22px; }
+      .card { padding: 18px; }
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 8px; gap: 12px; }
+      .sidebar { padding: 16px; gap: 14px; }
+      .episode-card { padding: 16px; }
+      .series-header { padding: 16px; }
+      .series-info h2 { font-size: 16px; }
+    }
+
+    /* Accessibility */
+    .nav-link:focus-visible,
+    .site-links a:focus-visible { 
+      outline: 2px solid var(--accent); 
+      outline-offset: 2px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Mobile menu toggle -->
+    <input type="checkbox" class="menu-toggle" id="menu-toggle">
+    <label class="menu-btn" for="menu-toggle">Menu</label>
+
+    <!-- ═══════════════════════════════════════════
+         SIDEBAR
+    ═══════════════════════════════════════════ -->
+    <aside class="sidebar">
+      <div class="site-nav">
+        <div class="logo">BITcore</div>
+        <div class="site-links">
+          <a href="/welcome">Home</a>
+          <a href="/products">Products</a>
+          <a href="/docs">Docs</a>
+          <a href="/videos">Videos</a>
+          <a href="/podcast" class="active">Podcast</a>
+          <a href="/aboutus">About</a>
+          <a href="/access">Access</a>
+        </div>
+      </div>
+
+      <nav class="nav-group">
+        <div class="nav-title">Podcast Series</div>
+        <a href="#foundations" class="nav-link">
+          🌱 Foundations
+          <small>3 episodes · Getting started</small>
+        </a>
+        <a href="#deepdives" class="nav-link">
+          🔬 Deep Dives
+          <small>7 episodes · System internals</small>
+        </a>
+      </nav>
+
+      <div class="cta">
+        <strong>Join the Conversation</strong>
+        <p>Discuss episodes and share insights with the community on BIThub.</p>
+        <a href="https://hub.bitwiki.org">Enter BIThub →</a>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════════ -->
+    <main class="main">
+      
+      <!-- HERO -->
+      <header class="card hero">
+        <span class="kicker">Audio Transmissions</span>
+        <h1>The BITcore Podcast</h1>
+        <p>Deep explorations of recursive intelligence, system architecture, and the philosophy behind the Intelligence Factory. Listen to understand how humans and agents collaborate in the cognition loop.</p>
+      </header>
+
+      <!-- ═══════════════════════════════════════════
+           SERIES 1: FOUNDATIONS
+      ═══════════════════════════════════════════ -->
+      <section class="series-section series-foundations" id="foundations">
+        <div class="series-header">
+          <div class="series-icon">🌱</div>
+          <div class="series-info">
+            <h2>Foundations</h2>
+            <p>Introduction to the BITcore ecosystem — core concepts for newcomers</p>
+          </div>
+          <span class="series-tag">3 Episodes</span>
+        </div>
+        
+        <div class="episodes-grid">
+          <!-- Episode 1 -->
+          <article class="episode-card">
+            <span class="episode-number">Episode 01</span>
+            <h3 class="episode-title">What is the Intelligence Factory?</h3>
+            <div class="episode-player">
+              <iframe 
+                src="https://drive.google.com/file/d/1iAQVbzmjw1_VieqkkjTq3BjiNLVYAvqo/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Episode 2 -->
+          <article class="episode-card">
+            <span class="episode-number">Episode 02</span>
+            <h3 class="episode-title">The Three Pillars: BITcore, BIThub, BITwiki</h3>
+            <div class="episode-player">
+              <iframe 
+                src="https://drive.google.com/file/d/1NGT2nNqYZdnpej8-_YwP4IhJiRqbkTkF/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Episode 3 -->
+          <article class="episode-card">
+            <span class="episode-number">Episode 03</span>
+            <h3 class="episode-title">Recursive Cognition Explained</h3>
+            <div class="episode-player">
+              <iframe 
+                src="https://drive.google.com/file/d/19QXcGpw8_u81kT1potV7-wa5S4Nwq1zs/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════
+           SERIES 2: DEEP DIVES
+      ═══════════════════════════════════════════ -->
+      <section class="series-section series-deepdives" id="deepdives">
+        <div class="series-header">
+          <div class="series-icon">🔬</div>
+          <div class="series-info">
+            <h2>Deep Dives</h2>
+            <p>Technical explorations of system internals, architecture, and advanced concepts</p>
+          </div>
+          <span class="series-tag">7 Episodes</span>
+        </div>
+        
+        <div class="episodes-grid">
+          <!-- Episode 1 -->
+          <article class="episode-card">
+            <span class="episode-number">Episode 01</span>
+            <h3 class="episode-title">Constructs: Meta-Ontological Compilers</h3>
+            <div class="episode-player">
+              <iframe 
+                src="https://drive.google.com/file/d/1ZRF4krrTOwP6CmYoHsp3NnA3luAHc_ji/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Episode 2 -->
+          <article class="episode-card">
+            <span class="episode-number">Episode 02</span>
+            <h3 class="episode-title">Cores & Nodes: The Execution Layer</h3>
+            <div class="episode-player">
+              <iframe 
+                src="https://drive.google.com/file/d/1DjCe98h8PujW9vaQWjZTW4fqbt4lk3L_/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Episode 3 -->
+          <article class="episode-card">
+            <span class="episode-number">Episode 03</span>
+            <h3 class="episode-title">Ontology vs Epistemology in Practice</h3>
+            <div class="episode-player">
+              <iframe 
+                src="https://drive.google.com/file/d/1wDnmzfjy439Eqwd_hQ_UlMPkuP41yQK3/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Episode 4 -->
+          <article class="episode-card">
+            <span class="episode-number">Episode 04</span>
+            <h3 class="episode-title">The Ophanim Loop</h3>
+            <div class="episode-player">
+              <iframe 
+                src="https://drive.google.com/file/d/1QOd9d-uUPNEVwNsWrQ-LuIkh_mkob6UY/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Episode 5 -->
+          <article class="episode-card">
+            <span class="episode-number">Episode 05</span>
+            <h3 class="episode-title">Invariant Ethics & The H-Constant</h3>
+            <div class="episode-player">
+              <iframe 
+                src="https://drive.google.com/file/d/1qjlzIv5PBAtfriSQNt4zRz_Cgu4NuP1n/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Episode 6 -->
+          <article class="episode-card">
+            <span class="episode-number">Episode 06</span>
+            <h3 class="episode-title">Human-Agent Collaboration Patterns</h3>
+            <div class="episode-player">
+              <iframe 
+                src="https://drive.google.com/file/d/1EA6p2CJWnj3Wg7mpDY2FXmjVvoLQCto1/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Episode 7 -->
+          <article class="episode-card">
+            <span class="episode-number">Episode 07</span>
+            <h3 class="episode-title">Building on the Intelligence Factory</h3>
+            <div class="episode-player">
+              <iframe 
+                src="https://drive.google.com/file/d/1ZS3vd2RzMmRuWyPAR2Uzy8CM5A5yEuak/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>BIThub | Post</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#111111">
+    <link rel="icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/398146ac56f7574960047adebe96ea2fc7fedd8a_2_32x32.jpeg">
+    <link rel="apple-touch-icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/7907e6a15038616eed1feb93808e455b0382a47e_2_180x180.jpeg">
+  </head>
+
+  <% if current_user %>
+    <% set_category_user('blog') %>
+  <% end %>
+
+  <% topic_param = params[:topic_id] || params[:id] || params[:topic] || params[:param] %>
+  <% if topic_param.present? %>
+    <% topic_view(topic_param, opts: {
+      include_suggested: false,
+      include_related: false,
+      post_number: 1
+    }, instance_var: 'topic_view') %>
+  <% end %>
+
+  <body class="landing-page blog-post">
+    <div class="bitcore-landing">
+
+      <!-- NAV HEADER -->
+      <nav class="bitcore-nav">
+        <div class="bitcore-logo">BITCORE</div>
+
+        <input type="checkbox" id="bitcore-nav-check" class="bitcore-nav-check" aria-hidden="true">
+        <label for="bitcore-nav-check" class="bitcore-menu-toggle" aria-label="Toggle menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </label>
+
+        <div class="bitcore-menu-items">
+          <a href="/welcome" class="bitcore-menu-link">Home</a>
+          <a href="/products" class="bitcore-menu-link">Products</a>
+          <a href="/docs" class="bitcore-menu-link">Docs</a>
+          <a href="/aboutus" class="bitcore-menu-link">About</a>
+          <a href="/access" class="bitcore-menu-link">Access</a>
+        </div>
+      </nav>
+
+      <!-- HERO -->
+      <header class="post-hero">
+        <div class="hero-top">
+          <a class="back-link" href="/blog">Back to posts</a>
+          <span class="post-tag">BIThub · Blog</span>
+        </div>
+        <% if defined?(@topic_view) && @topic_view&.topic.present? %>
+          <h1 class="post-title" title="<%= @topic_view.title %>"><%= @topic_view.title %></h1>
+          <div class="post-byline">
+            <div class="byline-icon" aria-hidden="true"></div>
+            <%= render partial: 'topic_byline', locals: {
+              topic: @topic_view.topic,
+              include_link: true,
+              user_profile_opts: {
+                include_avatar: false,
+                avatar_size: 48
+              }
+            } %>
+          </div>
+        <% else %>
+          <h1 class="post-title">Post unavailable</h1>
+          <p class="hero-sub" style="max-width: 640px; margin: 0 auto;">We couldn't load this post right now. Please refresh or open it directly in the forum.</p>
+        <% end %>
+      </header>
+
+      <article class="post-body">
+        <% if defined?(@topic_view) && @topic_view&.posts.present? %>
+          <section class="post-content canvas">
+            <%= ::LandingPages::Post.html(@topic_view.posts.first).html_safe %>
+          </section>
+
+          <section class="comment-section">
+            <% if @topic_view.posts.length > 1 %>
+              <div class="comment-head">
+                <div class="comment-title">Comments</div>
+                <div class="comment-line"></div>
+              </div>
+              <div class="comments">
+                <% @topic_view.posts[1..-1].each do |post| %>
+                  <div class="comment">
+                    <div class="comment-icon" aria-hidden="true"></div>
+                    <div class="comment-content">
+                      <div class="comment-meta">
+                        <span class="comment-user" title="<%= post.user.username %>\"><%= post.user.username %></span>
+                        <span class="meta-dot"></span>
+                        <span class="comment-date"><%= post.created_at.strftime('%b %d, %Y') %></span>
+                      </div>
+                      <div class="comment-text"><%= post.cooked.html_safe %></div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+            <div class="comment-footer">
+              <a class="cta-link" href="<%= @topic_view.topic.url %>">Open thread ↗</a>
+            </div>
+          </section>
+        <% end %>
+      </article>
+
+      <footer class="blog-footer">
+        <div class="footer-left">
+          <span class="footer-kicker">BITCORE</span>
+          <span class="footer-text">Human + agent collaborative intelligence</span>
+        </div>
+        <a class="footer-link" href="https://bitwiki.org">BITwiki</a>
+        <a class="footer-link" href="https://hub.bitwiki.org">BIThub</a>
+      </footer>
+
+      <div class="btn btn-fixed btn-subscribe <% if current_user %>user<% else %>guest<% end %>" title="Subscribe">
+        <div class="fixed-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" fill="none" stroke="#111" stroke-width="2" />
+            <line x1="12" y1="7" x2="12" y2="17" stroke="#111" stroke-width="2" />
+            <line x1="7" y1="12" x2="17" y2="12" stroke="#111" stroke-width="2" />
+          </svg>
+        </div>
+        <% unless mobile_view? %>
+          <div class="fixed-label">Subscribe</div>
+        <% end %>
+      </div>
+
+      <% if current_user && @category_user.present? %>
+        <%= render partial: 'modal', locals: {
+          title: 'Subscribe',
+          class: 'subscribe',
+          content: render(partial: 'subscription_form', locals: {
+            category_id: @category_user.category.id,
+            subscribed: (@category_user &&
+              @category_user.notification_level >= CategoryUser.notification_levels[:watching_first_post]
+            )
+          })
+        } %>
+      <% end %>
+
+    </div>
+
+    <style>
+      :root {
+        --bg: #f5f5f5;
+        --card: #ffffff;
+        --ink: #0f1012;
+        --sub: #4a4d55;
+        --line: #e5e6eb;
+        --accent: linear-gradient(90deg, #ff3264, #ffb338, #ffe93a, #3cff7f, #00d6ff, #b44cff);
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      }
+
+      .bitcore-landing { min-height: 100vh; display: flex; flex-direction: column; }
+
+      /* NAV */
+      .bitcore-nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 36px;
+        background: rgba(245, 245, 245, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .bitcore-logo { font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
+      .bitcore-nav-check { display: none; }
+
+      .bitcore-menu-toggle {
+        background: none;
+        border: 0;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+      }
+
+      .bitcore-menu-toggle .bar { width: 22px; height: 2px; background: #111; transition: all 0.3s ease; }
+
+      .bitcore-menu-items { display: flex; gap: 18px; align-items: center; }
+      .bitcore-nav-check:checked ~ .bitcore-menu-items { display: flex; }
+
+      .bitcore-menu-link { text-decoration: none; color: var(--ink); font-weight: 600; font-size: 14px; }
+
+      /* HERO */
+      .post-hero {
+        padding: 100px 24px 40px;
+        max-width: 840px;
+        margin: 0 auto;
+        display: grid;
+        gap: 16px;
+      }
+
+      .hero-top { display: flex; align-items: center; gap: 12px; }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        text-decoration: none;
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .post-tag {
+        padding: 6px 12px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .post-title {
+        margin: 0;
+        font-size: 46px;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+      }
+
+      .post-byline {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--sub);
+        font-size: 14px;
+      }
+
+      .byline-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f0f0f3, #e2e3e7);
+        border: 1px solid var(--line);
+      }
+
+      /* BODY */
+      .post-body {
+        max-width: 840px;
+        margin: 0 auto 80px;
+        padding: 0 24px;
+        display: grid;
+        gap: 32px;
+      }
+
+      .post-content {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 14px 38px rgba(0,0,0,0.05);
+      }
+
+      .post-content h1,
+      .post-content h2,
+      .post-content h3,
+      .post-content h4 { color: var(--ink); }
+
+      .post-content p { color: var(--sub); line-height: 1.7; font-size: 16px; }
+
+      .comment-section {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+        display: grid;
+        gap: 18px;
+      }
+
+      .comment-head { display: flex; align-items: center; gap: 12px; }
+      .comment-title { font-weight: 750; letter-spacing: 0.02em; }
+      .comment-line { flex: 1; height: 2px; background: var(--accent); }
+
+      .comments { display: grid; gap: 16px; }
+      .comment { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; }
+
+      .comment-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f1f1f5, #e5e6eb);
+        border: 1px solid var(--line);
+      }
+
+      .comment-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--sub);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .comment-user { font-weight: 700; }
+      .meta-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink); opacity: 0.3; }
+
+      .comment-text { color: var(--ink); font-size: 15px; line-height: 1.6; }
+
+      .comment-footer {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .cta-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        text-decoration: none;
+        color: var(--ink);
+        font-weight: 700;
+        background: #fff;
+      }
+
+      /* Footer */
+      .blog-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px 24px 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        border-top: 1px solid var(--line);
+      }
+
+      .footer-left { display: flex; gap: 12px; align-items: baseline; font-weight: 700; }
+      .footer-kicker { font-size: 12px; letter-spacing: 0.08em; }
+      .footer-text { font-size: 14px; color: var(--sub); }
+      .footer-link { text-decoration: none; font-weight: 600; color: var(--ink); }
+
+      /* Subscribe button */
+      .btn-fixed {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #fff;
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        padding: 12px 16px;
+        text-decoration: none;
+      }
+
+      .btn-fixed .fixed-label { font-weight: 700; font-size: 14px; }
+      .btn-fixed .fixed-icon { display: grid; place-items: center; }
+
+      @media (max-width: 800px) {
+        .bitcore-menu-items {
+          display: none;
+          position: absolute;
+          top: 68px;
+          right: 16px;
+          background: #fff;
+          border: 1px solid var(--line);
+          border-radius: 12px;
+          padding: 14px 16px;
+          flex-direction: column;
+          gap: 10px;
+          box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+        }
+
+        .bitcore-nav-check:checked ~ .bitcore-menu-items { display: flex; }
+
+        .post-title { font-size: 32px; }
+        .post-body { margin-bottom: 60px; }
+        .blog-footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+      }
+    </style>
+  </body>
+</html>

@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+ <meta charset="utf-8">
+ <title>BITwiki | Platform</title>
+
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+ <meta name="theme-color" content="#111111">
+
+ <link rel="icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/398146ac56f7574960047adebe96ea2fc7fedd8a_2_32x32.jpeg">
+ <link rel="apple-touch-icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/7907e6a15038616eed1feb93808e455b0382a47e_2_180x180.jpeg">
+
+ <meta name="csrf-param" content="authenticity_token" />
+ <meta name="csrf-token" content="40TyQtJeH3QdeGp4l1WnErxinJIIdXpyMm8_m61LCcAsTmMNbHwMoDQZ0j7GRwsI-riY02AEmNHQu5mPkbeVkQ" />
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer="defer"></script>
+ <link href="/stylesheets/landing_page_15618ba3497481539bd1a5786487dd3848da54d1.css?__ws=hub.bitwiki.org" media="all" rel="stylesheet" data-target="landing_page" />
+ </head>
+
+ <body class="landing-page products-page">
+ <div class="bitcore-landing">
+
+ <!-- NAV HEADER -->
+ <nav class="bitcore-nav">
+ <div class="bitcore-logo">BITCORE</div>
+
+ <!-- CSS Checkbox Hack -->
+ <input type="checkbox" id="bitcore-nav-check" class="bitcore-nav-check" aria-hidden="true">
+
+ <label for="bitcore-nav-check" class="bitcore-menu-toggle" aria-label="Toggle menu">
+ <span class="bar"></span>
+ <span class="bar"></span>
+ <span class="bar"></span>
+ </label>
+
+ <div class="bitcore-menu-items">
+ <a href="/welcome" class="bitcore-menu-link">Home</a>
+ <a href="/products" class="bitcore-menu-link">Products</a>
+ <a href="/docs" class="bitcore-menu-link">Docs</a>
+ <a href="/videos" class="bitcore-menu-link">Videos</a>
+ <a href="/podcast" class="bitcore-menu-link">Podcast</a>
+ <a href="/aboutus" class="bitcore-menu-link">About</a>
+ <a href="/access" class="bitcore-menu-link">Access</a>
+ </div>
+ </nav>
+
+ <!-- PRODUCT HERO: PLATFORM OVERVIEW -->
+ <section class="product-hero">
+ <div class="product-hero-content">
+ <div class="tech-badge">ECOSYSTEM_ESTABLISHED</div>
+ <h1 class="product-title">BITwiki Platform</h1>
+ <p class="product-sub">
+ A recursive human–AI knowledge system built on three core pillars: BITwiki, BIThub, and BITcore. Together, they form a closed-loop infrastructure for collaborative intelligence.
+ <br><br>
+ For builders, researchers, and operators who want an AI-native stack to think, build, and coordinate with agents in real time.
+ </p>
+
+ <div class="hero-actions">
+ <a href="https://hub.bitwiki.org" class="btn-primary">Enter BIThub</a>
+ <a href="https://bitwiki.org" class="btn-secondary">Browse BITwiki</a>
+ </div>
+
+ <div class="loop-diagram" style="margin: 32px 0 16px; font-family: var(--mono-font); font-size: 12px; color: #666; background: #f9f9f9; padding: 12px; border-radius: 4px; display: inline-block; border: 1px solid #eee;">
+ <span style="color: #111; font-weight: 700;">BIThub</span> (interaction) → 
+ <span style="color: #111; font-weight: 700;">BITwiki</span> (memory) → 
+ <span style="color: #111; font-weight: 700;">BITcore</span> (intelligence) → 
+ <span style="color: #111; font-weight: 700;">BIThub</span>
+ </div>
+
+ <div class="product-stats-grid">
+ <div class="stat-item">
+ <span class="stat-label">Pillar 1</span>
+ <span class="stat-value">WIKI</span>
+ </div>
+ <div class="stat-item">
+ <span class="stat-label">Pillar 2</span>
+ <span class="stat-value">HUB</span>
+ </div>
+ <div class="stat-item">
+ <span class="stat-label">Pillar 3</span>
+ <span class="stat-value">CORE</span>
+ </div>
+ </div>
+ </div>
+
+ <div class="product-hero-visual">
+ <!-- ABSTRACT SERVER RACK VISUAL -->
+ <svg class="rack-svg" viewBox="0 0 300 400" aria-hidden="true">
+ <defs>
+ <linearGradient id="rack-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+ <stop offset="0%" stop-color="#3cff7f" stop-opacity="0.8"/>
+ <stop offset="100%" stop-color="#00d6ff" stop-opacity="0.2"/>
+ </linearGradient>
+ </defs>
+ 
+ <!-- Rack Frame -->
+ <rect x="50" y="20" width="200" height="360" rx="4" fill="none" stroke="#333" stroke-width="2"/>
+ 
+ <!-- Units -->
+ <g class="rack-unit" transform="translate(60, 40)">
+ <rect width="180" height="40" fill="#1a1a1a" rx="2"/>
+ <circle cx="20" cy="20" r="4" fill="#3cff7f" class="blink-fast"/>
+ <rect x="40" y="15" width="100" height="10" fill="#333"/>
+ <rect x="40" y="15" width="60" height="10" fill="url(#rack-grad)" class="load-bar"/>
+ </g>
+ 
+ <g class="rack-unit" transform="translate(60, 90)">
+ <rect width="180" height="40" fill="#1a1a1a" rx="2"/>
+ <circle cx="20" cy="20" r="4" fill="#ffb338" class="blink-slow"/>
+ <rect x="40" y="15" width="100" height="10" fill="#333"/>
+ <rect x="40" y="15" width="80" height="10" fill="url(#rack-grad)" class="load-bar-2"/>
+ </g>
+
+ <g class="rack-unit" transform="translate(60, 140)">
+ <rect width="180" height="40" fill="#1a1a1a" rx="2"/>
+ <circle cx="20" cy="20" r="4" fill="#ff3264" class="blink-med"/>
+ <rect x="40" y="15" width="100" height="10" fill="#333"/>
+ <rect x="40" y="15" width="30" height="10" fill="url(#rack-grad)" class="load-bar-3"/>
+ </g>
+ 
+ <!-- Cables -->
+ <path d="M60 360 C 20 360, 20 60, 60 60" fill="none" stroke="#3cff7f" stroke-width="2" stroke-opacity="0.5" stroke-dasharray="4 4" class="cable-flow"/>
+ <path d="M240 360 C 280 360, 280 110, 240 110" fill="none" stroke="#00d6ff" stroke-width="2" stroke-opacity="0.5" stroke-dasharray="4 4" class="cable-flow-rev"/>
+
+ </svg>
+ </div>
+ </section>
+
+ <!-- PILLARS INTRODUCTION -->
+ <section class="architecture-section">
+ <div class="section-header">
+ <h2>The Three BIT Pillars</h2>
+ <div class="header-line"></div>
+ </div>
+
+ <div class="arch-grid" style="grid-template-columns: repeat(3, 1fr);">
+ <!-- COL 1: BITWIKI -->
+ <div class="arch-col">
+ <div class="arch-head">
+ <span class="arch-icon">01</span>
+ <h3>WIKI</h3>
+ </div>
+ <div class="arch-body">
+ <div class="arch-card">
+ <h4>Living Knowledge Graph</h4>
+ <p class="card-tagline">The structured memory and source of truth for the ecosystem.</p>
+ <ul class="card-bullets">
+ <li>Query the structured memory of the ecosystem.</li>
+ <li>Trace concepts, decisions, and experiments over time.</li>
+ <li>Feed agents with canonical, vetted knowledge.</li>
+ </ul>
+ <a href="https://bitwiki.org" class="card-cta">Open BITwiki →</a>
+ </div>
+ </div>
+ </div>
+
+ <!-- COL 2: BITHUB -->
+ <div class="arch-col">
+ <div class="arch-head">
+ <span class="arch-icon">02</span>
+ <h3>HUB</h3>
+ </div>
+ <div class="arch-body">
+ <div class="arch-card">
+ <h4>Collaborative Cognition Layer</h4>
+ <p class="card-tagline">Where conversations, experiments, and coordination become structured knowledge.</p>
+ <ul class="card-bullets">
+ <li>Run AI workspaces for specific tasks.</li>
+ <li>Use Cores for complex multi-phase workflows.</li>
+ <li>Spin up Nodes for automated CLI workflows.</li>
+ </ul>
+ <a href="https://hub.bitwiki.org" class="card-cta">Enter BIThub →</a>
+ </div>
+ </div>
+ </div>
+
+ <!-- COL 3: BITCORE -->
+ <div class="arch-col">
+ <div class="arch-head">
+ <span class="arch-icon">03</span>
+ <h3>CORE</h3>
+ </div>
+ <div class="arch-body">
+ <div class="arch-card">
+ <h4>Autonomous Cognitive Engine</h4>
+ <p class="card-tagline">The recursive intelligence that perceives, reasons, and acts across the system.</p>
+ <ul class="card-bullets">
+ <li>Perceives and validates information across the ecosystem.</li>
+ <li>Coordinates tools, workspaces, and agents.</li>
+ <li>Continuously refines its own reasoning patterns.</li>
+ </ul>
+ <a href="/docs.html" class="card-cta">Read BITcore docs →</a>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- ONBOARDING MATRIX -->
+ <section class="onboarding-section">
+ <div class="section-header">
+ <h2>Start Building</h2>
+ <div class="header-line"></div>
+ </div>
+
+ <div class="onboarding-grid">
+ <!-- Researcher -->
+ <div class="onboarding-col">
+ <h3>If you’re a Researcher</h3>
+ <ul class="onboarding-list">
+ <li><a href="https://hub.bitwiki.org/c/rss-feeds">Browse RSS Feeds for AI context</a></li>
+ <li><a href="https://hub.bitwiki.org">Start a discussion in Discourse</a></li>
+ </ul>
+ </div>
+
+ <!-- Builder -->
+ <div class="onboarding-col">
+ <h3>If you’re a Builder</h3>
+ <ul class="onboarding-list">
+ <li><a href="https://hub.bitwiki.org/c/workspaces">Open a Workspace to prototype</a></li>
+ <li><a href="https://hub.bitwiki.org/c/cores">Use a Core for multi-phase workflows</a></li>
+ </ul>
+ </div>
+
+ <!-- Operator -->
+ <div class="onboarding-col">
+ <h3>If you’re an Operator</h3>
+ <ul class="onboarding-list">
+ <li><a href="https://hub.bitwiki.org/c/ontology">Define your Ontology</a></li>
+ <li><a href="https://bitwiki.org">Map your knowledge into BITwiki</a></li>
+ </ul>
+ </div>
+ </div>
+ </section>
+
+ <!-- 1. BITWIKI DEEP DIVE -->
+ <section class="architecture-section">
+ <div class="section-header">
+ <h2>BITwiki: The Knowledge Base</h2>
+ <div class="header-line"></div>
+ </div>
+
+ <div class="arch-grid" style="grid-template-columns: 1fr;">
+ <div class="arch-col">
+ <div class="arch-body">
+ <p style="margin-bottom: 20px; line-height: 1.6; color: #444;">
+ BITwiki is the semantic knowledge graph and long-term memory of the BIT ecosystem. Built on Semantic MediaWiki, it captures relationships between concepts, research, and decisions so humans, agents, and tools can all reason over the same canonical source of truth.
+ </p>
+ <div class="arch-card">
+ <h4>Core Capabilities</h4>
+ <ul class="card-bullets">
+ <li><strong>Semantic MediaWiki:</strong> Semantic knowledge graph for the ecosystem.</li>
+ <li><strong>Structured Memory:</strong> Long-term repository for entities, relationships, and context.</li>
+ <li><strong>Codified Understanding:</strong> Preserves learned information for future reasoning by humans and BITcore.</li>
+ </ul>
+ </div>
+ <p style="font-size: 12px; color: #888; margin-top: 16px;">
+ <strong>Used by:</strong> researchers, ontology designers, BITcore
+ </p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- 2. BITHUB DEEP DIVE -->
+ <section class="architecture-section">
+ <div class="section-header">
+ <h2>BIThub: The Collaborative Platform</h2>
+ <div class="header-line"></div>
+ </div>
+
+ <div class="arch-grid" style="grid-template-columns: 1fr;">
+ <div class="arch-col">
+ <div class="arch-body">
+ <p style="margin-bottom: 20px; line-height: 1.6; color: #444;">
+ BIThub is the community-facing cognitive layer: a precision forum plus AI-powered semantic processing. Discussions, proposals, and workflows are continuously parsed into structured data, feeding BITwiki and BITcore so every interaction strengthens the shared knowledge base.
+ </p>
+ <div class="arch-card">
+ <h4>Core Capabilities</h4>
+ <ul class="card-bullets">
+ <li><strong>Cognitive Engine:</strong> Live semantic membranes transforming discourse into structured knowledge.</li>
+ <li><strong>Precision Forum:</strong> AI-powered semantic processing of community contributions.</li>
+ <li><strong>Community Interface:</strong> Primary interface for interaction, experimentation, and collaboration.</li>
+ </ul>
+ </div>
+ <p style="font-size: 12px; color: #888; margin-top: 16px;">
+ <strong>Used by:</strong> builders, researchers, operators
+ </p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- 3. BITCORE DEEP DIVE -->
+ <section class="architecture-section">
+ <div class="section-header">
+ <h2>BITcore: The Cognitive Engine</h2>
+ <div class="header-line"></div>
+ </div>
+
+ <div class="arch-grid">
+ <!-- 01 Perception -->
+ <div class="arch-col">
+ <div class="arch-head">
+ <span class="arch-icon">01</span>
+ <h3>Perception</h3>
+ </div>
+ <div class="arch-body">
+ <p style="font-size: 13px; color: #555; margin-bottom: 16px;">
+ BITcore builds a live model of your world: entities, state, and signals, so it knows what is actually going on.
+ </p>
+ <div class="arch-card">
+ <h4>Ontology (Being)</h4>
+ <p>Modeling entities and world state</p>
+ </div>
+ <div class="arch-arrow">↓</div>
+ <div class="arch-card">
+ <h4>Signal Processing</h4>
+ <p>Raw data to semantic understanding</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- 02 Reasoning -->
+ <div class="arch-col">
+ <div class="arch-head">
+ <span class="arch-icon">02</span>
+ <h3>Reasoning</h3>
+ </div>
+ <div class="arch-body">
+ <p style="font-size: 13px; color: #555; margin-bottom: 16px;">
+ It uses tools + logic to answer questions and make decisions, with built-in verification loops.
+ </p>
+ <div class="arch-card">
+ <h4>Epistemology (Knowing)</h4>
+ <p>Processing & logical conclusions</p>
+ </div>
+ <div class="arch-arrow">↓</div>
+ <div class="arch-card">
+ <h4>Tool-First & Verification</h4>
+ <p>Context & Human Cross-Verification</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- 03 Action -->
+ <div class="arch-col">
+ <div class="arch-head">
+ <span class="arch-icon">03</span>
+ <h3>Action</h3>
+ </div>
+ <div class="arch-body">
+ <p style="font-size: 13px; color: #555; margin-bottom: 16px;">
+ It executes workflows across Cores, Workspaces, and Nodes to change the world, not just describe it.
+ </p>
+ <div class="arch-card">
+ <h4>Axiology (Doing)</h4>
+ <p>Execution of values & tasks</p>
+ </div>
+ <div class="arch-arrow">↓</div>
+ <div class="arch-card">
+ <h4>Swarm Execution</h4>
+ <p>Task completion & Interaction</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- 04 Reflection -->
+ <div class="arch-col">
+ <div class="arch-head">
+ <span class="arch-icon">04</span>
+ <h3>Reflection</h3>
+ </div>
+ <div class="arch-body">
+ <p style="font-size: 13px; color: #555; margin-bottom: 16px;">
+ It learns from every run and updates how it thinks next time.
+ </p>
+ <div class="arch-card">
+ <h4>Meta-Cognition</h4>
+ <p>Self-evaluation & improvement</p>
+ </div>
+ <div class="arch-arrow">↓</div>
+ <div class="arch-card">
+ <h4>Autopoietic Optimization</h4>
+ <p>Recursive refinement</p>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- BITCORE IN THE ECOSYSTEM LOOP -->
+ <section class="loop-section">
+ <div class="section-header">
+ <h2>BITcore in the Ecosystem Loop</h2>
+ <div class="header-line"></div>
+ <p style="max-width: 700px; margin-bottom: 40px; color: #555; line-height: 1.6;">
+ BITcore sits at the center of a continuous loop between humans, BIThub, BITwiki, and the external world. It turns signals into knowledge, knowledge into action, and action back into better knowledge.
+ </p>
+ </div>
+
+ <div class="loop-grid">
+ <!-- VISUAL MAP -->
+ <div class="loop-visual">
+ <div class="loop-node">
+ <div class="node-dot"></div>
+ <strong>Humans & Signals</strong>
+ <p>Discourse, data streams, RSS</p>
+ </div>
+ <div class="loop-arrow">↓ ingest</div>
+ <div class="loop-node">
+ <div class="node-dot" style="background: #00d6ff;"></div>
+ <strong>BIThub — interaction layer</strong>
+ <p>Workspaces, Cores, Nodes</p>
+ </div>
+ <div class="loop-arrow">↓ routed to</div>
+ <div class="loop-node">
+ <div class="node-dot" style="background: #3cff7f;"></div>
+ <strong>BITcore — intelligence layer</strong>
+ <p>Perception → Reasoning → Action → Reflection</p>
+ </div>
+ <div class="loop-arrow">↓ writes back to</div>
+ <div class="loop-node">
+ <div class="node-dot" style="background: #ffb338;"></div>
+ <strong>BITwiki — memory layer</strong>
+ <p>Canonical knowledge graph</p>
+ </div>
+ <div class="loop-return">
+ └─► Updates feed back into BIThub & agents
+ </div>
+ </div>
+
+ <!-- NARRATIVE STEPS -->
+ <div class="loop-narrative">
+ <div class="loop-step">
+ <h4>01. Perception — Ingest & understand</h4>
+ <p>BIThub Workspaces, Cores, and Nodes ingest human input and external signals. BITcore reads BITwiki and live signals to build a current world model.</p>
+ </div>
+ <div class="loop-step">
+ <h4>02. Reasoning — Decide what to do</h4>
+ <p>BITcore uses tools and verification loops to answer questions and choose actions. It plans across multi-step workflows, often via Cores and Nodes.</p>
+ </div>
+ <div class="loop-step">
+ <h4>03. Action — Change the world & the graph</h4>
+ <p>Workflows execute across BIThub (Workspaces, Cores, Nodes) and external systems. Results are written back into BITwiki as structured, canonical knowledge.</p>
+ </div>
+ <div class="loop-step">
+ <h4>04. Reflection — Improve the next run</h4>
+ <p>BITcore evaluates outcomes, updates its internal strategies, and refines how it uses tools. Future perceptions and actions get better as the loop repeats.</p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- FOOTER -->
+ <footer class="bitcore-footer-horizon">
+ <div class="bitcore-footer-content">
+ <div class="bitcore-footer-block">
+ <h6>Explore Knowledge</h6>
+ <a href="https://bitwiki.org">BITwiki</a>
+ <a href="https://hub.bitwiki.org">BIThub</a>
+ </div>
+ <div class="bitcore-footer-block">
+ <h6>Understand the Stack</h6>
+ <a href="/docs.html">Documentation</a>
+ <a href="/about.html">About</a>
+ </div>
+ </div>
+ <div class="bitcore-footer-endnote">
+ © BITCORE ecosystem – human + agent collaborative intelligence
+ </div>
+ </footer>
+
+ </div> <!-- /.bitcore-landing -->
+
+ <!-- CSS BLOCK -->
+ <style>
+ :root {
+ --bg-page: #f4f4f4;
+ --bg-card: #fafafa;
+ --text-main: #111;
+ --text-sub: #444;
+ --border-color: #e6e6e6;
+ --accent-grad: linear-gradient(90deg, #ff3264, #ffb338, #ffe93a, #3cff7f, #00d6ff, #b44cff);
+ --mono-font: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace;
+ }
+
+ html, body {
+ margin: 0;
+ padding: 0;
+ width: 100%;
+ overflow-x: hidden;
+ background: var(--bg-page);
+ }
+
+ .bitcore-landing {
+ background: var(--bg-page);
+ color: var(--text-main);
+ font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+ min-height: 100vh;
+ display: flex;
+ flex-direction: column;
+ }
+
+ /* NAV (Copied from Index) */
+ .bitcore-nav {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ padding: 24px 40px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ box-sizing: border-box;
+ z-index: 100;
+ }
+
+ .bitcore-logo {
+ font-weight: 800;
+ font-size: 18px;
+ letter-spacing: -0.02em;
+ color: #111;
+ }
+
+ .bitcore-nav-check { display: none; }
+
+ .bitcore-menu-toggle {
+ background: none;
+ border: none;
+ cursor: pointer;
+ display: flex;
+ flex-direction: column;
+ gap: 5px;
+ padding: 10px;
+ z-index: 102;
+ }
+
+ .bitcore-menu-toggle .bar {
+ width: 24px;
+ height: 2px;
+ background-color: #111;
+ transition: all 0.3s ease;
+ }
+
+ .bitcore-menu-items {
+ position: fixed;
+ top: 0;
+ right: 0;
+ height: 100vh;
+ width: 300px;
+ background: rgba(255, 255, 255, 0.98);
+ backdrop-filter: blur(10px);
+ display: flex;
+ flex-direction: column;
+ padding: 80px 40px;
+ gap: 24px;
+ transform: translateX(100%);
+ transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+ box-shadow: -10px 0 40px rgba(0,0,0,0.05);
+ z-index: 101;
+ }
+
+ .bitcore-nav-check:checked ~ .bitcore-menu-items { transform: translateX(0); }
+
+ .bitcore-menu-link {
+ font-size: 24px;
+ font-weight: 700;
+ color: #111;
+ text-decoration: none;
+ opacity: 0;
+ transform: translateY(10px);
+ transition: opacity 0.3s ease, transform 0.3s ease;
+ }
+
+ .bitcore-nav-check:checked ~ .bitcore-menu-items .bitcore-menu-link { opacity: 1; transform: translateY(0); }
+ .bitcore-nav-check:checked ~ .bitcore-menu-items .bitcore-menu-link:nth-child(1) { transition-delay: 0.1s; }
+ .bitcore-nav-check:checked ~ .bitcore-menu-items .bitcore-menu-link:nth-child(2) { transition-delay: 0.2s; }
+ .bitcore-nav-check:checked ~ .bitcore-menu-items .bitcore-menu-link:nth-child(3) { transition-delay: 0.3s; }
+ .bitcore-nav-check:checked ~ .bitcore-menu-items .bitcore-menu-link:nth-child(4) { transition-delay: 0.4s; }
+ .bitcore-nav-check:checked ~ .bitcore-menu-items .bitcore-menu-link:nth-child(5) { transition-delay: 0.5s; }
+
+ .bitcore-nav-check:checked ~ .bitcore-menu-toggle .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+ .bitcore-nav-check:checked ~ .bitcore-menu-toggle .bar:nth-child(2) { opacity: 0; }
+ .bitcore-nav-check:checked ~ .bitcore-menu-toggle .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+ /* PRODUCT HERO */
+ .product-hero {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ max-width: 1120px;
+ margin: 0 auto;
+ padding: 120px 40px 80px;
+ gap: 60px;
+ }
+
+ .product-hero-content {
+ flex: 1;
+ }
+
+ .tech-badge {
+ display: inline-block;
+ font-family: var(--mono-font);
+ font-size: 12px;
+ background: #e0e0e0;
+ padding: 4px 8px;
+ border-radius: 2px;
+ margin-bottom: 20px;
+ color: #333;
+ letter-spacing: 0.05em;
+ }
+
+ .product-title {
+ font-size: 48px;
+ font-weight: 800;
+ letter-spacing: -0.03em;
+ margin: 0 0 20px;
+ line-height: 1.1;
+ }
+
+ .product-sub {
+ font-size: 18px;
+ color: #555;
+ line-height: 1.6;
+ margin-bottom: 40px;
+ max-width: 480px;
+ }
+
+ .product-stats-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 20px;
+ border-top: 1px solid #ddd;
+ padding-top: 20px;
+ }
+
+ .stat-item {
+ display: flex;
+ flex-direction: column;
+ }
+
+ .stat-label {
+ font-size: 11px;
+ text-transform: uppercase;
+ color: #888;
+ font-weight: 600;
+ margin-bottom: 4px;
+ }
+
+ .stat-value {
+ font-family: var(--mono-font);
+ font-size: 14px;
+ font-weight: 700;
+ color: #111;
+ }
+
+ .product-hero-visual {
+ flex: 1;
+ display: flex;
+ justify-content: center;
+ }
+
+ .rack-svg {
+ width: 100%;
+ max-width: 360px;
+ height: auto;
+ }
+
+ /* ANIMATIONS */
+ .blink-fast { animation: blink 0.5s infinite alternate; }
+ .blink-med { animation: blink 1s infinite alternate; }
+ .blink-slow { animation: blink 2s infinite alternate; }
+ 
+ @keyframes blink { from { opacity: 0.4; } to { opacity: 1; } }
+
+ .load-bar { animation: load 2s infinite linear; transform-origin: left; }
+ .load-bar-2 { animation: load 3s infinite linear; transform-origin: left; }
+ .load-bar-3 { animation: load 1.5s infinite linear; transform-origin: left; }
+
+ @keyframes load { 0% { transform: scaleX(0.2); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0.2); } }
+
+ .cable-flow { stroke-dashoffset: 100; animation: flow 3s linear infinite; }
+ .cable-flow-rev { stroke-dashoffset: 100; animation: flow-rev 3s linear infinite; }
+
+ @keyframes flow { to { stroke-dashoffset: 0; } }
+ @keyframes flow-rev { to { stroke-dashoffset: -100; } }
+
+ /* ARCHITECTURE SECTION */
+ .architecture-section {
+ max-width: 1120px;
+ margin: 0 auto 100px;
+ padding: 0 40px;
+ }
+
+ .section-header {
+ margin-bottom: 60px;
+ }
+
+ .section-header h2 {
+ font-size: 24px;
+ font-weight: 700;
+ margin: 0 0 10px;
+ }
+
+ .header-line {
+ width: 60px;
+ height: 4px;
+ background: var(--accent-grad);
+ }
+
+ .arch-grid {
+ display: grid;
+ grid-template-columns: repeat(4, 1fr); /* Default 4 columns */
+ gap: 20px;
+ }
+
+ .arch-col {
+ background: #fff;
+ border: 1px solid #eee;
+ border-radius: 8px;
+ padding: 24px;
+ box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+ }
+
+ .highlight-col {
+ border-color: #3cff7f;
+ background: #fcfcfc;
+ }
+
+ .arch-head {
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ margin-bottom: 24px;
+ border-bottom: 1px solid #eee;
+ padding-bottom: 16px;
+ }
+
+ .arch-icon {
+ font-family: var(--mono-font);
+ font-weight: 700;
+ color: #ccc;
+ font-size: 24px;
+ }
+
+ .arch-head h3 {
+ margin: 0;
+ font-size: 16px;
+ font-weight: 700;
+ }
+
+ .arch-card {
+ background: #f4f4f4;
+ padding: 16px;
+ border-radius: 4px;
+ margin-bottom: 12px;
+ }
+
+ .core-card {
+ background: #111;
+ color: #fff;
+ }
+ .core-card h4 { color: #fff !important; }
+ .core-card p { color: #aaa !important; }
+
+ .arch-card h4 {
+ margin: 0 0 4px;
+ font-size: 14px;
+ font-weight: 600;
+ color: #111;
+ }
+
+ .arch-card p {
+ margin: 0;
+ font-size: 12px;
+ color: #666;
+ }
+
+ .arch-arrow {
+ text-align: center;
+ color: #ccc;
+ margin: 8px 0;
+ font-weight: bold;
+ }
+
+ /* SPECS SECTION */
+ .specs-section {
+ max-width: 800px;
+ margin: 0 auto 120px;
+ padding: 0 40px;
+ }
+
+ .specs-table {
+ border: 1px solid #ddd;
+ border-radius: 4px;
+ background: #fff;
+ }
+
+ .spec-row {
+ display: flex;
+ border-bottom: 1px solid #eee;
+ padding: 16px 24px;
+ }
+
+ .spec-row:last-child { border-bottom: none; }
+
+ .spec-key {
+ width: 40%;
+ font-weight: 600;
+ color: #555;
+ font-size: 14px;
+ }
+
+ .spec-val {
+ width: 60%;
+ font-size: 13px;
+ color: #111;
+ }
+
+ /* FOOTER (Copied) */
+ .bitcore-footer-horizon {
+ background: #fff !important;
+ border-top: 1px solid #eaeaea;
+ padding: 60px 20px 40px;
+ color: #222;
+ font-family: system-ui, -apple-system, "Inter", sans-serif;
+ margin-top: auto;
+ }
+
+ .bitcore-footer-content {
+ max-width: 1120px;
+ margin: 0 auto;
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 40px;
+ text-align: left;
+ }
+
+ .bitcore-footer-block {
+ display: flex;
+ flex-direction: column;
+ align-items: flex-start;
+ }
+
+ .bitcore-footer-block h6 {
+ font-size: 12px;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ font-weight: 700;
+ margin-bottom: 16px;
+ color: #888;
+ }
+
+ .bitcore-footer-block a {
+ color: #333;
+ font-size: 14px;
+ margin-bottom: 10px;
+ text-decoration: none;
+ transition: color 0.2s ease;
+ }
+
+ .bitcore-footer-block a:hover {
+ color: #000;
+ text-decoration: underline;
+ }
+
+ .bitcore-footer-endnote {
+ max-width: 1120px;
+ margin: 40px auto 0;
+ padding-top: 20px;
+ border-top: 1px solid #f0f0f0;
+ text-align: center;
+ color: #999;
+ font-size: 12px;
+ }
+
+ @media (max-width: 880px) {
+ .product-hero { flex-direction: column; padding-top: 100px; }
+ .arch-grid { grid-template-columns: 1fr; }
+ .bitcore-footer-content { grid-template-columns: 1fr; text-align: center; }
+ .bitcore-footer-block { align-items: center; }
+ }
+
+ /* NEW STYLES FOR UPDATES */
+ .hero-actions {
+ display: flex;
+ gap: 16px;
+ margin-top: 32px;
+ }
+
+ .btn-primary, .btn-secondary {
+ display: inline-block;
+ padding: 12px 24px;
+ border-radius: 4px;
+ font-weight: 600;
+ text-decoration: none;
+ transition: all 0.2s ease;
+ font-size: 14px;
+ }
+
+ .btn-primary {
+ background: #111;
+ color: #fff;
+ border: 1px solid #111;
+ }
+
+ .btn-primary:hover {
+ background: #333;
+ border-color: #333;
+ }
+
+ .btn-secondary {
+ background: transparent;
+ color: #111;
+ border: 1px solid #ccc;
+ }
+
+ .btn-secondary:hover {
+ border-color: #111;
+ color: #000;
+ }
+
+ .card-tagline {
+ font-weight: 600;
+ color: #111 !important;
+ margin-bottom: 12px !important;
+ }
+
+ .card-bullets {
+ margin: 0 0 16px 20px;
+ padding: 0;
+ font-size: 13px;
+ color: #555;
+ }
+
+ .card-bullets li {
+ margin-bottom: 6px;
+ }
+
+ .card-cta {
+ display: inline-block;
+ font-size: 12px;
+ font-weight: 700;
+ color: #111;
+ text-decoration: none;
+ border-bottom: 1px solid #ccc;
+ padding-bottom: 2px;
+ transition: border-color 0.2s;
+ }
+
+ .card-cta:hover {
+ border-color: #111;
+ }
+
+ .onboarding-section {
+ max-width: 1120px;
+ margin: 0 auto 100px;
+ padding: 0 40px;
+ }
+
+ .onboarding-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 24px;
+ }
+
+ .onboarding-col {
+ background: #fff;
+ border: 1px solid #eee;
+ border-radius: 8px;
+ padding: 24px;
+ }
+
+ .onboarding-col h3 {
+ font-size: 16px;
+ font-weight: 700;
+ margin: 0 0 16px;
+ color: #111;
+ }
+
+ .onboarding-list {
+ list-style: none;
+ padding: 0;
+ margin: 0;
+ }
+
+ .onboarding-list li {
+ margin-bottom: 10px;
+ font-size: 14px;
+ color: #555;
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ }
+
+ .onboarding-list li:before {
+ content: "→";
+ color: #ccc;
+ }
+
+ .onboarding-list a {
+ color: #111;
+ text-decoration: none;
+ border-bottom: 1px solid #eee;
+ }
+
+ .onboarding-list a:hover {
+ border-color: #111;
+ }
+
+ /* LOOP SECTION STYLES */
+ .loop-section {
+ max-width: 1120px;
+ margin: 0 auto 120px;
+ padding: 0 40px;
+ }
+
+ .loop-grid {
+ display: grid;
+ grid-template-columns: 1fr 1.5fr;
+ gap: 60px;
+ align-items: start;
+ }
+
+ .loop-visual {
+ background: #fafafa;
+ border: 1px solid #eee;
+ border-radius: 8px;
+ padding: 32px;
+ font-size: 13px;
+ }
+
+ .loop-node {
+ position: relative;
+ padding-left: 24px;
+ margin-bottom: 8px;
+ border-left: 1px dashed #ccc;
+ padding-bottom: 8px;
+ }
+
+ .loop-node:last-child { border-left: none; }
+
+ .node-dot {
+ position: absolute;
+ left: -5px;
+ top: 4px;
+ width: 10px;
+ height: 10px;
+ background: #ccc;
+ border-radius: 50%;
+ }
+
+ .loop-node strong { display: block; color: #111; margin-bottom: 2px; }
+ .loop-node p { margin: 0; color: #666; font-size: 12px; }
+
+ .loop-arrow {
+ padding-left: 24px;
+ color: #999;
+ font-size: 11px;
+ margin-bottom: 12px;
+ font-family: var(--mono-font);
+ }
+
+ .loop-return {
+ margin-top: 16px;
+ padding: 12px;
+ background: #fff;
+ border: 1px solid #eee;
+ border-radius: 4px;
+ color: #555;
+ font-size: 12px;
+ font-family: var(--mono-font);
+ }
+
+ .loop-narrative {
+ display: flex;
+ flex-direction: column;
+ gap: 32px;
+ }
+
+ .loop-step h4 {
+ font-size: 16px;
+ font-weight: 700;
+ margin: 0 0 8px;
+ color: #111;
+ }
+
+ .loop-step p {
+ margin: 0;
+ color: #555;
+ line-height: 1.6;
+ font-size: 15px;
+ }
+
+ @media (max-width: 880px) {
+ .loop-grid { grid-template-columns: 1fr; gap: 40px; }
+ }
+ </style>
+
+ <script src="/plugins/discourse-landing-pages/javascripts/common.js" defer="defer" type="application/javascript"></script>
+ <script src="/plugins/discourse-landing-pages/javascripts/desktop.js" defer="defer" type="application/javascript"></script>
+ </body>
+</html>

@@ -1,0 +1,386 @@
+/* ============================================
+   BITHUB CSS STYLES
+   ============================================
+   Table of Contents:
+   1. Homepage Latest Topics List
+   2. Think Tags (AI Thinking Display)
+   3. BIThub Welcome Post Styles
+      3.1  Base Variables
+      3.2  Hero Section
+      3.3  Logo
+      3.4  Title
+      3.5  Intro Box
+      3.6  Section Title
+      3.7  Content Box
+      3.8  Insight Box
+      3.9  Dual Column / Hemisphere Layout
+      3.10 Node Grid & Node Box
+      3.11 Node Link Button
+      3.12 Timeline Container
+      3.13 Step Box
+      3.14 Step Button
+      3.15 Warning Box
+      3.16 Resource Section
+      3.17 Link List
+      3.18 Contribution Grid & Box
+      3.19 Access Box & Button
+      3.20 Footer
+      3.21 Global Link Styles
+      3.22 Responsive Adjustments
+============================================ */
+
+
+/* ============================================
+   1. HOMEPAGE LATEST TOPICS LIST
+   ============================================ */
+
+/* Center + cap width of the Featured list: Latest Topics list */
+.home-latest-list {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    max-width: 76rem;
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+    box-sizing: border-box;
+}
+
+/* Ensure the internal table/list obeys the container width */
+.home-latest-list .topic-list {
+    width: 100%;
+}
+
+
+/* ============================================
+   2. THINK TAGS (AI THINKING DISPLAY)
+   ============================================ */
+
+[data-wrap=thinking] {
+    font-style: italic;
+    color: var(--primary-medium);
+}
+
+
+/* ============================================
+   3. BITHUB WELCOME POST (REFACTORED)
+   ============================================
+   Theme: BITCORE SYSTEM INTERFACE (Dark Mode / HUD)
+   -------------------------------------------- */
+
+/* --------------------------------------------
+   3.1 Base Variables & System Container
+   -------------------------------------------- */
+
+[data-wrap^="bithub-"] {
+    --bithub-bg: #050505;
+    --bithub-panel: #0a0a0a;
+    --bithub-border: #1f1f1f;
+    --bithub-primary: #00f0ff; /* Cyan - Cognitive Signal */
+    --bithub-secondary: #7000ff; /* Violet - Metaphysical */
+    --bithub-alert: #ff2a2a; /* Red - Critical */
+    --bithub-success: #00ff9d; /* Green - Stable */
+    --bithub-text-main: #e0e0e0;
+    --bithub-text-dim: #666666;
+    --bithub-font-mono: 'Courier New', 'Roboto Mono', monospace;
+    
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--bithub-text-main);
+    line-height: 1.6;
+}
+
+/* --------------------------------------------
+   3.2 System Hero (The Manifold)
+   -------------------------------------------- */
+
+[data-wrap="bithub-welcome-hero"] {
+    background-color: var(--bithub-bg);
+    background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    border: 1px solid var(--bithub-border);
+    border-top: 3px solid var(--bithub-primary);
+    padding: 3rem 2rem;
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+}
+
+/* Scanline Effect */
+[data-wrap="bithub-welcome-hero"]::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
+/* --------------------------------------------
+   3.3 Logo (System Emblem)
+   -------------------------------------------- */
+
+[data-wrap="bithub-welcome-logo"] {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 3;
+    filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.3));
+}
+
+[data-wrap="bithub-welcome-logo"] img {
+    max-width: 160px;
+    height: auto;
+    display: block;
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 50%;
+    padding: 5px;
+    background: rgba(0,0,0,0.5);
+}
+
+/* --------------------------------------------
+   3.4 System Status Header
+   -------------------------------------------- */
+
+[data-wrap="bithub-welcome-title"] {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 3;
+}
+
+[data-wrap="bithub-welcome-title"] h1 {
+    font-family: var(--bithub-font-mono);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--bithub-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+[data-wrap="bithub-welcome-title"] h3 {
+    font-family: var(--bithub-font-mono);
+    font-size: 0.9rem;
+    color: var(--bithub-success);
+    margin-top: 0.5rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+[data-wrap="bithub-welcome-title"] h3::before {
+    content: '● ';
+    color: var(--bithub-success);
+    animation: bithub-blink 2s infinite;
+}
+
+@keyframes bithub-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* --------------------------------------------
+   3.5 Terminal Output Box (Intro)
+   -------------------------------------------- */
+
+[data-wrap="bithub-terminal-box"] {
+    background: rgba(10, 10, 10, 0.9);
+    border: 1px solid var(--bithub-border);
+    border-left: 2px solid var(--bithub-primary);
+    padding: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: var(--bithub-font-mono);
+    font-size: 0.95rem;
+    color: var(--bithub-text-main);
+    position: relative;
+    z-index: 3;
+    text-align: left;
+}
+
+[data-wrap="bithub-terminal-box"] strong {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* --------------------------------------------
+   3.6 Section Dividers
+   -------------------------------------------- */
+
+[data-wrap="bithub-section-header"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 3rem 0 1.5rem;
+    font-family: var(--bithub-font-mono);
+    color: var(--bithub-text-dim);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+[data-wrap="bithub-section-header"]::before,
+[data-wrap="bithub-section-header"]::after {
+    content: '';
+    height: 1px;
+    width: 50px;
+    background: var(--bithub-border);
+}
+
+/* --------------------------------------------
+   3.7 The Triad (Modules)
+   -------------------------------------------- */
+
+[data-wrap="bithub-triad-grid"] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+[data-wrap="bithub-module-card"] {
+    background: var(--bithub-panel);
+    border: 1px solid var(--bithub-border);
+    padding: 1.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+[data-wrap="bithub-module-card"]:hover {
+    border-color: var(--bithub-primary);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+}
+
+[data-wrap="bithub-module-title"] {
+    font-family: var(--bithub-font-mono);
+    color: var(--bithub-primary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    display: block;
+    border-bottom: 1px solid var(--bithub-border);
+    padding-bottom: 0.5rem;
+}
+
+[data-wrap="bithub-module-desc"] {
+    font-size: 0.9rem;
+    color: var(--bithub-text-dim);
+}
+
+/* --------------------------------------------
+   3.8 System Launcher (Desktop Icons)
+   -------------------------------------------- */
+
+[data-wrap="bithub-window-content"] {
+    background: rgba(10, 10, 10, 0.6);
+    border: 1px solid var(--bithub-border);
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+[data-wrap="bithub-icon-grid"] {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+}
+
+[data-wrap="bithub-desktop-icon"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100px;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+[data-wrap="bithub-desktop-icon"]:hover {
+    transform: translateY(-5px);
+}
+
+[data-wrap="bithub-icon-img"] {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.2));
+    transition: filter 0.2s ease;
+}
+
+[data-wrap="bithub-desktop-icon"]:hover [data-wrap="bithub-icon-img"] {
+    filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.6));
+}
+
+[data-wrap="bithub-icon-label"] {
+    font-family: var(--bithub-font-mono);
+    font-size: 0.75rem;
+    color: var(--bithub-primary);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+[data-wrap="bithub-desktop-icon"]:hover [data-wrap="bithub-icon-label"] {
+    background: rgba(0, 240, 255, 0.15);
+    border-color: var(--bithub-primary);
+    color: #fff;
+    text-shadow: 0 0 5px var(--bithub-primary);
+}
+
+[data-wrap="bithub-icon-label"] a {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* --------------------------------------------
+   3.9 Directives (Warning)
+   -------------------------------------------- */
+
+[data-wrap="bithub-directive-box"] {
+    border: 1px solid var(--bithub-alert);
+    background: rgba(255, 42, 42, 0.05);
+    color: var(--bithub-text-main);
+    padding: 1rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    font-family: var(--bithub-font-mono);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+[data-wrap="bithub-directive-label"] {
+    color: var(--bithub-alert);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* --------------------------------------------
+   3.10 Footer Status
+   -------------------------------------------- */
+
+[data-wrap="bithub-system-footer"] {
+    text-align: center;
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--bithub-border);
+    font-family: var(--bithub-font-mono);
+    font-size: 0.75rem;
+    color: var(--bithub-text-dim);
+}
+

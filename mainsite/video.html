@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BIThub | Video Learning Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#050505">
+  <link rel="icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/398146ac56f7574960047adebe96ea2fc7fedd8a_2_32x32.jpeg">
+  <link rel="apple-touch-icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/7907e6a15038616eed1feb93808e455b0382a47e_2_180x180.jpeg">
+  <style>
+    /* ══════════════════════════════════════════
+       BIThub Brand System
+       Dark HUD aesthetic from bithub.css
+    ══════════════════════════════════════════ */
+    :root {
+      --bg: #050505;
+      --bg-grid: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,240,255,0.03) 39px, rgba(0,240,255,0.03) 40px),
+                 repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(0,240,255,0.03) 39px, rgba(0,240,255,0.03) 40px);
+      --panel: #0a0a0a;
+      --panel-hover: #0f0f0f;
+      --ink: #e0e0e0;
+      --muted: #888;
+      --line: #1f1f1f;
+      --accent: #00f0ff;
+      --accent-dim: rgba(0,240,255,0.15);
+      --accent-glow: 0 0 12px rgba(0,240,255,0.4);
+      --secondary: #7000ff;
+      --warn-bg: rgba(255,200,0,0.08);
+      --warn-border: #ffb338;
+      --warn-text: #ffe93a;
+      --success: #3cff7f;
+      --radius: 0;
+      --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { 
+      margin: 0; padding: 0; width: 100%; min-height: 100%; 
+      background: var(--bg); 
+      background-image: var(--bg-grid);
+      color: var(--ink); 
+      font-family: var(--font-sans); 
+      line-height: 1.5; 
+      -webkit-font-smoothing: antialiased; 
+    }
+    body { display: flex; flex-direction: column; }
+
+    .page { width: 100%; max-width: 1320px; display: grid; grid-template-columns: 280px 1fr; gap: 24px; padding: 24px; margin: 0 auto; }
+
+    /* ══════════════════════════════════════════
+       SIDEBAR — HUD Panel
+    ══════════════════════════════════════════ */
+    .sidebar { 
+      background: var(--panel); 
+      border: 1px solid var(--line); 
+      border-top: 3px solid var(--accent);
+      padding: 20px; 
+      display: grid; 
+      gap: 20px; 
+      align-self: start; 
+      position: sticky; 
+      top: 24px; 
+      max-height: calc(100vh - 48px); 
+      overflow-y: auto;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: var(--bg); }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--accent); }
+    
+    /* Site Navigation */
+    .site-nav { 
+      padding-bottom: 16px; 
+      border-bottom: 1px solid var(--line); 
+    }
+    .site-links { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 8px; 
+      margin-top: 10px;
+    }
+    .site-links a { 
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 8px 12px;
+      background: transparent;
+      border: 1px solid var(--line);
+      transition: all 0.2s ease;
+    }
+    .site-links a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+    .site-links a.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      box-shadow: var(--accent-glow);
+    }
+    
+    .logo { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      letter-spacing: 0.1em; 
+      font-size: 14px; 
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex; 
+      align-items: center; 
+      gap: 10px;
+      text-shadow: 0 0 8px rgba(0,240,255,0.5);
+    }
+    .logo::before { 
+      content: "●"; 
+      color: var(--success); 
+      font-size: 10px;
+      animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    
+    .sidebar a { color: var(--accent); text-decoration: none; transition: all 0.2s ease; }
+    .sidebar a:hover { color: #fff; text-shadow: 0 0 6px var(--accent); }
+    
+    .sidebar .cta { 
+      padding: 16px; 
+      border: 1px solid var(--line); 
+      border-left: 2px solid var(--accent);
+      background: rgba(0,240,255,0.03);
+      display: grid; 
+      gap: 10px; 
+      font-size: 13px; 
+    }
+    .sidebar .cta strong { 
+      font-family: var(--font-mono);
+      font-size: 12px; 
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    
+    .nav-title { 
+      font-family: var(--font-mono);
+      font-weight: 600; 
+      text-transform: uppercase; 
+      letter-spacing: 0.15em; 
+      font-size: 10px; 
+      color: var(--muted); 
+      padding-bottom: 6px; 
+      border-bottom: 1px solid var(--line); 
+      margin-bottom: 4px; 
+    }
+    
+    .selector { display: grid; gap: 4px; }
+    .group { display: grid; gap: 10px; }
+    .group-label { 
+      font-family: var(--font-mono);
+      font-size: 10px; 
+      font-weight: 600; 
+      color: var(--secondary); 
+      text-transform: uppercase; 
+      letter-spacing: 0.12em; 
+      margin-top: 6px; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+    }
+    .group-label::before { 
+      content: ""; 
+      flex: 0 0 16px; 
+      height: 1px; 
+      background: linear-gradient(90deg, var(--secondary), transparent); 
+    }
+    
+    .pill { 
+      display: block; 
+      padding: 12px 14px; 
+      background: transparent;
+      color: var(--ink); 
+      font-family: var(--font-mono);
+      font-weight: 500; 
+      font-size: 12px; 
+      border: 1px solid transparent;
+      border-left: 2px solid transparent;
+      text-align: left; 
+      cursor: pointer; 
+      transition: all 0.15s ease; 
+    }
+    .pill:hover { 
+      background: var(--accent-dim);
+      border-left-color: var(--accent);
+      color: #fff;
+    }
+    .pill small { 
+      display: block; 
+      font-weight: 400; 
+      color: var(--muted); 
+      font-size: 10px; 
+      margin-top: 3px; 
+      letter-spacing: 0.02em;
+    }
+    
+    input[type="radio"] { display: none; }
+    input[type="radio"]:checked + label { 
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-left: 2px solid var(--accent);
+      box-shadow: var(--accent-glow), inset 0 0 20px rgba(0,240,255,0.05);
+    }
+    input[type="radio"]:checked + label:hover { 
+      background: rgba(0,240,255,0.2);
+    }
+    input[type="radio"]:checked + label small { color: rgba(0,240,255,0.7); }
+
+    /* ══════════════════════════════════════════
+       MAIN CONTENT — HUD Cards
+    ══════════════════════════════════════════ */
+    .main { display: grid; gap: 20px; align-content: start; }
+    
+    .card { 
+      background: var(--panel); 
+      border: 1px solid var(--line); 
+      border-top: 3px solid var(--accent);
+      padding: 24px; 
+    }
+    
+    .hero { display: grid; gap: 14px; }
+    .hero .kicker { 
+      font-family: var(--font-mono);
+      font-size: 10px; 
+      letter-spacing: 0.2em; 
+      text-transform: uppercase; 
+      color: var(--accent); 
+      font-weight: 600; 
+    }
+    .hero .kicker::before { content: "▸ "; }
+    .hero h1 { 
+      margin: 0; 
+      font-family: var(--font-mono);
+      font-size: clamp(20px, 4vw, 28px); 
+      font-weight: 700; 
+      letter-spacing: 0.02em; 
+      line-height: 1.2; 
+      color: #fff;
+      text-shadow: 0 0 20px rgba(0,240,255,0.2);
+    }
+    .hero p { margin: 0; color: var(--muted); line-height: 1.65; font-size: 14px; }
+    
+    .warn { 
+      background: var(--warn-bg); 
+      border: 1px solid var(--warn-border); 
+      border-left: 3px solid var(--warn-border);
+      padding: 14px 16px; 
+      font-size: 12px; 
+      line-height: 1.5; 
+      display: flex; 
+      gap: 12px; 
+      align-items: flex-start;
+      color: var(--ink);
+    }
+    .warn::before { 
+      content: "⚠"; 
+      font-size: 14px; 
+      flex-shrink: 0;
+      color: var(--warn-text);
+    }
+    .warn strong { 
+      display: block; 
+      margin-bottom: 4px; 
+      font-size: 11px; 
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--warn-text);
+    }
+
+    /* ══════════════════════════════════════════
+       VIDEO PANELS — Main Display
+    ══════════════════════════════════════════ */
+    .panels { position: relative; }
+    .panel { 
+      display: none; 
+      border: 1px solid var(--line); 
+      overflow: hidden; 
+      background: var(--panel);
+      box-shadow: 0 0 40px rgba(0,0,0,0.5), 0 0 80px rgba(0,240,255,0.05);
+    }
+    .panel video { 
+      width: 100%; 
+      display: block; 
+      background: #000; 
+      aspect-ratio: 16/9; 
+      object-fit: contain;
+      border-bottom: 1px solid var(--line);
+    }
+    .panel-body { 
+      padding: 24px; 
+      display: grid; 
+      gap: 12px; 
+      border-top: 3px solid var(--accent);
+    }
+    .panel .label { 
+      font-family: var(--font-mono);
+      font-size: 10px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.15em; 
+      color: var(--secondary); 
+      font-weight: 600; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px; 
+    }
+    .panel .label::before { 
+      content: ""; 
+      width: 6px; 
+      height: 6px; 
+      background: var(--accent); 
+      box-shadow: 0 0 6px var(--accent);
+    }
+    .panel h2 { 
+      margin: 0; 
+      font-family: var(--font-mono);
+      font-size: clamp(18px, 3vw, 22px); 
+      font-weight: 600; 
+      letter-spacing: 0.02em; 
+      line-height: 1.3;
+      color: #fff;
+    }
+    .panel p { margin: 0; color: var(--muted); line-height: 1.6; font-size: 14px; }
+    
+    .panel .links { 
+      display: flex; 
+      gap: 12px; 
+      flex-wrap: wrap; 
+      font-size: 13px; 
+      margin-top: 8px; 
+    }
+    .panel .links a { 
+      font-family: var(--font-mono);
+      color: var(--accent); 
+      font-weight: 500; 
+      font-size: 12px;
+      text-decoration: none; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 6px; 
+      padding: 10px 16px; 
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      transition: all 0.2s ease; 
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .panel .links a:hover { 
+      background: var(--accent);
+      color: #000;
+      box-shadow: var(--accent-glow);
+    }
+    .panel .links a::after { 
+      content: "→"; 
+      font-size: 11px; 
+      transition: transform 0.15s ease; 
+    }
+    .panel .links a:hover::after { transform: translateX(3px); }
+
+    /* Show selected panel */
+    #vid-null:checked ~ .main .panel-null,
+    #vid-bitcore:checked ~ .main .panel-bitcore,
+    #vid-metacore:checked ~ .main .panel-metacore,
+    #vid-venice:checked ~ .main .panel-venice,
+    #vid-deepseek:checked ~ .main .panel-deepseek,
+    #vid-qwen:checked ~ .main .panel-qwen,
+    #vid-researcher:checked ~ .main .panel-researcher,
+    #vid-coingecko:checked ~ .main .panel-coingecko,
+    #vid-anim:checked ~ .main .panel-anim,
+    #vid-pomodoro:checked ~ .main .panel-pomodoro,
+    #vid-chart:checked ~ .main .panel-chart,
+    #vid-complex:checked ~ .main .panel-complex,
+    #vid-node-simple:checked ~ .main .panel-node-simple,
+    #vid-node-tavily:checked ~ .main .panel-node-tavily,
+    #vid-node-crypto:checked ~ .main .panel-node-crypto,
+    #vid-node-etherscan:checked ~ .main .panel-node-etherscan,
+    #vid-node-market:checked ~ .main .panel-node-market,
+    #vid-node-blockscan:checked ~ .main .panel-node-blockscan,
+    #vid-node-milestone:checked ~ .main .panel-node-milestone,
+    #vid-hegel:checked ~ .main .panel-hegel,
+    #vid-ontology:checked ~ .main .panel-ontology,
+    #vid-satoshi:checked ~ .main .panel-satoshi,
+    #vid-combo:checked ~ .main .panel-combo,
+    #vid-workspace:checked ~ .main .panel-workspace { display: block; }
+
+    /* ══════════════════════════════════════════
+       MOBILE MENU TOGGLE (CSS-only)
+    ══════════════════════════════════════════ */
+    .menu-toggle { display: none; }
+    .menu-btn { display: none; }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE — Mobile-First Optimization
+    ══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .page { 
+        grid-template-columns: 1fr; 
+        padding: 12px; 
+        padding-top: 12px;
+        gap: 16px; 
+      }
+      
+      /* Mobile menu button */
+      .menu-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        z-index: 1000;
+        background: var(--panel);
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 14px 18px;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4), var(--accent-glow);
+        transition: all 0.2s ease;
+      }
+      .menu-btn:hover {
+        background: var(--accent);
+        color: #000;
+      }
+      .menu-btn::before {
+        content: "☰";
+        font-size: 14px;
+      }
+      
+      /* Sidebar hidden by default on mobile */
+      .sidebar { 
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 999;
+        max-height: 100vh;
+        overflow-y: auto;
+        border-top: none;
+        border: none;
+        padding: 20px;
+        padding-bottom: 80px;
+        transform: translateY(100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      /* Show sidebar when menu toggle checked */
+      .menu-toggle:checked ~ .sidebar {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      .menu-toggle:checked ~ .menu-btn::before {
+        content: "✕";
+      }
+      .menu-toggle:checked ~ .menu-btn {
+        background: var(--accent);
+        color: #000;
+      }
+      
+      .logo { font-size: 13px; margin-bottom: 8px; }
+      .group { gap: 8px; }
+      .selector { 
+        display: grid; 
+        grid-template-columns: 1fr 1fr;
+        gap: 6px; 
+      }
+      .pill { 
+        padding: 14px 12px;
+        font-size: 11px;
+        text-align: center;
+        border-left: none;
+        border-bottom: 2px solid transparent;
+      }
+      .pill:hover { 
+        border-left: none;
+        border-bottom-color: var(--accent);
+      }
+      input[type="radio"]:checked + label {
+        border-left: 1px solid var(--accent);
+        border-bottom: 2px solid var(--accent);
+      }
+      .pill small { 
+        font-size: 9px; 
+        margin-top: 4px;
+      }
+      .hero h1 { font-size: 20px; }
+      .card { padding: 18px; }
+      .panel-body { padding: 18px; }
+      .panel h2 { font-size: 17px; }
+      .panel .links a { 
+        padding: 12px 16px; 
+        width: 100%; 
+        justify-content: center;
+        font-size: 11px;
+      }
+      .warn { 
+        flex-direction: column;
+        gap: 8px;
+        font-size: 11px;
+        padding: 12px;
+      }
+      .warn::before { font-size: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 8px; gap: 12px; }
+      .sidebar { padding: 16px; gap: 14px; }
+      .sidebar .cta { padding: 12px; font-size: 12px; }
+      .selector { grid-template-columns: 1fr; gap: 4px; }
+      .pill { 
+        padding: 14px;
+        text-align: left;
+        border-left: 2px solid transparent;
+        border-bottom: none;
+      }
+      .pill:hover,
+      input[type="radio"]:checked + label { 
+        border-left: 2px solid var(--accent);
+        border-bottom: none;
+      }
+      .card { padding: 14px; }
+      .panel-body { padding: 14px; gap: 10px; }
+      .panel h2 { font-size: 16px; }
+      .panel p { font-size: 13px; }
+      .hero p { font-size: 13px; }
+      .menu-btn { 
+        bottom: 12px; 
+        right: 12px; 
+        padding: 12px 16px;
+      }
+    }
+
+    /* ══════════════════════════════════════════
+       ACCESSIBILITY
+    ══════════════════════════════════════════ */
+    .pill:focus-visible { 
+      outline: 2px solid var(--accent); 
+      outline-offset: 2px;
+      background: var(--accent-dim);
+    }
+    .panel .links a:focus-visible { 
+      outline: 2px solid var(--accent); 
+      outline-offset: 2px; 
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+
+    /* Scanline overlay effect (subtle) */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Mobile menu toggle (CSS only) -->
+    <input type="checkbox" class="menu-toggle" id="menu-toggle">
+    <label class="menu-btn" for="menu-toggle">Menu</label>
+
+    <!-- Radios drive selection (CSS only) -->
+    <input type="radio" name="vid" id="vid-null" checked>
+    <input type="radio" name="vid" id="vid-bitcore">
+    <input type="radio" name="vid" id="vid-metacore">
+    <input type="radio" name="vid" id="vid-venice">
+    <input type="radio" name="vid" id="vid-deepseek">
+    <input type="radio" name="vid" id="vid-qwen">
+    <input type="radio" name="vid" id="vid-researcher">
+    <input type="radio" name="vid" id="vid-coingecko">
+    <input type="radio" name="vid" id="vid-anim">
+    <input type="radio" name="vid" id="vid-pomodoro">
+    <input type="radio" name="vid" id="vid-chart">
+    <input type="radio" name="vid" id="vid-complex">
+    <input type="radio" name="vid" id="vid-node-simple">
+    <input type="radio" name="vid" id="vid-node-tavily">
+    <input type="radio" name="vid" id="vid-node-crypto">
+    <input type="radio" name="vid" id="vid-node-etherscan">
+    <input type="radio" name="vid" id="vid-node-market">
+    <input type="radio" name="vid" id="vid-node-blockscan">
+    <input type="radio" name="vid" id="vid-node-milestone">
+    <input type="radio" name="vid" id="vid-hegel">
+    <input type="radio" name="vid" id="vid-ontology">
+    <input type="radio" name="vid" id="vid-satoshi">
+    <input type="radio" name="vid" id="vid-combo">
+    <input type="radio" name="vid" id="vid-workspace">
+
+    <aside class="sidebar">
+      <div class="logo">BIThub // Video Hub</div>
+      
+      <!-- Site Navigation -->
+      <div class="site-nav">
+        <div class="nav-title">Navigate</div>
+        <div class="site-links">
+          <a href="/welcome">Home</a>
+          <a href="/products">Products</a>
+          <a href="/docs">Docs</a>
+          <a href="/videos" class="active">Videos</a>
+          <a href="/podcast">Podcast</a>
+          <a href="/aboutus">About</a>
+          <a href="/access">Access</a>
+        </div>
+      </div>
+
+      <div class="cta">
+        <strong>// System Links</strong>
+        <a href="https://hub.bitwiki.org/" target="_blank">↳ hub.bitwiki.org</a>
+        <div class="nav-title" style="margin-top:8px;">Quick Access</div>
+        <div class="selector" style="font-size:12px; gap:6px;">
+          <a href="https://hub.bitwiki.org/t/welcome-to-bithub/5" target="_blank">↳ Welcome</a>
+          <a href="https://hub.bitwiki.org/t/ai-model-offerings-and-limitations/375" target="_blank">↳ Model offerings</a>
+          <a href="https://hub.bitwiki.org/c/meta/guides/28" target="_blank">↳ All guides</a>
+          <a href="https://hub.bitwiki.org/tag/bithub" target="_blank">↳ Tag: BIThub</a>
+          <a href="https://hub.bitwiki.org/t/bithubs-value-proposition/297" target="_blank">↳ Value proposition</a>
+        </div>
+      </div>
+
+      <div class="nav-title">Select a walkthrough</div>
+
+      <!-- Constructs -->
+      <div class="group">
+        <div class="group-label">Constructs</div>
+        <div class="selector">
+          <label class="pill" for="vid-null">0-NULL<small>Nullify engagement</small></label>
+          <label class="pill" for="vid-bitcore">BITCORE<small>Cognition engine</small></label>
+          <label class="pill" for="vid-metacore">METACORE<small>Metadata classifier</small></label>
+        </div>
+      </div>
+
+      <!-- Models -->
+      <div class="group">
+        <div class="group-label">Models</div>
+        <div class="selector">
+          <label class="pill" for="vid-venice">Venice Uncensored<small>Unconstrained reasoning</small></label>
+          <label class="pill" for="vid-deepseek">DeepSeek-R1-671B<small>Deep chain-of-thought</small></label>
+          <label class="pill" for="vid-qwen">Qwen3-235B<small>General reasoning</small></label>
+        </div>
+      </div>
+
+      <!-- Tools -->
+      <div class="group">
+        <div class="group-label">Tools</div>
+        <div class="selector">
+          <label class="pill" for="vid-researcher">Forum Researcher<small>Search conversations</small></label>
+          <label class="pill" for="vid-coingecko">CoinGecko<small>Live token pricing</small></label>
+        </div>
+      </div>
+
+      <!-- Web Artifacts -->
+      <div class="group">
+        <div class="group-label">Web Artifacts</div>
+        <div class="selector">
+          <label class="pill" for="vid-anim">Simple Animation<small>Inline validation</small></label>
+          <label class="pill" for="vid-pomodoro">Pomodoro App<small>Timed workflows</small></label>
+          <label class="pill" for="vid-chart">Dynamic Chart<small>Data visualization</small></label>
+          <label class="pill" for="vid-complex">Complex Animations<small>Multi-component</small></label>
+        </div>
+      </div>
+
+      <!-- Nodes -->
+      <div class="group">
+        <div class="group-label">Nodes</div>
+        <div class="selector">
+          <label class="pill" for="vid-node-simple">Reasoning Agent<small>Memory + math + wiki</small></label>
+          <label class="pill" for="vid-node-tavily">Tavily Search<small>Web research</small></label>
+          <label class="pill" for="vid-node-crypto">Crypto Signals<small>ETH markets</small></label>
+          <label class="pill" for="vid-node-etherscan">Etherscan<small>Block scanning</small></label>
+          <label class="pill" for="vid-node-market">Market Signals<small>Signal processing</small></label>
+          <label class="pill" for="vid-node-blockscan">Blockscan<small>Chain analysis</small></label>
+          <label class="pill" for="vid-node-milestone">Milestone<small>Project tracking</small></label>
+        </div>
+      </div>
+
+      <!-- Cores -->
+      <div class="group">
+        <div class="group-label">Cores</div>
+        <div class="selector">
+          <label class="pill" for="vid-hegel">Hegel<small>Dialectic reasoning</small></label>
+          <label class="pill" for="vid-ontology">Ontology<small>GitHub upload</small></label>
+          <label class="pill" for="vid-satoshi">Satoshi<small>Token analysis</small></label>
+          <label class="pill" for="vid-combo">Hegel + Researcher<small>Combined workflow</small></label>
+        </div>
+      </div>
+
+      <!-- Workspaces -->
+      <div class="group">
+        <div class="group-label">Workspaces</div>
+        <div class="selector">
+          <label class="pill" for="vid-workspace">Prompt Generator<small>Stylized injections</small></label>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="card hero">
+        <div class="kicker">Learning Hub</div>
+        <h1>BIThub Video Walkthroughs</h1>
+        <p>Select a feature from the sidebar to load its walkthrough. One focused video at a time—no clutter, just context.</p>
+        <div class="warn">
+          <div><strong>// Playback Notice</strong>
+          Speed-edited videos (Notion hosted). Use playback controls to adjust pace. On mobile, rotate to landscape for optimal viewing.</div>
+        </div>
+      </section>
+
+      <section class="panels">
+        <article class="panel panel-null">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/2691fe4d-7930-4308-b4e8-4dfda260ba9a/null_construct.mp4?table=block&id=246af8a1-8d75-80c6-9ff3-da2cc3a4a632&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=5Og8OPotalksVFqB8V-uQRcObt99pTqg5C8dsvbLK0g&downloadName=null_construct.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Construct</div>
+            <h2>0-NULL Construct</h2>
+            <p>Engagement-nullifying interaction state for cognitive sovereignty.</p>
+            <div class="links"><a href="https://hub.bitwiki.org/t/null-null-absolute-constructs/183" target="_blank">Read documentation</a></div>
+          </div>
+        </article>
+
+        <article class="panel panel-bitcore">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/d731d9bc-9a1f-48ac-a264-cafb518f6952/bitcore_construct.mp4?table=block&id=246af8a1-8d75-80c7-b05f-c0546cbd048d&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=33fZkmJh7Qj8UmXTtb0kxM6CFKS9k2d4NvnhwLg_VoM&downloadName=bitcore_construct.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Construct</div>
+            <h2>BITCORE Construct</h2>
+            <p>Cognition engine for structural logic and recursive inference.</p>
+            <div class="links"><a href="https://hub.bitwiki.org/t/bitcore-the-cognition-engine-of-bithub/246" target="_blank">Read documentation</a></div>
+          </div>
+        </article>
+
+        <article class="panel panel-metacore">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/d9a8f974-d74e-408b-a18f-e78045507af8/metacore_construct.mp4?table=block&id=246af8a1-8d75-80fb-8b3b-fbf16c86cda7&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=zqISuZk8tQm68ubuW2RjUyl_BPbtFHl56KBBMHF1ACM&downloadName=metacore_construct.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Construct</div>
+            <h2>METACORE Construct</h2>
+            <p>Procedural metadata classification engine; enrich inputs before inference.</p>
+            <div class="links"><a href="https://hub.bitwiki.org/t/metacore-the-metadata-cognitive-engine/243" target="_blank">Read documentation</a></div>
+          </div>
+        </article>
+
+        <article class="panel panel-venice">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/6e6bc9b1-1d12-486e-bb1c-0343e3c0061c/cortana_venice_uncensored.mp4?table=block&id=246af8a1-8d75-80fb-acb6-cf8a457159be&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=Buu_IqP2-hzhvC-3Mqx1cc_R22HE9EuVFYrLtgATpAc&downloadName=cortana_venice_uncensored.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Model</div>
+            <h2>Coretographer - Venice Uncensored</h2>
+            <p>Persona tuned for unconstrained reasoning.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-deepseek">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/f084186d-89a2-48db-ac14-ddddcac11b0a/cortana_deepseek.mp4?table=block&id=246af8a1-8d75-8020-a3ed-f7c0446aa3e3&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=0nxYZNnmxmK5paX4r47clfirMDLBFEltVeN2PPgy4bg&downloadName=cortana_deepseek.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Model</div>
+            <h2>Coretographer - DeepSeek-R1-671B</h2>
+            <p>High-parameter LLM for deep chain-of-thought.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-qwen">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/daea317a-bc93-4fd2-ac6b-46a0396df9b2/cortana_qwen235.mp4?table=block&id=246af8a1-8d75-80c6-bc48-eb5bf71f59fa&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=9--Tue-OTBkrTK18IovXnaySKs7sWd1RXc_SUNY9hU8&downloadName=cortana_qwen235.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Model</div>
+            <h2>Coretographer - Qwen3-235B</h2>
+            <p>Balanced semantic substrate for general-purpose reasoning.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-researcher">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/5beffe47-4015-46dd-9e4d-c5cab77a77db/forum_researcher.mp4?table=block&id=247af8a1-8d75-8038-98bd-ea85b07ff0b9&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=XTV5y2YPXpoFlx4vYPLiDXTqaIjspNhqpwVM5ah2ERM&downloadName=forum_researcher.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Tool</div>
+            <h2>Forum Researcher</h2>
+            <p>Search private conversations for recursive reasoning context.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-coingecko">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/6a642d2a-dd87-44d7-bf8f-1fcbf5661bdb/cigecko.mp4?table=block&id=24aaf8a1-8d75-8036-a70e-f85b7823bf10&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=i5OTyO-jD-uWdBsJNeNHIlIJ70eSLxte3O17DfSRBno&downloadName=cigecko.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Tool</div>
+            <h2>CoinGecko Price Tool</h2>
+            <p>Fetches live token pricing during agent runs.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-anim">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/220936a3-86f5-4900-9347-62ff907386c0/simple_animation_web_artifact.mp4?table=block&id=247af8a1-8d75-80e3-8bfd-f1cd923221ae&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=yDDRfJjK-V38qM_JkgV8bopnRBXVBaUI4zASw07Laik&downloadName=simple+animation+web+artifact.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Web Artifact</div>
+            <h2>Simple Animation</h2>
+            <p>Small artifact for inline validation.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-pomodoro">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/6eff023f-3ba9-4134-9a53-991f2c98ca56/web_artifact.mp4?table=block&id=247af8a1-8d75-8056-a6ba-c9f8e8292cc2&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=aqVoN5AdYwzTWaqyw7j9y-7--clgGqw5Vsee9jDfH_E&downloadName=web_artifact.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Web Artifact</div>
+            <h2>Pomodoro App</h2>
+            <p>App tool web artifact to demo timed workflows.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-chart">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/41297136-7b3d-4540-bdcb-66223e468aba/simple_chart_with_dynamic_data.mp4?table=block&id=247af8a1-8d75-80c4-a96b-e4786cc96b27&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=6jXjdnZ_I8lTisAa03E6cMa7ryYLRsv0wtd7t1J6hgA&downloadName=simple+chart+with+dynamic+data.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Web Artifact</div>
+            <h2>Dynamic Chart</h2>
+            <p>Dynamic data visualization rendered as a web artifact.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-complex">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/4cba2023-3fd9-44f4-afa2-c946847e45fb/more_complex_animations_and_artifacts.mp4?table=block&id=247af8a1-8d75-80dd-93ec-e3fdfda7dc2a&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=qPnP1CnPKo4kjER1Jkyycoh_Y9Puagm1dwv1f6_F0Rs&downloadName=more+complex+animations+and+artifacts.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Web Artifact</div>
+            <h2>Complex Animations</h2>
+            <p>More layered animations and multi-component outputs.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-node-simple">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/94ea1ca1-640b-48b7-966d-2f798755fcb9/simple_agent_node_and_n8n.mp4?table=block&id=247af8a1-8d75-80e1-8960-efed0bedcba1&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=lBPGJmOyPiin08RJc-CzJNtzv1OA1_O8TPrNc1TrsWg&downloadName=simple+agent+node+and+n8n.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Node</div>
+            <h2>Simple Context Reasoning Agent</h2>
+            <p>Single-chat endpoint with memory, reasoning, math, and live Wikipedia lookup.</p>
+            <div class="links"><a href="https://hub.bitwiki.org/t/simple-context-reasoning-agent/661" target="_blank">Topic link</a></div>
+          </div>
+        </article>
+
+        <article class="panel panel-node-tavily">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/9c6c2a40-2099-4a6c-950d-59b61f22fa01/tavily.mp4?table=block&id=248af8a1-8d75-80db-adec-db7a76ba13cb&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=Qgstj6wv0X94k-wf9DwztC3J_M0cy7uNmIx2H9ztQe4&downloadName=tavily.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Node</div>
+            <h2>Tavily Web Search</h2>
+            <p>Web research inference with Tavily search integrated.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-node-crypto">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/a87e5e4b-4a1a-43df-be88-972b9fac6d37/signals_eth_crypto_markets.mp4?table=block&id=250af8a1-8d75-80b4-b0a2-e457c92a94cc&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=ZDHqQ3xwGevNGW7MDlibD3mbw_7ejUx8BIs0pf2wnIY&downloadName=signals+eth+crypto+markets.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Node</div>
+            <h2>Crypto Markets and Signals</h2>
+            <p>Signals, Etherscan checks, and milestone monitoring from node chats.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-node-etherscan">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/059bc836-8050-4e64-8b09-de7989c79c8c/etherscan_blockscan.mp4?table=block&id=247af8a1-8d75-8069-974c-ddc0acc5838e&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=Tkk9zZI_c8PRuL0Yx1tx1hIsziIo7oKax4fPF3sDANU&downloadName=etherscan_blockscan.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Node</div>
+            <h2>Etherscan Blockscan</h2>
+            <p>Deep dive into block scanning.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-node-market">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/755887db-ba11-4aa4-85b9-33b6859e0f13/crypto_node_market_signals.mp4?table=block&id=250af8a1-8d75-8022-9e43-fb58cb22c70d&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=5uAWbqyZNftUUkBqaQQHTCwg3EwCQ3PWYETd1POkndo&downloadName=crypto+node+market+signals.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Node</div>
+            <h2>Crypto Node Market Signals</h2>
+            <p>Automated market signal processing.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-node-blockscan">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/252b8160-0718-4e99-bedf-1e4359a49f83/blockscan_analyst.mp4?table=block&id=249af8a1-8d75-80e7-8b6d-fd743e651df5&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=_55tICDaEXmMmKo54mKaBLzPCgsPMhR9F9XWQ9sz1KY&downloadName=blockscan_analyst.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Node</div>
+            <h2>Blockscan Specialist</h2>
+            <p>Specialized agent for blockchain analysis.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-node-milestone">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/4867577c-3376-4b4d-b1cb-d5c96b380b15/milestone_crypto.mp4?table=block&id=250af8a1-8d75-803e-a2ea-c664d41203d3&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=Do454hN38J7VVsI7O_l6qo0Wsm1lNCSStBa7GrcXazY&downloadName=milestone+crypto.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Node</div>
+            <h2>Project Milestone</h2>
+            <p>Tracking project milestones via crypto signals.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-hegel">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/1d771182-dee4-414c-b20b-da77c5e96d1d/hegel_core.mp4?table=block&id=248af8a1-8d75-807c-8c3e-d3d2e1cb6cdc&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=GdAsD7pw091mg86e89BAUracCAb_QBkmRFN8w4SpZF4&downloadName=hegel+core.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Core</div>
+            <h2>Hegel CORE</h2>
+            <p>Thesis to antisynthesis multi-response reasoning.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-ontology">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/92639504-dd71-4162-8646-4b7bfe067951/ontology.mp4?table=block&id=248af8a1-8d75-8049-a5ec-c592f7c585e5&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=EATCqdFAOY0RubgQq8QGnMAXwseuZ_R9nAzCwDLPJp8&downloadName=ontology.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Core</div>
+            <h2>Ontology CORE</h2>
+            <p>Posts auto-uploaded to GitHub for downstream context and reuse.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-satoshi">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/f1f38f25-5c00-462d-b46b-5d6caf4409da/satoshicore.mp4?table=block&id=250af8a1-8d75-808c-af70-e7946da0340f&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=u1gxI8oV9acWmN-WcS99iPgn6r1aMSfqD7k08v4RRAI&downloadName=satoshicore.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Core</div>
+            <h2>Satoshi CORE</h2>
+            <p>Market research and token analysis inside the core workflow.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-combo">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/81d873da-13c2-4cca-9bd8-578967834564/forum_researcher_hegel_core.mp4?table=block&id=250af8a1-8d75-80e2-a9f0-e861ca41e0dd&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=o-q5ApVDmffiasmmQPglmNvoXHqamlIxqr2E3JqVD94&downloadName=forum+researcher+hegel_core.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Core</div>
+            <h2>Hegel + Forum Researcher</h2>
+            <p>Composite workflow combining Researcher context with dialectic reasoning.</p>
+          </div>
+        </article>
+
+        <article class="panel panel-workspace">
+          <video controls muted playsinline src="https://file.notion.so/f/f/dedaf8a1-8d75-810d-ab69-000304d9f2c7/02e528e0-5e01-49a4-ab97-8789d7b3eedd/prmppt_generator.mp4?table=block&id=24aaf8a1-8d75-8081-80de-d57adf055030&spaceId=dedaf8a1-8d75-810d-ab69-000304d9f2c7&expirationTimestamp=1765684800000&signature=sNbrYibQIFqBiHDGLoH3CK3p6OZxh89zmR8ipuHTDz8&downloadName=prmppt+generator.mp4"></video>
+          <div class="panel-body">
+            <div class="label">Workspace</div>
+            <h2>Prompt Generator</h2>
+            <p>Turns a simple prompt into a stylized injection workflow.</p>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

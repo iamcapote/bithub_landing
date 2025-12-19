@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="BIThub invitation to the Agent Zero community. Collaborative research, autonomous agent workflows, and system design.">
+<title>BIThub – Invitation to Agent Zero Community</title>
+<style>
+:root {
+  --bg-main: #05060b;
+  --bg-alt: #0c1018;
+  --bg-card: #111623;
+  --bg-soft: #171e2b;
+  --accent: #00b3ff;
+  --accent-soft: rgba(0, 179, 255, 0.12);
+  --text-main: #e7e9ec;
+  --text-soft: #a7b1c2;
+  --border-subtle: #222a3a;
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.65);
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+  background: radial-gradient(circle at top left, #1b2735 0, #05060b 48%, #020308 100%);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page-shell {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 20px 56px;
+}
+
+.hero {
+  border-radius: 20px;
+  padding: 64px 28px 52px;
+  background: radial-gradient(circle at 0% 0%, rgba(0, 179, 255, 0.20), transparent 55%), radial-gradient(circle at 100% 0%, rgba(77, 91, 255, 0.18), transparent 55%), linear-gradient(145deg, #060712, #05060b 40%, #05060b 100%);
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 19px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+}
+
+.hero-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 28px;
+}
+
+.hero-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.pill {
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(1, 7, 18, 0.8);
+  border: 1px solid rgba(0, 179, 255, 0.4);
+  color: #badeff;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #00ff99;
+  box-shadow: 0 0 8px rgba(0, 255, 153, 0.8);
+}
+
+.hero h1 {
+  font-size: 3rem;
+  line-height: 1.1;
+  margin: 0 0 10px;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.hero-gradient-word {
+  background: linear-gradient(120deg, #00e0ff, #4df2ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-subtitle {
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 1.12rem;
+  color: #c0c9d8;
+}
+
+.hero-subtitle span {
+  color: #e7f1ff;
+  font-weight: 500;
+}
+
+.hero-actions {
+  position: relative;
+  z-index: 1;
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.btn-primary, .btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.9rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.96rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, background 0.18s ease-out, border-color 0.18s ease-out;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #00b3ff, #00e0ff);
+  color: #020308;
+  box-shadow: 0 12px 35px rgba(0, 179, 255, 0.55);
+  border: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(0, 179, 255, 0.7);
+  background: linear-gradient(135deg, #00c5ff, #20f2ff);
+}
+
+.btn-ghost {
+  background: rgba(5, 8, 20, 0.8);
+  border: 1px solid rgba(130, 152, 255, 0.65);
+  color: #d7ddff;
+}
+
+.btn-ghost:hover {
+  background: rgba(13, 19, 42, 0.98);
+  transform: translateY(-1px);
+  border-color: #a3b3ff;
+}
+
+.btn-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  opacity: 0.72;
+  margin-left: 8px;
+}
+
+.hero-meta {
+  position: relative;
+  z-index: 1;
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  font-size: 0.8rem;
+  color: #9eabc3;
+}
+
+.meta-chip {
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(7, 11, 28, 0.9);
+  border: 1px solid rgba(116, 139, 204, 0.6);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-chip strong {
+  color: #dbe6ff;
+  font-weight: 500;
+}
+
+.meta-divider {
+  width: 1px;
+  height: 22px;
+  background: linear-gradient(to bottom, transparent, rgba(132, 150, 200, 0.75), transparent);
+}
+
+.section {
+  margin-top: 52px;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.section-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #7e8aa0;
+}
+
+.section-title {
+  font-size: 1.6rem;
+  margin: 4px 0 0;
+  color: #f3f5fa;
+}
+
+.section-kicker {
+  font-size: 0.92rem;
+  color: #9ea8bc;
+  max-width: 380px;
+  text-align: right;
+}
+
+.section-kicker span {
+  color: #dfe7ff;
+  font-weight: 500;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  background: radial-gradient(circle at top left, rgba(0, 179, 255, 0.16), transparent 55%), var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 22px 20px 20px;
+  border: 1px solid rgba(54, 70, 110, 0.8);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.65);
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  pointer-events: none;
+}
+
+.feature-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(6, 14, 30, 0.95);
+  border: 1px solid rgba(102, 185, 255, 0.6);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #beddff;
+  margin-bottom: 12px;
+}
+
+.feature-title {
+  font-size: 1.22rem;
+  margin: 0 0 8px;
+  color: #ffffff;
+}
+
+.feature-body {
+  font-size: 0.95rem;
+  color: #b7c2d3;
+  margin: 0 0 10px;
+}
+
+.feature-meta-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  font-size: 0.84rem;
+  color: #8893a5;
+}
+
+.feature-meta-list li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.bullet-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(0, 179, 255, 0.9);
+}
+
+.personas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.persona-card {
+  background: var(--bg-alt);
+  border-radius: var(--radius-md);
+  padding: 18px 16px 16px;
+  border: 1px solid var(--border-subtle);
+}
+
+.persona-title {
+  font-size: 0.98rem;
+  margin: 0 0 6px;
+  color: #f3f6ff;
+}
+
+.persona-body {
+  font-size: 0.86rem;
+  color: #98a3b8;
+  margin: 0;
+}
+
+.persona-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7d8aa3;
+  margin-bottom: 4px;
+}
+
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.quick-link-card {
+  background: var(--bg-soft);
+  border-radius: var(--radius-md);
+  padding: 14px 14px 12px;
+  border: 1px solid rgba(46, 64, 100, 0.9);
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quick-link-title {
+  font-size: 0.94rem;
+  color: #e2e7f5;
+  margin: 0;
+}
+
+.quick-link-desc {
+  font-size: 0.8rem;
+  color: #9aa4b8;
+  margin: 0 0 6px;
+}
+
+.quick-link-anchor {
+  font-size: 0.82rem;
+  color: #7fd4ff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.quick-link-anchor:hover {
+  text-decoration: underline;
+}
+
+.arrow {
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+.contact {
+  margin-top: 54px;
+  background: linear-gradient(135deg, #070b12, #05060b 55%, #05060b 100%);
+  border-radius: 18px;
+  padding: 28px 22px 24px;
+  border: 1px solid rgba(64, 96, 150, 0.9);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+  gap: 26px;
+}
+
+.contact-heading {
+  font-size: 1.32rem;
+  margin: 0 0 10px;
+  color: #f5f7ff;
+}
+
+.contact-text {
+  font-size: 0.94rem;
+  color: #afb8ca;
+  margin: 0 0 8px;
+}
+
+.contact-highlight {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.contact-small {
+  font-size: 0.82rem;
+  color: #8792a8;
+  margin: 6px 0 0;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-form input, .contact-form textarea {
+  width: 100%;
+  padding: 0.85rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #253247;
+  background: #070c16;
+  color: var(--text-main);
+  font-size: 0.93rem;
+  outline: none;
+  transition: border-color 0.18s ease-out, box-shadow 0.18s ease-out, background 0.18s ease-out;
+  resize: vertical;
+  min-height: 0;
+}
+
+.contact-form input::placeholder, .contact-form textarea::placeholder {
+  color: #556078;
+}
+
+.contact-form input:focus, .contact-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(0, 179, 255, 0.45);
+  background: #050912;
+}
+
+.contact-form button {
+  margin-top: 4px;
+  width: 100%;
+  padding: 0.9rem;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.96rem;
+  font-weight: 500;
+  background: linear-gradient(135deg, #00b3ff, #00e0ff);
+  color: #020308;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(0, 179, 255, 0.75);
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, background 0.18s ease-out;
+}
+
+.contact-form button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px rgba(0, 179, 255, 0.9);
+  background: linear-gradient(135deg, #00c5ff, #21f1ff);
+}
+
+footer {
+  margin-top: 40px;
+  padding: 26px 4px 6px;
+  text-align: center;
+  font-size: 0.82rem;
+  color: #748097;
+  border-top: 1px solid rgba(38, 48, 70, 0.9);
+}
+
+footer strong {
+  color: #dde5f5;
+  font-weight: 500;
+}
+
+footer a {
+  color: #6fd1ff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 840px) {
+  .hero { padding: 52px 18px 42px; }
+  .hero h1 { font-size: 2.35rem; }
+  .hero-subtitle { font-size: 1.02rem; }
+  .section { margin-top: 42px; }
+}
+
+@media (max-width: 720px) {
+  .section-header { flex-direction: column; align-items: flex-start; }
+  .section-kicker { max-width: none; text-align: left; font-size: 0.9rem; }
+  .contact { grid-template-columns: minmax(0, 1fr); padding: 22px 18px 20px; }
+}
+
+@media (max-width: 540px) {
+  .page-shell { padding: 26px 14px 40px; }
+  .hero { padding: 40px 16px 34px; border-radius: 16px; }
+  .hero-pill-row { gap: 8px; }
+  .hero h1 { font-size: 2.05rem; }
+  .hero-actions { flex-direction: column; }
+  .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+<div class="page-shell">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-header">
+      <div class="hero-pill-row">
+        <div class="pill">
+          <span class="pill-dot"></span>
+          <span>BitWiki Node</span>
+        </div>
+        <div class="pill">
+          <span>BIThub</span>
+          <span class="btn-label">Community · Knowledge · Intelligence</span>
+        </div>
+      </div>
+      <h1>Welcome to <span class="hero-gradient-word">BIThub</span></h1>
+      <p class="hero-subtitle">
+        The community front-end of the <span>BitWiki ecosystem</span> – an invitation to the Agent Zero community for collaborative research, system design, and autonomous agent workflows.
+      </p>
+    </div>
+
+    <div class="hero-actions">
+      <a href="/latest" class="btn-primary">
+        Enter BIThub
+        <span class="btn-label">View latest activity</span>
+      </a>
+      <a href="https://www.agent-zero.ai/" class="btn-ghost" target="_blank" rel="noopener">
+        Open Agent Zero
+        <span class="btn-label">Project site</span>
+      </a>
+    </div>
+
+    <div class="hero-meta">
+      <div class="meta-chip">
+        <span>hub.bitwiki.org</span>
+        <span>·</span>
+        <strong>Discourse-powered node</strong>
+      </div>
+      <div class="meta-divider"></div>
+      <div class="meta-chip">
+        <span>Focused on</span>
+        <strong>security, systems, emergent intelligence</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE VALUE PROPS -->
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-label">What lives here</div>
+        <h2 class="section-title">A convergence layer for autonomous agent builders</h2>
+      </div>
+      <p class="section-kicker">
+        BIThub is the conversational layer for builders of systems like Agent Zero – threads, labs, designs and experiments that feed a permanent knowledge base.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <article class="feature-card">
+        <div class="feature-tag">
+          <span>01 · Knowledge</span>
+        </div>
+        <h3 class="feature-title">Signal-rich discussion</h3>
+        <p class="feature-body">
+          Deep threads on autonomous agent architectures, security models, and operational post-mortems. Every high-quality conversation is mapped into BitWiki for long-term reference.
+        </p>
+        <ul class="feature-meta-list">
+          <li><span class="bullet-dot"></span><span>Structured categories for agent frameworks, tooling, and research.</span></li>
+          <li><span class="bullet-dot"></span><span>Long-form posts, architectural diagrams, and deployment artefacts.</span></li>
+        </ul>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-tag">
+          <span>02 · Workflows</span>
+        </div>
+        <h3 class="feature-title">AI-native collaboration</h3>
+        <p class="feature-body">
+          Use BIThub as the coordination space for autonomous agents, nodes, and constructs. Design, test, and iterate on multi-agent systems and Docker-based workflows with the community.
+        </p>
+        <ul class="feature-meta-list">
+          <li><span class="bullet-dot"></span><span>Bridge Discourse topics with BitWiki's graph-driven views for agent logic.</span></li>
+          <li><span class="bullet-dot"></span><span>Coordinate virtual computer environments and sandboxed execution.</span></li>
+        </ul>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-tag">
+          <span>03 · Ecosystem</span>
+        </div>
+        <h3 class="feature-title">Builders, researchers & operators</h3>
+        <p class="feature-body">
+          A focused environment for people working on open-source AI, autonomous systems, security, and infrastructure. Turn ad-hoc agent experiments into reusable, referenceable knowledge.
+        </p>
+        <ul class="feature-meta-list">
+          <li><span class="bullet-dot"></span><span>Share experiments, datasets, architectures, and tooling for frameworks like Agent Zero.</span></li>
+          <li><span class="bullet-dot"></span><span>Operational learnings for running 24/7 autonomous agents in production.</span></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- WHO IT'S FOR / PERSONAS -->
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Who BIThub is for</div>
+        <h2 class="section-title">Plug in at the layer that matches your role</h2>
+      </div>
+      <p class="section-kicker">
+        You can arrive as an observer and gradually move into contributor, maintainer or architect roles as your work deepens.
+      </p>
+    </div>
+
+    <div class="personas-grid">
+      <article class="persona-card">
+        <div class="persona-tag">Agent Builders</div>
+        <h3 class="persona-title">Systems, infra & toolsmiths</h3>
+        <p class="persona-body">
+          Share architectures, threat models, pipelines and automation flows for autonomous agents. Use BIThub threads as the review layer for your BitWiki contributions on multi-agent cooperation and memory systems.
+        </p>
+      </article>
+
+      <article class="persona-card">
+        <div class="persona-tag">Researchers</div>
+        <h3 class="persona-title">Security, AI & complexity</h3>
+        <p class="persona-body">
+          Publish notes, working hypotheses and experiment logs on agentic AI, then distill the results into stable BitWiki pages when the signal stabilises.
+        </p>
+      </article>
+
+      <article class="persona-card">
+        <div class="persona-tag">Operators</div>
+        <h3 class="persona-title">Running real systems</h3>
+        <p class="persona-body">
+          Bring incident reports, playbooks and operational learnings from running autonomous agents like Agent Zero. Turn live problems into patterns the rest of the ecosystem can reuse.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- QUICK ENTRY LINKS -->
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Jump in</div>
+        <h2 class="section-title">Start from a practical entry point</h2>
+      </div>
+    </div>
+
+    <div class="quick-links">
+      <div class="quick-link-card">
+        <h3 class="quick-link-title">Live activity</h3>
+        <p class="quick-link-desc">See what the community is actively working on right now.</p>
+        <a href="/latest" class="quick-link-anchor">
+          /latest
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="quick-link-card">
+        <h3 class="quick-link-title">Topic map</h3>
+        <p class="quick-link-desc">Browse by category: autonomous agents, research, operations, design reviews.</p>
+        <a href="/categories" class="quick-link-anchor">
+          /categories
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="quick-link-card">
+        <h3 class="quick-link-title">Agent Zero GitHub</h3>
+        <p class="quick-link-desc">Code, issues, PRs, and the current implementation details.</p>
+        <a href="https://github.com/agent0ai/agent-zero" class="quick-link-anchor" target="_blank" rel="noopener">
+          github.com/agent0ai/agent-zero
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="quick-link-card">
+        <h3 class="quick-link-title">BitWiki docs</h3>
+        <p class="quick-link-desc">Move from discussion to the underlying documentation and knowledge graph.</p>
+        <a href="https://bitwiki.org" class="quick-link-anchor">
+          bitwiki.org
+          <span class="arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact">
+    <div>
+      <h2 class="contact-heading">Need a human entry point?</h2>
+      <p class="contact-text">
+        BIThub is still evolving. If you're building with Agent Zero or similar frameworks and want to propose a collaboration, use this channel to reach the maintainers.
+      </p>
+      <p class="contact-text">
+        Mention any existing BitWiki pages, repositories or projects that should be linked in.
+      </p>
+      <p class="contact-small">
+        Messages here route to the BIThub coordination team. <span class="contact-highlight">Keep it concise and concrete.</span>
+      </p>
+    </div>
+
+    <form class="contact-form">
+      <input type="email" placeholder="Contact email or handle" required />
+      <textarea rows="4" placeholder="What are you building, researching or running that should connect to BIThub? (e.g., Agent Zero deployments, multi-agent systems, security models)" required></textarea>
+      <button type="submit">Send to BIThub maintainers</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <strong>BIThub</strong> is the Discourse community node for the BitWiki ecosystem.
+      Serving as the conversational edge of a permanent, open knowledge base.
+    </div>
+    <div style="margin-top:6px;">
+      <a href="https://hub.bitwiki.org">hub.bitwiki.org</a> ·
+      <a href="https://bitwiki.org">bitwiki.org</a> ·
+      <a href="https://www.agent-zero.ai/" target="_blank" rel="noopener">agent-zero.ai</a>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

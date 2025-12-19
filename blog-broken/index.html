@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>BIThub | Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#111111">
+    <link rel="icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/398146ac56f7574960047adebe96ea2fc7fedd8a_2_32x32.jpeg">
+    <link rel="apple-touch-icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/7907e6a15038616eed1feb93808e455b0382a47e_2_180x180.jpeg">
+  </head>
+
+  <% if current_user %>
+    <% set_category_user('blog') %>
+  <% end %>
+
+  <body class="landing-page blog-index">
+    <div class="bitcore-landing">
+
+      <!-- NAV HEADER -->
+      <nav class="bitcore-nav">
+        <div class="bitcore-logo">BITCORE</div>
+
+        <input type="checkbox" id="bitcore-nav-check" class="bitcore-nav-check" aria-hidden="true">
+        <label for="bitcore-nav-check" class="bitcore-menu-toggle" aria-label="Toggle menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </label>
+
+        <div class="bitcore-menu-items">
+          <a href="/welcome" class="bitcore-menu-link">Home</a>
+          <a href="/products" class="bitcore-menu-link">Products</a>
+          <a href="/docs" class="bitcore-menu-link">Docs</a>
+          <a href="/aboutus" class="bitcore-menu-link">About</a>
+          <a href="/access" class="bitcore-menu-link">Access</a>
+        </div>
+      </nav>
+
+      <!-- HERO -->
+      <header class="blog-hero">
+        <div class="hero-tag">BIThub · Blog</div>
+        <h1>Signals from the inference layer</h1>
+        <p class="hero-sub">Dispatches from Nodes, Cores, and the knowledge graph. Concise, image-light, built for quick reading.</p>
+      </header>
+
+      <!-- TOPIC LIST -->
+      <section class="blog-section">
+        <div class="section-head">
+          <div class="section-title">Latest posts</div>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="topic-grid">
+          <%= topic_list(
+            opts: { render_list: true },
+            list_opts: {
+              category: 28,
+              no_definitions: true,
+              per_page: 12,
+              page: params[:page]
+            },
+            item_opts: {
+              excerpt_length: 40,
+              include_avatar: false,
+              profile_details: false,
+              avatar_size: 48
+            }
+          ) %>
+        </div>
+      </section>
+
+      <footer class="blog-footer">
+        <div class="footer-left">
+          <span class="footer-kicker">BITCORE</span>
+          <span class="footer-text">Human + agent collaborative intelligence</span>
+        </div>
+        <a class="footer-link" href="https://bitwiki.org">BITwiki</a>
+        <a class="footer-link" href="https://hub.bitwiki.org">BIThub</a>
+      </footer>
+
+      <div class="btn btn-fixed btn-subscribe <% if current_user %>user<% else %>guest<% end %>" title="Subscribe">
+        <div class="fixed-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" fill="none" stroke="#111" stroke-width="2" />
+            <line x1="12" y1="7" x2="12" y2="17" stroke="#111" stroke-width="2" />
+            <line x1="7" y1="12" x2="17" y2="12" stroke="#111" stroke-width="2" />
+          </svg>
+        </div>
+        <% unless mobile_view? %>
+          <div class="fixed-label">Subscribe</div>
+        <% end %>
+      </div>
+
+      <% if current_user && @category_user.present? %>
+        <%= render partial: 'modal', locals: {
+          title: 'Subscribe',
+          class: 'subscribe',
+          content: render(partial: 'subscription_form', locals: {
+            category_id: @category_user.category.id,
+            subscribed: (@category_user &&
+              @category_user.notification_level >= CategoryUser.notification_levels[:watching_first_post]
+            )
+          })
+        } %>
+      <% end %>
+
+    </div>
+
+    <style>
+      :root {
+        --bg: #f5f5f5;
+        --card: #ffffff;
+        --ink: #0f1012;
+        --sub: #4a4d55;
+        --line: #e5e6eb;
+        --accent: linear-gradient(90deg, #ff3264, #ffb338, #ffe93a, #3cff7f, #00d6ff, #b44cff);
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif;
+      }
+
+      .bitcore-landing {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* NAV */
+      .bitcore-nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 36px;
+        background: rgba(245, 245, 245, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .bitcore-logo {
+        font-weight: 800;
+        font-size: 18px;
+        letter-spacing: -0.02em;
+      }
+
+      .bitcore-nav-check { display: none; }
+
+      .bitcore-menu-toggle {
+        background: none;
+        border: 0;
+        padding: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+      }
+
+      .bitcore-menu-toggle .bar {
+        width: 22px;
+        height: 2px;
+        background: #111;
+        transition: all 0.3s ease;
+      }
+
+      .bitcore-menu-items {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+      }
+
+      .bitcore-nav-check:checked ~ .bitcore-menu-items {
+        display: flex;
+      }
+
+      .bitcore-menu-link {
+        text-decoration: none;
+        color: var(--ink);
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      /* HERO */
+      .blog-hero {
+        padding: 120px 28px 60px;
+        text-align: center;
+        max-width: 840px;
+        margin: 0 auto;
+      }
+
+      .hero-tag {
+        display: inline-flex;
+        padding: 8px 14px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .blog-hero h1 {
+        margin: 18px 0 12px;
+        font-size: 52px;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+      }
+
+      .hero-sub {
+        margin: 0;
+        color: var(--sub);
+        font-size: 18px;
+        line-height: 1.6;
+      }
+
+      /* SECTION */
+      .blog-section {
+        padding: 10px 24px 80px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 28px;
+      }
+
+      .section-title {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+
+      .section-line {
+        flex: 1;
+        height: 2px;
+        background: var(--accent);
+      }
+
+      .topic-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 18px;
+      }
+
+      /* Normalize default list/table output into cards */
+      .topic-list,
+      .topic-list ol,
+      .topic-list ul { list-style: none; margin: 0; padding: 0; }
+
+      /* Default Discourse topic list surfaces can be carded via display */
+      .topic-list {
+        display: contents;
+      }
+
+      .topic-list .topic-list-item,
+      .topic-list-item {
+        list-style: none;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.04);
+        display: grid;
+        gap: 10px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .topic-list .topic-list-item:hover,
+      .topic-list-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+      }
+
+      /* Strip thumbnails/avatars/stat columns */
+      .topic-list img,
+      .topic-list picture,
+      .topic-list figure,
+      .topic-list .topic-thumbnail,
+      .topic-list .pull-left,
+      .topic-list .topic-poster,
+      .topic-list .posters,
+      .topic-list .avatar,
+      .topic-list .stats,
+      .topic-list .num,
+      .topic-list .category,
+      .topic-list .topic-item-stats,
+      .topic-list .topic-item-metadata,
+      .topic-list .topic-item-likes,
+      .topic-list .link-bottom { display: none !important; }
+
+      .main-link a,
+      .topic-title a {
+        text-decoration: none;
+        color: var(--ink);
+        font-weight: 750;
+        font-size: 18px;
+        letter-spacing: -0.01em;
+      }
+
+      .topic-excerpt,
+      .topic-list .excerpt {
+        margin: 0;
+        color: var(--sub);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .topic-list .link-top { display: block; }
+      .topic-list .main-link { margin: 0; }
+
+      .topic-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #6b6f78;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .topic-meta .meta-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--ink);
+        opacity: 0.3;
+      }
+
+      /* Strip avatars/thumbnails */
+      .topic-list .pull-left,
+      .topic-list .topic-poster,
+      .topic-list .posters,
+      .topic-list .avatar {
+        display: none !important;
+      }
+
+      /* Footer */
+      .blog-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px 24px 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        border-top: 1px solid var(--line);
+      }
+
+      .footer-left {
+        display: flex;
+        gap: 12px;
+        align-items: baseline;
+        font-weight: 700;
+      }
+
+      .footer-kicker {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+      }
+
+      .footer-text {
+        font-size: 14px;
+        color: var(--sub);
+      }
+
+      .footer-link {
+        text-decoration: none;
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      /* Subscribe button */
+      .btn-fixed {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #fff;
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        padding: 12px 16px;
+        text-decoration: none;
+      }
+
+      .btn-fixed .fixed-label { font-weight: 700; font-size: 14px; }
+      .btn-fixed .fixed-icon { display: grid; place-items: center; }
+
+      @media (max-width: 800px) {
+        .bitcore-menu-items {
+          display: none;
+          position: absolute;
+          top: 68px;
+          right: 16px;
+          background: #fff;
+          border: 1px solid var(--line);
+          border-radius: 12px;
+          padding: 14px 16px;
+          flex-direction: column;
+          gap: 10px;
+          box-shadow: 0 16px 36px rgba(0,0,0,0.08);
+        }
+
+        .bitcore-nav-check:checked ~ .bitcore-menu-items { display: flex; }
+        .blog-hero h1 { font-size: 36px; }
+        .blog-hero { padding-top: 100px; }
+        .blog-footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+      }
+    </style>
+  </body>
+</html>
