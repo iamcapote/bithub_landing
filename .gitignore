@@ -1,0 +1,3 @@
+# Ignore framework and self files
+*.framework.md
+*.self.md
