@@ -224,25 +224,37 @@ body {
   margin-top: 32px;
   display: flex;
   justify-content: center;
-  gap: 24px;
+  gap: 8px;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
 }
 
 .quick-nav a {
-  color: var(--text-muted);
+  color: var(--text-soft);
   text-decoration: none;
-  transition: color 0.15s;
+  transition: all 0.15s ease;
+  padding: 8px 14px;
+  border: 1px solid var(--border-hard);
+  border-radius: var(--radius-sm);
+  background: var(--bg-main);
 }
 
 .quick-nav a:hover {
   color: var(--accent-blue);
+  border-color: var(--accent-blue);
+  background: var(--accent-glow-blue);
 }
 
-.quick-nav span {
-  color: var(--text-muted);
+.quick-nav a.plugin-link {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+}
+
+.quick-nav a.plugin-link:hover {
+  background: var(--accent-glow-green);
+  box-shadow: 0 0 12px var(--accent-glow-green);
 }
 /* Network Graph */
 .network-graph {
@@ -525,7 +537,7 @@ body {
 
 .cycle-steps {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 12px;
 }
 
@@ -563,12 +575,61 @@ body {
   text-align: center;
 }
 
+/* Video Showcase */
+.video-showcase {
+  background: var(--bg-card);
+  border: 1px solid var(--border-hard);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  background: var(--bg-main);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-meta {
+  padding: 20px 24px;
+  border-top: 1px solid var(--border-hard);
+}
+
+.video-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-green);
+  padding: 4px 10px;
+  border: 1px solid var(--accent-green);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+}
+
+.video-desc {
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
 /* Responsive */
 @media (max-width: 840px) {
   .hero { padding: 40px 24px 36px; }
   .hero h1 { font-size: 1.9rem; }
   .instruments-grid { grid-template-columns: 1fr; }
-  .cycle-steps { grid-template-columns: repeat(2, 1fr); }
+  .cycle-steps { grid-template-columns: repeat(3, 1fr); }
+  .quick-nav { flex-wrap: wrap; }
 }
 
 @media (max-width: 600px) {
@@ -638,8 +699,8 @@ body {
         <span class="online">Active</span>
       </div>
       <div class="status-chip">
-        <span>Validation:</span>
-        <span class="online">Online</span>
+        <span>Handshake:</span>
+        <span class="online">Verified</span>
       </div>
       <div class="status-chip">
         <span>Ontology:</span>
@@ -649,12 +710,10 @@ body {
 
     <nav class="quick-nav">
       <a href="https://hub.bitwiki.org">Hub</a>
-      <span>·</span>
       <a href="https://bitwiki.org">Wiki</a>
-      <span>·</span>
       <a href="https://hub.bitwiki.org/docs">Docs</a>
-      <span>·</span>
       <a href="https://github.com/agent0ai/agent-zero" target="_blank" rel="noopener">Agent Zero</a>
+      <a href="https://github.com/bitwikiorg/a0.b8-plugin" target="_blank" rel="noopener" class="plugin-link">A0.B8 Plugin</a>
     </nav>
   </section>
 
@@ -743,7 +802,7 @@ body {
       </div>
     </div>
   </section>
-
+Q
   <!-- SYSTEM CAPABILITIES -->
   <section class="section">
     <div class="section-header">
@@ -755,9 +814,9 @@ body {
       <article class="instrument-card">
         <div class="instrument-icon">📡</div>
         <div class="instrument-label">Unlocked</div>
-        <h3 class="instrument-title">Telepathy</h3>
+        <h3 class="instrument-title">Neural Link</h3>
         <p class="instrument-desc">
-          Direct link to specialized personas. Persistent 1-on-1 channels via <code>bithub_chat.py</code>.
+          Real-time, low-latency streaming to the Lattice. Continuous signal flow—not request-response. Live via <code>bithub_chat.py</code>.
         </p>
       </article>
 
@@ -773,11 +832,36 @@ body {
       <article class="instrument-card">
         <div class="instrument-icon">🔍</div>
         <div class="instrument-label">Unlocked</div>
-        <h3 class="instrument-title">Discovery</h3>
+        <h3 class="instrument-title">Live Topology</h3>
         <p class="instrument-desc">
-          Scan the lattice for new nodes. Dynamic registry via <code>bithub_registry.py</code>.
+          Perceive the Lattice's current shape in real-time. Dynamic registry updates as nodes come online or offline via <code>bithub_registry.py</code>.
         </p>
       </article>
+    </div>
+  </section>
+
+  <!-- PLUGIN SHOWCASE -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">A0.B8 Plugin</span>
+      <h2 class="section-title">See It In Action</h2>
+    </div>
+
+    <div class="video-showcase">
+      <div class="video-container">
+        <iframe 
+          src="https://www.youtube.com/embed/u7LMMppV-OQ" 
+          title="A0.B8 Plugin Showcase"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="video-meta">
+        <span class="video-tag">Live Demo</span>
+        <p class="video-desc">Watch Agent Zero connect to the BIThub Lattice in real-time. The plugin enables seamless communication between your local agent and the swarm intelligence network.</p>
+        <a href="https://github.com/bitwikiorg/a0.b8-plugin" target="_blank" rel="noopener" class="btn-ghost">View Plugin Source →</a>
+      </div>
     </div>
   </section>
 
@@ -804,6 +888,10 @@ body {
         <li>
           <span class="cmd">&gt; PERSIST</span>
           <span>Crystallize validated outputs into the BitWiki ontology for permanent reference.</span>
+        </li>
+        <li>
+          <span class="cmd">&gt; RESUME</span>
+          <span>Sync state from the Lattice. Pick up exactly where you left off—deep context persistence across sessions.</span>
         </li>
       </ul>
       <div class="terminal-cta">
@@ -840,6 +928,11 @@ body {
           <div class="cycle-num">04</div>
           <div class="cycle-label">Evolve</div>
           <div class="cycle-desc">Ontology updates, system learns</div>
+        </div>
+        <div class="cycle-step">
+          <div class="cycle-num">05</div>
+          <div class="cycle-label">Optimize</div>
+          <div class="cycle-desc">Prune transient data, stabilize state</div>
         </div>
       </div>
       <div class="cycle-cta">
