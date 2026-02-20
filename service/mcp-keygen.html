@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>MCP Key Generator | BIThub</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#111111">
+    <meta name="description" content="Generate RSA key pairs for MCP (Model Context Protocol) setup. Client-side key generation for secure Discourse integration.">
+
+    <link rel="icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/398146ac56f7574960047adebe96ea2fc7fedd8a_2_32x32.jpeg">
+    <link rel="apple-touch-icon" type="image/png" href="https://hub.bitwiki.org/uploads/default/optimized/1X/7907e6a15038616eed1feb93808e455b0382a47e_2_180x180.jpeg">
+
+    <style>
+      /* ═══════════════════════════════════════════
+         BASE RESET & VARIABLES
+      ═══════════════════════════════════════════ */
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --accent-grad: linear-gradient(90deg, #ff3264, #ffb338, #ffe93a, #3cff7f, #00d6ff, #b44cff);
+        --bg-primary: #fafafa;
+        --bg-secondary: #fff;
+        --text-primary: #111;
+        --text-secondary: #333;
+        --text-muted: #666;
+        --border-color: #eee;
+        --border-dark: #ccc;
+        --success-color: #00c853;
+        --warning-color: #ffb338;
+        --error-color: #ff3264;
+        --code-bg: #1a1a1a;
+        --code-text: #00ff9d;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-secondary);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      /* ═══════════════════════════════════════════
+         NAV HEADER
+      ═══════════════════════════════════════════ */
+      .bitcore-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 22px 40px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .bitcore-logo {
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        color: var(--text-primary);
+        text-decoration: none;
+      }
+
+      .bitcore-nav-links {
+        display: flex;
+        gap: 32px;
+      }
+
+      .bitcore-nav-link {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        transition: color 0.2s ease;
+      }
+
+      .bitcore-nav-link:hover {
+        color: var(--text-primary);
+      }
+
+      /* ═══════════════════════════════════════════
+         HERO SECTION
+      ═══════════════════════════════════════════ */
+      .keygen-hero {
+        text-align: center;
+        padding: 60px 40px 40px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .keygen-tag {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 18px;
+        font-weight: 600;
+      }
+
+      .keygen-title {
+        font-size: 42px;
+        font-weight: 800;
+        color: var(--text-primary);
+        letter-spacing: -0.03em;
+        margin-bottom: 16px;
+        line-height: 1.1;
+      }
+
+      .keygen-subtitle {
+        font-size: 16px;
+        color: var(--text-muted);
+        max-width: 560px;
+        margin: 0 auto 24px;
+      }
+
+      .keygen-status {
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+        font-size: 11px;
+        color: #555;
+        background: #e0e0e0;
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 2px;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+      }
+
+      .keygen-status.active {
+        background: rgba(0, 200, 83, 0.15);
+        color: var(--success-color);
+      }
+
+      /* ═══════════════════════════════════════════
+         MAIN GENERATOR SECTION
+      ═══════════════════════════════════════════ */
+      .keygen-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 40px 80px;
+      }
+
+      .keygen-card {
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+      }
+
+      /* Config Section */
+      .config-section {
+        margin-bottom: 32px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .config-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .config-header h3 {
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-primary);
+      }
+
+      .config-badge {
+        font-size: 10px;
+        background: var(--accent-grad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
+
+      .config-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+      }
+
+      .config-item {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .config-label {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-muted);
+      }
+
+      .config-select {
+        padding: 12px 16px;
+        font-size: 14px;
+        border: 1px solid var(--border-dark);
+        border-radius: 6px;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+      }
+
+      .config-select:hover {
+        border-color: var(--text-primary);
+      }
+
+      .config-select:focus {
+        outline: none;
+        border-color: #00d6ff;
+        box-shadow: 0 0 0 3px rgba(0, 214, 255, 0.1);
+      }
+
+      /* Generate Button */
+      .generate-section {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .generate-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 40px;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        background: var(--text-primary);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .generate-btn:hover {
+        background: #333;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      }
+
+      .generate-btn:active {
+        transform: translateY(0);
+      }
+
+      .generate-btn:disabled {
+        background: var(--border-dark);
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .generate-btn .icon {
+        font-size: 18px;
+      }
+
+      /* Output Section */
+      .output-section {
+        display: none;
+      }
+
+      .output-section.visible {
+        display: block;
+      }
+
+      .output-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .output-header h4 {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-primary);
+      }
+
+      .copy-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        background: transparent;
+        color: var(--text-muted);
+        border: 1px solid var(--border-dark);
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .copy-btn:hover {
+        border-color: var(--text-primary);
+        color: var(--text-primary);
+      }
+
+      .copy-btn.copied {
+        background: rgba(0, 200, 83, 0.1);
+        border-color: var(--success-color);
+        color: var(--success-color);
+      }
+
+      .key-output {
+        background: var(--code-bg);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 24px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .key-output pre {
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+        font-size: 12px;
+        color: var(--code-text);
+        white-space: pre-wrap;
+        word-break: break-all;
+        margin: 0;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .key-output::before {
+        content: attr(data-label);
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(255,255,255,0.3);
+      }
+
+      /* Key Pair Grid */
+      .keypair-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      @media (max-width: 700px) {
+        .keypair-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .key-block {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Warning/Info Boxes */
+      .info-box {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px 20px;
+        background: rgba(0, 214, 255, 0.08);
+        border-left: 3px solid #00d6ff;
+        border-radius: 0 8px 8px 0;
+        margin-top: 24px;
+      }
+
+      .info-box.warning {
+        background: rgba(255, 179, 56, 0.08);
+        border-left-color: var(--warning-color);
+      }
+
+      .info-box .icon {
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+
+      .info-box p {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin: 0;
+      }
+
+      .info-box strong {
+        color: var(--text-primary);
+      }
+
+      /* ═══════════════════════════════════════════
+         INSTRUCTIONS SECTION
+      ═══════════════════════════════════════════ */
+      .instructions-section {
+        margin-top: 48px;
+        padding-top: 48px;
+        border-top: 1px solid var(--border-color);
+      }
+
+      .instructions-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .instructions-header h2 {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+      }
+
+      .instructions-header p {
+        font-size: 14px;
+        color: var(--text-muted);
+      }
+
+      .steps-grid {
+        display: grid;
+        gap: 24px;
+      }
+
+      .step-card {
+        display: flex;
+        gap: 20px;
+        padding: 24px;
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+      }
+
+      .step-number {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--text-primary);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 50%;
+      }
+
+      .step-content h4 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+      }
+
+      .step-content p {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin: 0;
+      }
+
+      .step-content code {
+        font-family: "SF Mono", "Monaco", "Inconsolata", "Fira Mono", monospace;
+        font-size: 12px;
+        background: rgba(0,0,0,0.06);
+        padding: 2px 6px;
+        border-radius: 4px;
+        color: var(--text-primary);
+      }
+
+      /* ═══════════════════════════════════════════
+         FOOTER
+      ═══════════════════════════════════════════ */
+      .keygen-footer {
+        text-align: center;
+        padding: 40px;
+        border-top: 1px solid var(--border-color);
+        background: var(--bg-secondary);
+      }
+
+      .footer-text {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .footer-text a {
+        color: var(--text-primary);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .footer-text a:hover {
+        text-decoration: underline;
+      }
+
+      /* ═══════════════════════════════════════════
+         LOADING STATE
+      ═══════════════════════════════════════════ */
+      .loading-spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      /* ═══════════════════════════════════════════
+         RESPONSIVE
+      ═══════════════════════════════════════════ */
+      @media (max-width: 600px) {
+        .bitcore-nav {
+          padding: 18px 20px;
+        }
+
+        .bitcore-nav-links {
+          display: none;
+        }
+
+        .keygen-hero {
+          padding: 40px 20px 30px;
+        }
+
+        .keygen-title {
+          font-size: 32px;
+        }
+
+        .keygen-container {
+          padding: 0 20px 60px;
+        }
+
+        .keygen-card {
+          padding: 24px;
+        }
+
+        .config-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .generate-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAV HEADER -->
+    <nav class="bitcore-nav">
+      <a href="https://hub.bitwiki.org" class="bitcore-logo">BITCORE</a>
+      <div class="bitcore-nav-links">
+        <a href="https://hub.bitwiki.org" class="bitcore-nav-link">Hub</a>
+        <a href="https://bitwiki.org" class="bitcore-nav-link">Wiki</a>
+        <a href="https://hub.bitwiki.org/docs" class="bitcore-nav-link">Docs</a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="keygen-hero">
+      <div class="keygen-tag">MCP · DISCOURSE · SECURITY</div>
+      <h1 class="keygen-title">MCP Key Generator</h1>
+      <p class="keygen-subtitle">
+        Generate RSA key pairs for Model Context Protocol (MCP) integration with Discourse. 
+        All cryptographic operations happen client-side in your browser.
+      </p>
+      <div class="keygen-status" id="statusIndicator">
+        ● CLIENT-SIDE · SECURE · NO DATA SENT
+      </div>
+    </section>
+
+    <!-- GENERATOR CARD -->
+    <div class="keygen-container">
+      <div class="keygen-card">
+        
+        <!-- Configuration -->
+        <div class="config-section">
+          <div class="config-header">
+            <h3>Key Configuration</h3>
+            <span class="config-badge">RSA-OAEP</span>
+          </div>
+          <div class="config-grid">
+            <div class="config-item">
+              <label class="config-label" for="keySize">Key Size</label>
+              <select class="config-select" id="keySize">
+                <option value="2048">2048 bits (Standard)</option>
+                <option value="4096" selected>4096 bits (Recommended)</option>
+              </select>
+            </div>
+            <div class="config-item">
+              <label class="config-label" for="keyFormat">Export Format</label>
+              <select class="config-select" id="keyFormat">
+                <option value="pem" selected>PEM (Base64)</option>
+                <option value="jwk">JWK (JSON)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Generate Button -->
+        <div class="generate-section">
+          <button class="generate-btn" id="generateBtn" onclick="generateKeyPair()">
+            <span class="icon">🔐</span>
+            <span id="btnText">Generate Key Pair</span>
+          </button>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section" id="outputSection">
+          <div class="keypair-grid">
+            <!-- Public Key -->
+            <div class="key-block">
+              <div class="output-header">
+                <h4>Public Key</h4>
+                <button class="copy-btn" onclick="copyToClipboard('publicKey', this)">
+                  <span>📋</span> Copy
+                </button>
+              </div>
+              <div class="key-output" data-label="PUBLIC">
+                <pre id="publicKey"></pre>
+              </div>
+            </div>
+            
+            <!-- Private Key -->
+            <div class="key-block">
+              <div class="output-header">
+                <h4>Private Key</h4>
+                <button class="copy-btn" onclick="copyToClipboard('privateKey', this)">
+                  <span>📋</span> Copy
+                </button>
+              </div>
+              <div class="key-output" data-label="PRIVATE">
+                <pre id="privateKey"></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-box warning">
+            <span class="icon">⚠️</span>
+            <p><strong>Keep your private key secure!</strong> Never share it publicly. The private key should only be stored in your MCP server configuration.</p>
+          </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="instructions-section">
+          <div class="instructions-header">
+            <h2>Setup Instructions</h2>
+            <p>Follow these steps to configure MCP with Discourse</p>
+          </div>
+          
+          <div class="steps-grid">
+            <div class="step-card">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Generate Your Keys</h4>
+                <p>Click the generate button above to create a new RSA key pair. Choose 4096-bit for maximum security.</p>
+              </div>
+            </div>
+            
+            <div class="step-card">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Add Public Key to Discourse</h4>
+                <p>Go to your Discourse Admin → Settings → MCP. Paste your <strong>public key</strong> in the designated field.</p>
+              </div>
+            </div>
+            
+            <div class="step-card">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Configure MCP Server</h4>
+                <p>Add your <strong>private key</strong> to your MCP server's environment configuration as <code>MCP_PRIVATE_KEY</code>.</p>
+              </div>
+            </div>
+            
+            <div class="step-card">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h4>Test Connection</h4>
+                <p>Verify the integration by sending a test request from your MCP server to the Discourse endpoint.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="keygen-footer">
+      <p class="footer-text">
+        Part of the <a href="https://hub.bitwiki.org">BIThub</a> ecosystem · 
+        <a href="https://bitwiki.org">BITwiki</a> · 
+        Built with BITCORE
+      </p>
+    </footer>
+
+    <script>
+      /**
+       * MCP Key Generator - Client-Side RSA Key Generation
+       * All cryptographic operations use the Web Crypto API
+       */
+
+      const N8N_WEBHOOK = 'https://n8n.bitwiki.org/webhook/discourse-mcp-setup';
+
+      /**
+       * Generate RSA Key Pair using Web Crypto API
+       */
+      async function generateKeyPair() {
+        const btn = document.getElementById('generateBtn');
+        const btnText = document.getElementById('btnText');
+        const outputSection = document.getElementById('outputSection');
+        const statusIndicator = document.getElementById('statusIndicator');
+        
+        const keySize = parseInt(document.getElementById('keySize').value);
+        const keyFormat = document.getElementById('keyFormat').value;
+
+        // Update UI state
+        btn.disabled = true;
+        btnText.innerHTML = '<span class="loading-spinner"></span> Generating...';
+        statusIndicator.textContent = '● GENERATING KEYS...';
+        statusIndicator.classList.remove('active');
+
+        try {
+          // Generate RSA-OAEP key pair
+          const keyPair = await window.crypto.subtle.generateKey(
+            {
+              name: 'RSA-OAEP',
+              modulusLength: keySize,
+              publicExponent: new Uint8Array([1, 0, 1]), // 65537
+              hash: 'SHA-256',
+            },
+            true, // extractable
+            ['encrypt', 'decrypt']
+          );
+
+          let publicKeyOutput, privateKeyOutput;
+
+          if (keyFormat === 'pem') {
+            // Export as PEM format
+            publicKeyOutput = await exportKeyAsPEM(keyPair.publicKey, 'public');
+            privateKeyOutput = await exportKeyAsPEM(keyPair.privateKey, 'private');
+          } else {
+            // Export as JWK format
+            const publicJWK = await window.crypto.subtle.exportKey('jwk', keyPair.publicKey);
+            const privateJWK = await window.crypto.subtle.exportKey('jwk', keyPair.privateKey);
+            publicKeyOutput = JSON.stringify(publicJWK, null, 2);
+            privateKeyOutput = JSON.stringify(privateJWK, null, 2);
+          }
+
+          // Display keys
+          document.getElementById('publicKey').textContent = publicKeyOutput;
+          document.getElementById('privateKey').textContent = privateKeyOutput;
+          
+          // Show output section
+          outputSection.classList.add('visible');
+          
+          // Update status
+          statusIndicator.textContent = '● KEYS GENERATED · READY';
+          statusIndicator.classList.add('active');
+
+          // Optional: Log to n8n webhook for tracking (no sensitive data)
+          logToWebhook({
+            event: 'key_generated',
+            keySize: keySize,
+            format: keyFormat,
+            timestamp: new Date().toISOString()
+          });
+
+        } catch (error) {
+          console.error('Key generation failed:', error);
+          statusIndicator.textContent = '● ERROR: ' + error.message;
+          alert('Failed to generate keys. Please try again or use a modern browser.');
+        } finally {
+          btn.disabled = false;
+          btnText.innerHTML = '<span class="icon">🔐</span> Generate Key Pair';
+        }
+      }
+
+      /**
+       * Export CryptoKey as PEM format
+       */
+      async function exportKeyAsPEM(key, type) {
+        const exported = await window.crypto.subtle.exportKey(
+          type === 'public' ? 'spki' : 'pkcs8',
+          key
+        );
+        
+        const exportedAsBase64 = arrayBufferToBase64(exported);
+        const pemLabel = type === 'public' ? 'PUBLIC KEY' : 'PRIVATE KEY';
+        
+        // Format as PEM with line breaks every 64 characters
+        const pemBody = exportedAsBase64.match(/.{1,64}/g).join('\n');
+        
+        return `-----BEGIN ${pemLabel}-----\n${pemBody}\n-----END ${pemLabel}-----`;
+      }
+
+      /**
+       * Convert ArrayBuffer to Base64
+       */
+      function arrayBufferToBase64(buffer) {
+        const bytes = new Uint8Array(buffer);
+        let binary = '';
+        for (let i = 0; i < bytes.byteLength; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return window.btoa(binary);
+      }
+
+      /**
+       * Copy text to clipboard
+       */
+      async function copyToClipboard(elementId, btn) {
+        const text = document.getElementById(elementId).textContent;
+        
+        try {
+          await navigator.clipboard.writeText(text);
+          
+          // Visual feedback
+          const originalText = btn.innerHTML;
+          btn.innerHTML = '<span>✓</span> Copied!';
+          btn.classList.add('copied');
+          
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch (err) {
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = text;
+          textArea.style.position = 'fixed';
+          textArea.style.opacity = '0';
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          
+          btn.innerHTML = '<span>✓</span> Copied!';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.innerHTML = '<span>📋</span> Copy';
+            btn.classList.remove('copied');
+          }, 2000);
+        }
+      }
+
+      /**
+       * Optional: Log generation event to n8n webhook
+       * Only sends metadata, never sends actual keys
+       */
+      async function logToWebhook(data) {
+        try {
+          await fetch(N8N_WEBHOOK, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+            mode: 'no-cors' // Allow cross-origin without CORS headers
+          });
+        } catch (error) {
+          // Silent fail - logging is optional
+          console.log('Webhook logging skipped:', error.message);
+        }
+      }
+
+      // Check for Web Crypto API support
+      document.addEventListener('DOMContentLoaded', () => {
+        if (!window.crypto || !window.crypto.subtle) {
+          document.getElementById('generateBtn').disabled = true;
+          document.getElementById('btnText').textContent = 'Browser Not Supported';
+          document.getElementById('statusIndicator').textContent = '● ERROR: Web Crypto API not available';
+          alert('Your browser does not support the Web Crypto API. Please use a modern browser like Chrome, Firefox, Safari, or Edge.');
+        }
+      });
+    </script>
+  </body>
+</html>
