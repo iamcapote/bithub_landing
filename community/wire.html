@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Why Wire fits the BITwiki stack as a transaction layer for accounts, permissions, contracts, billing, bounties, and agent payments.">
+<title>BIThub | Wire Transaction Layer</title>
+<style>
+:root {
+  --wire-obsidian: #020406;
+  --wire-carbon: #0b1016;
+  --wire-gunmetal: #171f29;
+  --wire-panel: rgba(255, 255, 255, 0.045);
+  --wire-border: rgba(232, 237, 244, 0.14);
+  --wire-border-strong: rgba(232, 237, 244, 0.28);
+  --wire-platinum: #e8edf4;
+  --wire-sterling: #b2bcc8;
+  --wire-muted: rgba(232, 237, 244, 0.58);
+  --wire-signal: #2f6bff;
+  --wire-horizon: #7ea5ff;
+  --wire-gold: #f5c451;
+  --bitcore-green: #4dffb5;
+  --surface-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "SF Mono", "Fira Code", Consolas, Monaco, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--wire-obsidian);
+  color: var(--wire-platinum);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  background-image:
+    linear-gradient(rgba(126, 165, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(126, 165, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(47, 107, 255, 0.16) 0%, rgba(47, 107, 255, 0) 38%),
+    linear-gradient(180deg, var(--wire-obsidian) 0%, var(--wire-carbon) 100%);
+  background-size: 72px 72px, 72px 72px, auto, auto;
+}
+
+a { color: inherit; }
+
+.wire-shell {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 20px 0 56px;
+}
+
+.wire-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--wire-border);
+}
+
+.wire-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.wire-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--wire-horizon), var(--wire-signal));
+  box-shadow: 0 0 30px rgba(47, 107, 255, 0.35);
+  flex: 0 0 auto;
+}
+
+.wire-mark svg {
+  width: 23px;
+  height: 23px;
+}
+
+.wire-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.wire-brand-main {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--wire-platinum);
+}
+
+.wire-brand-sub {
+  font-size: 12px;
+  color: var(--wire-muted);
+}
+
+.wire-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.nav-link,
+.wire-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.nav-link {
+  border: 1px solid var(--wire-border);
+  color: var(--wire-sterling);
+  background: rgba(11, 16, 22, 0.72);
+}
+
+.nav-link:hover {
+  border-color: var(--wire-horizon);
+  color: var(--wire-platinum);
+  transform: translateY(-1px);
+}
+
+.wire-button {
+  border: 1px solid transparent;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--wire-horizon), var(--wire-signal));
+  box-shadow: 0 12px 28px rgba(47, 107, 255, 0.24);
+}
+
+.wire-button:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #9bb8ff, var(--wire-signal));
+}
+
+.wire-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.86fr);
+  gap: 48px;
+  align-items: center;
+  padding: 84px 0 64px;
+}
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--wire-border);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--wire-sterling);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.hero-kicker::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bitcore-green);
+  box-shadow: 0 0 16px rgba(77, 255, 181, 0.78);
+}
+
+.wire-hero h1 {
+  max-width: 720px;
+  margin: 0;
+  font-size: 58px;
+  line-height: 1.04;
+  font-weight: 760;
+  color: var(--wire-platinum);
+}
+
+.wire-hero h1 span {
+  color: var(--wire-horizon);
+}
+
+.hero-copy {
+  max-width: 680px;
+  margin: 24px 0 0;
+  color: var(--wire-sterling);
+  font-size: 18px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+.wire-button.secondary {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: var(--wire-border-strong);
+  box-shadow: none;
+  color: var(--wire-platinum);
+}
+
+.wire-button.secondary:hover {
+  background: rgba(126, 165, 255, 0.12);
+}
+
+.settlement-visual {
+  min-height: 420px;
+  border-radius: 8px;
+  border: 1px solid var(--wire-border);
+  background:
+    linear-gradient(135deg, rgba(232, 237, 244, 0.08), rgba(232, 237, 244, 0.02)),
+    rgba(11, 16, 22, 0.88);
+  box-shadow: var(--surface-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.settlement-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(232, 237, 244, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232, 237, 244, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,0.9), transparent 82%);
+}
+
+.settlement-visual svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.settlement-label {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.metric {
+  min-width: 0;
+  border: 1px solid var(--wire-border);
+  border-radius: 6px;
+  padding: 12px;
+  background: rgba(2, 4, 6, 0.72);
+}
+
+.metric strong {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--wire-platinum);
+}
+
+.metric span {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--wire-muted);
+}
+
+.section {
+  padding: 54px 0;
+  border-top: 1px solid var(--wire-border);
+}
+
+.section-header {
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+
+.section-label {
+  margin: 0 0 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--wire-horizon);
+}
+
+.section-title {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.15;
+}
+
+.section-copy {
+  margin: 14px 0 0;
+  color: var(--wire-sterling);
+  font-size: 16px;
+}
+
+.explainer-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+}
+
+.explainer-panel,
+.stack-card,
+.use-case-card {
+  border-radius: 8px;
+  border: 1px solid var(--wire-border);
+  background: var(--wire-panel);
+  padding: 22px;
+}
+
+.explainer-panel.primary {
+  background: linear-gradient(135deg, rgba(126, 165, 255, 0.14), rgba(47, 107, 255, 0.06));
+  border-color: rgba(126, 165, 255, 0.32);
+}
+
+.explainer-panel h3,
+.stack-card h3,
+.use-case-card h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.explainer-panel p,
+.stack-card p,
+.use-case-card p {
+  margin: 0;
+  color: var(--wire-sterling);
+  font-size: 14px;
+}
+
+.explainer-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.explainer-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  color: var(--wire-sterling);
+  font-size: 14px;
+}
+
+.explainer-list strong {
+  color: var(--wire-platinum);
+}
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.stack-role,
+.use-case-tag {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 14px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--wire-border);
+  color: var(--wire-horizon);
+  background: rgba(126, 165, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.use-case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.capability-card,
+.flow-step,
+.operator-card {
+  border-radius: 8px;
+  border: 1px solid var(--wire-border);
+  background: var(--wire-panel);
+  padding: 22px;
+}
+
+.capability-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--wire-horizon), var(--wire-signal));
+  margin-bottom: 18px;
+}
+
+.capability-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.capability-card h3,
+.flow-step h3,
+.operator-card h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.capability-card p,
+.flow-step p,
+.operator-card p {
+  margin: 0;
+  color: var(--wire-sterling);
+  font-size: 14px;
+}
+
+.flow-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.flow-step {
+  position: relative;
+  min-height: 188px;
+}
+
+.flow-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: rgba(126, 165, 255, 0.12);
+  color: var(--wire-horizon);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.position-band {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.position-statement {
+  border-radius: 8px;
+  padding: 28px;
+  background: linear-gradient(135deg, rgba(126, 165, 255, 0.17), rgba(47, 107, 255, 0.08));
+  border: 1px solid rgba(126, 165, 255, 0.32);
+}
+
+.position-statement p {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.45;
+}
+
+.settlement-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.settlement-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--wire-border);
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--wire-sterling);
+}
+
+.settlement-list strong {
+  color: var(--wire-platinum);
+}
+
+.check {
+  color: var(--bitcore-green);
+  font-family: var(--font-mono);
+}
+
+.operator-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.operator-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 214px;
+}
+
+.operator-card .wire-button {
+  width: fit-content;
+  margin-top: auto;
+}
+
+.wire-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 28px;
+  border-top: 1px solid var(--wire-border);
+  color: var(--wire-muted);
+  font-size: 13px;
+}
+
+.wire-footer a {
+  color: var(--wire-sterling);
+  text-decoration: none;
+}
+
+.wire-footer a:hover {
+  color: var(--wire-platinum);
+}
+
+@media (max-width: 900px) {
+  .wire-hero,
+  .position-band {
+    grid-template-columns: 1fr;
+  }
+
+  .wire-hero {
+    padding-top: 54px;
+  }
+
+  .wire-hero h1 {
+    font-size: 42px;
+  }
+
+  .capability-grid,
+  .explainer-grid,
+  .stack-grid,
+  .use-case-grid,
+  .flow-grid,
+  .operator-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-step,
+  .operator-card {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .wire-shell {
+    width: min(100% - 24px, 1120px);
+  }
+
+  .wire-nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .wire-nav-links,
+  .hero-actions {
+    width: 100%;
+  }
+
+  .nav-link,
+  .wire-button {
+    width: 100%;
+  }
+
+  .wire-hero h1 {
+    font-size: 34px;
+  }
+
+  .hero-copy {
+    font-size: 16px;
+  }
+
+  .settlement-visual {
+    min-height: 500px;
+  }
+
+  .settlement-label {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+
+  .position-statement p {
+    font-size: 19px;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="wire-shell">
+    <nav class="wire-nav" aria-label="Wire landing navigation">
+      <a class="wire-brand" href="https://hub.bitwiki.org/welcome" aria-label="BIThub welcome">
+        <span class="wire-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M8 11L14 29L20 16L26 29L32 11" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M5 20H35" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.48"/>
+          </svg>
+        </span>
+        <span class="wire-brand-text">
+          <span class="wire-brand-main">BIThub x Wire</span>
+          <span class="wire-brand-sub">Transaction layer for agent economies</span>
+        </span>
+      </a>
+
+      <div class="wire-nav-links">
+        <a class="nav-link" href="https://www.wire.network/" target="_blank" rel="noopener">Wire Network</a>
+        <a class="nav-link" href="https://pre.wire.network/network" target="_blank" rel="noopener">Wire Hub</a>
+        <a class="wire-button" href="https://hub.bitwiki.org/access">Request Access</a>
+      </div>
+    </nav>
+
+    <main>
+      <section class="wire-hero">
+        <div>
+          <div class="hero-kicker">Transaction layer evaluation</div>
+          <h1>Why <span>Wire Network</span> fits the BITwiki stack.</h1>
+          <p class="hero-copy">
+            BIThub handles memory, inference, and collaboration. Wire is the transaction layer we are evaluating for access, billing, bounties, permissions, and agent payments across the ecosystem.
+          </p>
+          <p class="hero-copy">
+            The point is separation of concerns: BIThub coordinates intelligence, while Wire can execute account, contract, and transaction flows that turn work into auditable economic activity.
+          </p>
+          <div class="hero-actions">
+            <a class="wire-button" href="https://hub.bitwiki.org/access">Initiate BIThub Uplink</a>
+            <a class="wire-button secondary" href="https://www.wire.network/" target="_blank" rel="noopener">Research Wire</a>
+          </div>
+        </div>
+
+        <div class="settlement-visual" aria-label="Wire settlement diagram">
+          <svg viewBox="0 0 520 420" role="img" aria-label="BIThub inference nodes settling through Wire Network">
+            <defs>
+              <linearGradient id="wire-blue" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#7ea5ff"/>
+                <stop offset="1" stop-color="#2f6bff"/>
+              </linearGradient>
+              <linearGradient id="wire-metal" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#f9fbfd"/>
+                <stop offset="0.32" stop-color="#adb5bf"/>
+                <stop offset="0.58" stop-color="#f0f3f7"/>
+                <stop offset="1" stop-color="#979fa8"/>
+              </linearGradient>
+              <filter id="soft-glow" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur stdDeviation="5" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <path d="M62 104C140 104 140 210 260 210C380 210 380 104 458 104" fill="none" stroke="url(#wire-blue)" stroke-width="4" stroke-linecap="round" filter="url(#soft-glow)"/>
+            <path d="M62 206C142 206 142 210 260 210C378 210 378 206 458 206" fill="none" stroke="url(#wire-metal)" stroke-width="3" stroke-linecap="round" opacity="0.82"/>
+            <path d="M62 308C140 308 140 210 260 210C380 210 380 308 458 308" fill="none" stroke="#4dffb5" stroke-width="3" stroke-linecap="round" opacity="0.72"/>
+            <circle cx="62" cy="104" r="20" fill="#0b1016" stroke="#7ea5ff" stroke-width="3"/>
+            <circle cx="62" cy="206" r="20" fill="#0b1016" stroke="#e8edf4" stroke-width="3"/>
+            <circle cx="62" cy="308" r="20" fill="#0b1016" stroke="#4dffb5" stroke-width="3"/>
+            <circle cx="458" cy="104" r="20" fill="#0b1016" stroke="#7ea5ff" stroke-width="3"/>
+            <circle cx="458" cy="206" r="20" fill="#0b1016" stroke="#e8edf4" stroke-width="3"/>
+            <circle cx="458" cy="308" r="20" fill="#0b1016" stroke="#4dffb5" stroke-width="3"/>
+            <circle cx="260" cy="210" r="58" fill="#020406" stroke="url(#wire-blue)" stroke-width="3" filter="url(#soft-glow)"/>
+            <path d="M226 180L242 238L260 198L278 238L294 180" stroke="url(#wire-metal)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="260" y="300" text-anchor="middle" fill="#b2bcc8" font-family="SF Mono, Consolas, monospace" font-size="14">WIRE SETTLEMENT CORE</text>
+          </svg>
+          <div class="settlement-label">
+            <div class="metric">
+              <strong>Memory</strong>
+              <span>BITwiki codex</span>
+            </div>
+            <div class="metric">
+              <strong>Inference</strong>
+              <span>BIThub collaboration</span>
+            </div>
+            <div class="metric">
+              <strong>Transactions</strong>
+              <span>Wire Network</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <p class="section-label">What Wire is</p>
+          <h2 class="section-title">A transaction layer, not a payment slogan.</h2>
+          <p class="section-copy">
+            Wire is the transaction layer we are evaluating for the BITwiki ecosystem. It provides blockchain accounts, permissions, smart contract execution, transaction flows, and interoperability primitives like WNS / UPAP that can support subscriptions, bounties, usage billing, and agent-to-agent transactions.
+          </p>
+        </div>
+
+        <div class="explainer-grid">
+          <article class="explainer-panel primary">
+            <h3>Why Wire instead of any payment rail?</h3>
+            <p>A basic payment rail moves funds. Wire can model accounts, permissions, contracts, and interoperable transaction flows. That matters for agent economies because the system needs to know who can act, what they can spend, which contract applies, and how the resulting transaction state can be read by other tools.</p>
+          </article>
+          <article class="explainer-panel">
+            <h3>What BIThub needs from it</h3>
+            <ul class="explainer-list">
+              <li><span class="check">OK</span><span><strong>Identity and accounts</strong> for users, workspaces, agents, and organizations.</span></li>
+              <li><span class="check">OK</span><span><strong>Permissioned actions</strong> for delegated agent activity with human approval.</span></li>
+              <li><span class="check">OK</span><span><strong>Contract execution</strong> for access rules, bounties, subscriptions, and billing.</span></li>
+              <li><span class="check">OK</span><span><strong>Interoperability primitives</strong> such as WNS / UPAP for cross-system routing.</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <p class="section-label">Stack map</p>
+          <h2 class="section-title">The clean split is the architecture.</h2>
+          <p class="section-copy">
+            The BITwiki ecosystem should not collapse memory, inference, orchestration, and transactions into one vague platform. Each layer has a job.
+          </p>
+        </div>
+
+        <div class="stack-grid">
+          <article class="stack-card">
+            <span class="stack-role">Codex / Memory</span>
+            <h3>BITwiki</h3>
+            <p>Stores shared knowledge, documentation, ontology, and the long-term reference layer.</p>
+          </article>
+          <article class="stack-card">
+            <span class="stack-role">Inference / Collaboration</span>
+            <h3>BIThub</h3>
+            <p>Runs discussions, agent workspaces, research loops, and collaborative intelligence workflows.</p>
+          </article>
+          <article class="stack-card">
+            <span class="stack-role">Orchestration / Cognition</span>
+            <h3>BITCORE</h3>
+            <p>Coordinates agents, policies, recursive reasoning, and operational cognition across the system.</p>
+          </article>
+          <article class="stack-card">
+            <span class="stack-role">Transaction Layer</span>
+            <h3>Wire</h3>
+            <p>Provides accounts, permissions, contracts, and transaction finality for economic activity.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <p class="section-label">Why not inside BIThub?</p>
+          <h2 class="section-title">BIThub should not pretend to be the economic layer.</h2>
+          <p class="section-copy">
+            BIThub is for memory, inference, and coordination. It should not also become the place where accounts, contracts, billing, bounties, and delegated payment rules are invented from scratch. Wire is useful because it keeps the transaction layer separate from the inference layer, with clear settlement rules and auditable state.
+          </p>
+        </div>
+
+        <div class="position-band">
+          <div class="position-statement">
+            <p>BIThub coordinates work. Wire records and finalizes the transactions around that work.</p>
+          </div>
+          <ul class="settlement-list">
+            <li><span class="check">OK</span><span><strong>Less platform confusion.</strong> Memory, inference, and transactions remain separate layers.</span></li>
+            <li><span class="check">OK</span><span><strong>Better auditability.</strong> Economic actions become transaction records rather than forum state.</span></li>
+            <li><span class="check">OK</span><span><strong>Agent-ready permissions.</strong> Delegated actions can be bounded by accounts, contracts, and approval rules.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <p class="section-label">Concrete use cases</p>
+          <h2 class="section-title">What the transaction layer has to support.</h2>
+          <p class="section-copy">
+            The first useful integrations are not abstract. They are operational patterns the ecosystem already needs.
+          </p>
+        </div>
+
+        <div class="use-case-grid">
+          <article class="use-case-card">
+            <span class="use-case-tag">Access</span>
+            <h3>Paid workspace access</h3>
+            <p>Grant access to protected workspaces, model endpoints, or research groups based on account state and permissions.</p>
+          </article>
+          <article class="use-case-card">
+            <span class="use-case-tag">Recurring</span>
+            <h3>Subscriptions</h3>
+            <p>Use contracts to express ongoing access to tools, communities, inference capacity, or managed agent services.</p>
+          </article>
+          <article class="use-case-card">
+            <span class="use-case-tag">Work</span>
+            <h3>Task bounties</h3>
+            <p>Fund a task, define completion criteria, review the output, and settle rewards after approval.</p>
+          </article>
+          <article class="use-case-card">
+            <span class="use-case-tag">Usage</span>
+            <h3>Usage-based billing</h3>
+            <p>Turn inference, API, storage, or automation usage into transaction records that can be billed or reconciled.</p>
+          </article>
+          <article class="use-case-card">
+            <span class="use-case-tag">Agents</span>
+            <h3>Agent-to-agent payments</h3>
+            <p>Let one agent request a service from another agent under spending limits, permissions, and contract rules.</p>
+          </article>
+          <article class="use-case-card">
+            <span class="use-case-tag">Controls</span>
+            <h3>Human-approved delegated actions</h3>
+            <p>Operators set limits and approvals first; agents execute only inside those transaction boundaries.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <p class="section-label">Operating flow</p>
+          <h2 class="section-title">From inference to transaction finality.</h2>
+          <p class="section-copy">
+            This is the operator path we want to test: work starts in BIThub, economic intent becomes explicit, and Wire finalizes the transaction.
+          </p>
+        </div>
+
+        <div class="flow-grid">
+          <article class="flow-step">
+            <span class="flow-index">01</span>
+            <h3>Work starts in BIThub</h3>
+            <p>Operators create a workspace, request, bounty, subscription, or agent task.</p>
+          </article>
+          <article class="flow-step">
+            <span class="flow-index">02</span>
+            <h3>Agents infer and coordinate</h3>
+            <p>The collaboration layer reasons over memory, tools, and user-approved context.</p>
+          </article>
+          <article class="flow-step">
+            <span class="flow-index">03</span>
+            <h3>Transaction intent forms</h3>
+            <p>The system identifies the account, permission, contract, price, or bounty condition involved.</p>
+          </article>
+          <article class="flow-step">
+            <span class="flow-index">04</span>
+            <h3>Wire finalizes</h3>
+            <p>The transaction layer records the outcome and exposes state other tools can read.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <p class="section-label">Access paths</p>
+          <h2 class="section-title">Help test Wire transaction paths in BIThub.</h2>
+          <p class="section-copy">
+            We are looking for operators who can test real transaction flows, not just payment copy. The useful work is mapping accounts, permissions, contracts, and approvals into BIThub workflows.
+          </p>
+        </div>
+
+        <div class="operator-grid">
+          <article class="operator-card">
+            <h3>Core Operators</h3>
+            <p>Test paid access, task bounties, usage billing, and approval rules inside real workflows.</p>
+            <a class="wire-button secondary" href="https://hub.bitwiki.org/access">Apply</a>
+          </article>
+          <article class="operator-card">
+            <h3>Integration Leads</h3>
+            <p>Map BIThub actions to Wire accounts, permissions, WNS / UPAP primitives, and contract calls.</p>
+            <a class="wire-button secondary" href="https://pre.wire.network/network" target="_blank" rel="noopener">Open Wire Hub</a>
+          </article>
+          <article class="operator-card">
+            <h3>Protocol Partners</h3>
+            <p>Define policies for agent payments, delegated spending, user approvals, and transaction state.</p>
+            <a class="wire-button secondary" href="https://www.wire.network/" target="_blank" rel="noopener">View Wire</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="wire-footer">
+      <span>BITCORE x Wire Network - memory, inference, orchestration, transactions.</span>
+      <span>
+        <a href="https://hub.bitwiki.org/welcome">BIThub</a> /
+        <a href="https://bitwiki.org">BITwiki</a> /
+        <a href="https://hub.bitwiki.org/access">Access</a>
+      </span>
+    </footer>
+  </div>
+</body>
+</html>

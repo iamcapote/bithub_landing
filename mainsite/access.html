@@ -242,6 +242,30 @@
             </div>
           </a>
 
+          <!-- WIRE CARD -->
+          <a href="/wire" class="origin-card origin-wire">
+            <div class="origin-bg"></div>
+            <div class="origin-rail"></div>
+            <div class="origin-content">
+              <div class="origin-badge">Transactions</div>
+              <div class="origin-icon">
+                <svg viewBox="0 0 40 40" fill="none">
+                  <path d="M7 12L13 30L20 16L27 30L33 12" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M5 21H35" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.45"/>
+                  <circle cx="5" cy="21" r="2" fill="currentColor" opacity="0.8"/>
+                  <circle cx="35" cy="21" r="2" fill="currentColor" opacity="0.8"/>
+                </svg>
+              </div>
+              <h3>Wire Network</h3>
+              <p class="origin-tagline">Inference to Transaction Finality</p>
+              <p class="origin-desc">BIThub handles memory, inference, and coordination. Wire is the transaction layer for access, billing, bounties, permissions, and agent payments.</p>
+              <div class="origin-cta">
+                <span>Learn More</span>
+                <span class="arrow">→</span>
+              </div>
+            </div>
+          </a>
+
         </div>
       </section>
 
@@ -788,7 +812,7 @@
 
     @media (min-width: 1000px) {
       .origins-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       }
     }
 
@@ -1142,6 +1166,67 @@
 
     .origin-venice::before {
       background: linear-gradient(135deg, rgba(221, 51, 0, 0.08) 0%, rgba(255, 107, 53, 0.1) 100%);
+    }
+
+    /* ----- WIRE CARD ----- */
+    .origin-wire {
+      background: #fff;
+      border: 1px solid #dfe5ee;
+      color: #333;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    .origin-wire .origin-bg {
+      background:
+        linear-gradient(rgba(47, 107, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(126, 165, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(47, 107, 255, 0.08) 0%, rgba(47, 107, 255, 0) 70%);
+      background-size: 22px 22px, 22px 22px, auto;
+    }
+
+    .origin-wire .origin-rail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #e8edf4, #7ea5ff, #2f6bff, #f5c451);
+      z-index: 1;
+    }
+
+    .origin-wire:hover {
+      border-color: #2f6bff;
+      box-shadow: 0 8px 32px rgba(47, 107, 255, 0.14), 0 0 0 1px rgba(47, 107, 255, 0.2);
+    }
+
+    .origin-wire .origin-badge {
+      background: rgba(47, 107, 255, 0.1);
+      color: #2f5fd6;
+      border: 1px solid rgba(47, 107, 255, 0.25);
+    }
+
+    .origin-wire .origin-icon {
+      color: #2f6bff;
+    }
+
+    .origin-wire h3 {
+      color: #111;
+    }
+
+    .origin-wire .origin-tagline {
+      color: #577fcf;
+    }
+
+    .origin-wire .origin-desc {
+      color: #444;
+    }
+
+    .origin-wire .origin-cta {
+      color: #2f5fd6;
+    }
+
+    .origin-wire::before {
+      background: linear-gradient(135deg, rgba(47, 107, 255, 0.08) 0%, rgba(126, 165, 255, 0.12) 100%);
     }
 
     @media (max-width: 900px) {
